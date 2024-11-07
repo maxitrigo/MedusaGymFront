@@ -18,20 +18,18 @@ export const SignIn: React.FC = () => {
             ...userData,
             [name]: value
         })
-        console.log(userData);
-        
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try{
-            console.log(userData);
             const response = await axios.post(`${URL}/login`, {
                 email: userData.email,
                 password: userData.password
-            });
+            })
             console.log(response.data);
         } catch (error) {
+            alert("Email o contraseña incorrectos");
             console.log(error);
         }
     }

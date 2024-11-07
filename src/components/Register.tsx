@@ -17,13 +17,11 @@ export const Register: React.FC = () => {
             ...userData,
             [name]: value
         })
-        console.log(userData);
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            console.log(userData);
             const response = await axios.post(`${URL}/register`, {
                 email: userData.email,
                 name: `${userData.name} ${userData.surname}`,
