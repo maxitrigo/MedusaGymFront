@@ -1,9 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate} from "react-router-dom";
+import { login } from "../Redux/userSlice";
+import { useDispatch } from "react-redux";
+import { setGymInfo } from "../Redux/gymSlice";
 
 export const SignIn: React.FC = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     
-    const URL = "http://localhost:3001/auth";
+    
+    const authApi = "http://localhost:3001/auth";
+    const gymApi = "http://localhost:3003/gyms";
     
     const [userData, setUserData] = useState({
         email: '',
@@ -19,15 +27,36 @@ export const SignIn: React.FC = () => {
             [name]: value
         })
     }
-
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try{
-            const response = await axios.post(`${URL}/login`, {
+            const response = await axios.post(`${authApi}/login`, {
                 email: userData.email,
                 password: userData.password
             })
-            console.log(response.data);
+            const responseData = response.data
+            const user = {
+                token: responseData.token,
+                role: responseData.role,
+                name: responseData.name,
+                email: responseData.email,
+            }
+            dispatch(login(user))
+            const gymSlug = localStorage.getItem('slug');
+            const gym = await axios.get(`${gymApi}/${gymSlug}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${responseData.token}`
+                    }
+                }
+            )
+            console.log(gym.data)
+            if(gym){
+                dispatch(setGymInfo(gym.data))
+                navigate(`/${gymSlug}`)
+            }
+            
         } catch (error) {
             alert("Email o contraseña incorrectos");
             console.log(error);
@@ -37,8 +66,8 @@ export const SignIn: React.FC = () => {
     return (
         <div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-2 items-center">
-                <input onChange={handleInput} name="email" className="text-white rounded-2xl outline-none border-none py-1 px-2" type="text" placeholder="Email"/>
-                <input onChange={handleInput} name="password" className="text-white rounded-2xl outline-none border-none py-1 px-2" type="password" placeholder="Contraseña"/>
+                <input onChange={handleInput} name="email" className="rounded-2xl outline-none border-none py-1 px-2" type="text" placeholder="Email"/>
+                <input onChange={handleInput} name="password" className="rounded-2xl outline-none border-none py-1 px-2" type="password" placeholder="Contraseña"/>
                 <button className="button-primary">Ingresar</button>
             </form>
         </div>

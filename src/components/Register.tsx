@@ -1,7 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../Redux/userSlice";
 
 export const Register: React.FC = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
     const URL = "http://localhost:3001/auth";
     const [userData, setUserData] = useState({
@@ -27,7 +33,17 @@ export const Register: React.FC = () => {
                 name: `${userData.name} ${userData.surname}`,
                 password: userData.password
             });
-            console.log(response.data);
+            const responseData = response.data
+            const user = {
+                token: responseData.token,
+                role: 'user',
+                name: userData.name,
+                email: userData.email
+            }
+            if(localStorage.getItem('slug')=== null) {
+                navigate('/');
+            }
+            dispatch(login(user))
         } catch (error) {
             console.log(error);
         }
