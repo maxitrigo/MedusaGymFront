@@ -4,7 +4,7 @@ import { UserDashboard } from "../../components/UserDashboard";
 
 export default function DashBoard() {
     return (
-        <div>
+        <div className="flex flex-col items-center h-full w-screen p-2 overflow-y-auto pb-24">
             <NavBar/>
             <UserDashboard />
             <AdminDashboard />

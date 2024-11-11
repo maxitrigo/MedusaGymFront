@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { login } from "../Redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setGymInfo } from "../Redux/gymSlice";
@@ -8,6 +8,7 @@ import { setGymInfo } from "../Redux/gymSlice";
 export const SignIn: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { gymSlug }: any = useParams();
     
     
     const authApi = "http://localhost:3001/auth";
@@ -30,6 +31,7 @@ export const SignIn: React.FC = () => {
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        sessionStorage.setItem('slug', gymSlug)
         try{
             const response = await axios.post(`${authApi}/login`, {
                 email: userData.email,
@@ -43,18 +45,20 @@ export const SignIn: React.FC = () => {
                 email: responseData.email,
             }
             dispatch(login(user))
-            const gymSlug = localStorage.getItem('slug');
-            const gym = await axios.get(`${gymApi}/${gymSlug}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${responseData.token}`
+            if(sessionStorage.getItem('slug') === 'auth'){
+                navigate('/');
+            } else {
+                const gym = await axios.get(`${gymApi}/${gymSlug}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${responseData.token}`
+                        }
                     }
+                )
+                if(gym){
+                    dispatch(setGymInfo(gym.data))
+                    navigate(`/${gymSlug}/home`);
                 }
-            )
-            console.log(gym.data)
-            if(gym){
-                dispatch(setGymInfo(gym.data))
-                navigate(`/${gymSlug}`)
             }
             
         } catch (error) {

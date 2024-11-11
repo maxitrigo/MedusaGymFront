@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,6 +14,7 @@
 }
 
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,3 +26,94 @@
 .button-third {
   @apply text-white font-bold mt-2 py-1 px-4 rounded-2xl;
 }
+
+.font-nunito {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.font-host {
+  font-family: 'Host Grotesk', sans-serif;
+}
+
+.rounded-4xl {
+  border-radius: 2rem;
+}
+
+.rounded-b-4xl {
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.verde-pastel {
+  background: linear-gradient(to right, #9dc09d, #8fd3c4);
+
+}
+
+.rojo-pastel {
+  background: linear-gradient(to right, #ff6b6b, #d16ba5);
+
+}
+
+.gradiente-azul {
+  background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+}
+
+.gradiente-violeta {
+  background: linear-gradient(45deg, #7e22ce, #9333ea);
+}
+
+.gradiente-marron {
+  background: linear-gradient(45deg, #6b4f1f, #a0522d);
+}
+
+.gradiente-negro {
+  background: linear-gradient(45deg, #000000, #434343);
+}
+
+.gradiente-rojo {
+  background: linear-gradient(45deg, #dc2626, #ef4444);
+}
+
+.bg-verde-musgo {
+  background-color: #6f7357
+}
+
+.bg-verde-palido {
+  background-color: #fef6cd
+}
+
+.bg-background {
+  background-color: #242424
+}
+
+.bg-principal {
+  background: linear-gradient(to right, #9597d3, #68d8c0);
+
+
+  color:#242424
+}
+
+.font-color{
+  color: #242424;
+}
+
+.text-10xl {
+  font-size: 10rem;
+}
+
+.w-8 {
+  border: 1px solid #ccc;
+}
+
+.mb-90 {
+  margin-bottom: 300px;
+}
+
+.open{
+  @apply font-host text-lg mt-2 w-full verde-pastel text-black font-bold py-2 px-2 rounded-4xl flex items-center justify-center;
+}
+
+.closed{
+  @apply font-host text-lg mt-2 w-full rojo-pastel text-white font-bold py-2 px-2 rounded-4xl flex items-center justify-center;
+}
+

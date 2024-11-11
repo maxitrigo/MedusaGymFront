@@ -18,8 +18,8 @@ function App() {
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/:gymSlug" element={<PrivateRoute><GymPage /></PrivateRoute>} />
+        <Route path="/:gymSlug" element={<Auth />} />
+        <Route path="/:gymSlug/home" element={<PrivateRoute><GymPage /></PrivateRoute>} />
         <Route path="/:gymSlug/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
         <Route path="/:gymSlug/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
 

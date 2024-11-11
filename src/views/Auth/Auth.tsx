@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SignIn } from "../../components/SignIn";
 import { Register } from "../../components/Register";
 
 export default function Auth() {
     const [showRegister, setShowRegister] = useState(false);
     const [buttonText, setButtonText] = useState("or Register");
-
-    useEffect(() => {
-
-    })
-
 
     const handleOnClick = () => {
         setShowRegister(!showRegister);

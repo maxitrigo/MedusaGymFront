@@ -9,10 +9,9 @@ const PrivateRoute = ({ children }: any) => {
   const { gymSlug }: any = useParams();
 
   useEffect(() => {
-    localStorage.setItem('slug', gymSlug);
-    console.log(localStorage.getItem('slug'));
+    sessionStorage.setItem('slug', gymSlug);
     if (!isLoggedIn) {
-      navigate('/auth', { state: { from: location } }); // Redirigir a la página de autenticación si no está logueado
+      navigate(`/${gymSlug}`, { state: { from: location } }); // Redirigir a la página de autenticación si no está logueado
     }
   }, [isLoggedIn, navigate, location]);
 

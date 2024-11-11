@@ -44,13 +44,13 @@ const gymSlice = createSlice({
       state.owner = action.payload.owner;
       state.phone = action.payload.phone;
       state.slug = action.payload.slug;
-      localStorage.setItem('slug', action.payload.slug);
-      localStorage.setItem('gymName', action.payload.name);
-      localStorage.setItem('gymEmail', action.payload.email);
-      localStorage.setItem('address', action.payload.address);
-      localStorage.setItem('phone', action.payload.phone);
-      localStorage.setItem('openHours', JSON.stringify(action.payload.openHours));
-      localStorage.setItem('closeHours', JSON.stringify(action.payload.openHours))
+      sessionStorage.setItem('slug', action.payload.slug);
+      sessionStorage.setItem('gymName', action.payload.name);
+      sessionStorage.setItem('gymEmail', action.payload.email);
+      sessionStorage.setItem('address', action.payload.address);
+      sessionStorage.setItem('phone', action.payload.phone);
+      sessionStorage.setItem('openHours', JSON.stringify(action.payload.openHours));
+      sessionStorage.setItem('closeHours', JSON.stringify(action.payload.closeHours))
     },
     clearGymInfo: (state) => {
       state.address = '';
@@ -64,13 +64,8 @@ const gymSlice = createSlice({
       state.owner = '';
       state.phone = '';
       state.slug = '';
-      localStorage.removeItem('slug');
-      localStorage.removeItem('gymName');
-      localStorage.removeItem('gymEmail');
-      localStorage.removeItem('address');
-      localStorage.removeItem('phone');
-      localStorage.removeItem('openHours');
-      localStorage.removeItem('closeHours');
+      sessionStorage.clear();
+    
     }
   }
 });

@@ -1,7 +1,13 @@
+import FitnessForm from "./FitnessForm"
+import LevelContainer from "./LevelContainer"
+
 export const UserDashboard = () => {
+    const points = JSON.parse(sessionStorage.getItem('points') as string)
+    
     return (
-        <div>
-            <h1 className="text-white">User Dashboard</h1>
-        </div>
+        <>
+            <LevelContainer points={points}/>
+            <FitnessForm/>
+        </>
     )
 }

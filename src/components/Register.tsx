@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { login } from "../Redux/userSlice";
+import { setGymInfo } from "../Redux/gymSlice";
 
 export const Register: React.FC = () => {
-
+  const{ gymSlug }: any = useParams();
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -27,6 +28,7 @@ export const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        sessionStorage.setItem('slug', gymSlug)
         try {
             const response = await axios.post(`${URL}/register`, {
                 email: userData.email,
@@ -40,10 +42,22 @@ export const Register: React.FC = () => {
                 name: userData.name,
                 email: userData.email
             }
-            if(localStorage.getItem('slug')=== null) {
-                navigate('/');
-            }
             dispatch(login(user))
+            if(sessionStorage.getItem('slug') === 'auth'){
+                navigate('/');
+            } else {
+                const gym = await axios.get(`http://localhost:3003/gyms/${gymSlug}`,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${responseData.token}`
+                    }
+                  }
+                )
+                if(gym){
+                    dispatch(setGymInfo(gym.data))
+                    navigate(`/${gymSlug}/home`);
+                }
+              }
         } catch (error) {
             console.log(error);
         }

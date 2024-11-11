@@ -9,8 +9,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    isLoggedIn: false,
-    token: null,
+    isLoggedIn: !!sessionStorage.getItem('token'),
+    token: sessionStorage.getItem('token'),
     role: "",
     name: "",
     email: ""
@@ -37,10 +37,7 @@ const userSlice = createSlice({
             state.role = '';
             state.name = '';
             state.email = '';
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('role');
-            sessionStorage.removeItem('name');
-            sessionStorage.removeItem('email');
+            sessionStorage.clear();
         }
     }
 });
