@@ -1,16 +1,16 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { login } from "../Redux/userSlice";
 import { setGymInfo } from "../Redux/gymSlice";
+import { addUserToGym, getGymInfo, userRegister } from "../helpers/DataRequests";
 
 export const Register: React.FC = () => {
   const{ gymSlug }: any = useParams();
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-    const URL = "http://localhost:3001/auth";
     const [userData, setUserData] = useState({
         email: "",
         name: "",
@@ -30,11 +30,7 @@ export const Register: React.FC = () => {
         e.preventDefault();
         sessionStorage.setItem('slug', gymSlug)
         try {
-            const response = await axios.post(`${URL}/register`, {
-                email: userData.email,
-                name: `${userData.name} ${userData.surname}`,
-                password: userData.password
-            });
+            const response = await userRegister(userData)
             const responseData = response.data
             const user = {
                 token: responseData.token,
@@ -46,15 +42,11 @@ export const Register: React.FC = () => {
             if(sessionStorage.getItem('slug') === 'auth'){
                 navigate('/');
             } else {
-                const gym = await axios.get(`http://localhost:3003/gyms/${gymSlug}`,
-                  {
-                    headers: {
-                      'Authorization': `Bearer ${responseData.token}`
-                    }
-                  }
-                )
-                if(gym){
-                    dispatch(setGymInfo(gym.data))
+                const gymInfo = await getGymInfo()
+                const addUser = await addUserToGym(gymInfo.id)
+
+                if(addUser){
+                    dispatch(setGymInfo(gymInfo))
                     navigate(`/${gymSlug}/home`);
                 }
               }
@@ -66,10 +58,10 @@ export const Register: React.FC = () => {
   return (
     <div className="">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 items-center">
-        <input onChange={handleInput} name="email" className=" rounded-2xl outline-none border-none py-1 px-2" type="text" placeholder="Email" />
-        <input onChange={handleInput} name="name" className=" rounded-2xl outline-none border-none py-1 px-2" type="text" placeholder="Nombre" />
-        <input onChange={handleInput} name="surname" className=" rounded-2xl outline-none border-none py-1 px-2" type="text" placeholder="Apellido" />
-        <input onChange={handleInput} name="password" className=" rounded-2xl outline-none border-none py-1 px-2" type="password" placeholder="Contraseña" />
+        <input onChange={handleInput} name="email" className=" rounded-2xl outline-none border-none py-1 px-4" type="text" placeholder="Email" />
+        <input onChange={handleInput} name="name" className=" rounded-2xl outline-none border-none py-1 px-4" type="text" placeholder="Nombre" />
+        <input onChange={handleInput} name="surname" className=" rounded-2xl outline-none border-none py-1 px-4" type="text" placeholder="Apellido" />
+        <input onChange={handleInput} name="password" className=" rounded-2xl outline-none border-none py-1 px-4" type="password" placeholder="Contraseña" />
         <button className="button-primary">Registrarse</button>
       </form>
     </div>

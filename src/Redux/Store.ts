@@ -10,3 +10,7 @@ export const store = configureStore({
         gym: gymReducer
     },
 })
+
+export type RootState = ReturnType<typeof store.getState>; // Define RootState usando el tipo del store
+export type AppDispatch = typeof store.dispatch; // Si necesitas usar el dispatch tipado en tus componentes
+export default store;

@@ -51,6 +51,7 @@ const gymSlice = createSlice({
       sessionStorage.setItem('phone', action.payload.phone);
       sessionStorage.setItem('openHours', JSON.stringify(action.payload.openHours));
       sessionStorage.setItem('closeHours', JSON.stringify(action.payload.closeHours))
+      sessionStorage.setItem('gymId', action.payload.id);
     },
     clearGymInfo: (state) => {
       state.address = '';

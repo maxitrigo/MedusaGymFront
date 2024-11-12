@@ -1,7 +1,11 @@
+import { Communications } from "./Communications"
+import { ShowUsers } from "./ShowUsers"
+
 export const AdminDashboard = () => {
     return (
-        <div>
-            <h1 className="text-white">Admin Dashboard</h1>
-        </div>
+        <>
+            <Communications/>
+            <ShowUsers/>
+        </>
     )
 }

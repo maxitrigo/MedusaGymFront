@@ -4,9 +4,7 @@ import { MdAutoGraph } from "react-icons/md";
 import { IoTicketSharp } from "react-icons/io5";
 import { PiPaperPlaneTilt } from "react-icons/pi";
 import WorkoutStreak  from "../../components/WorkOutStreak";
-import MonthlyComparisonChart from "../../components/MonthlyComparisonChart";
 import Announcements from "../../components/Announcement";
-
 export default function GymPage() {
     const name = sessionStorage.getItem("name")
     const gymName = sessionStorage.getItem("gymName")
@@ -94,13 +92,13 @@ export default function GymPage() {
                 </div>
             </div>
 
-            <div className="w-full bg-neutral-700 pt-4 px-6 py-6 rounded-4xl mt-6 ">
-                <p className="text-white text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
-                <WorkoutStreak streak={streak} />
-            </div>
-            
-            <div>
+            <div className="w-full">
                 <Announcements />
+            </div>
+
+            <div className="w-full bg-neutral-700 pt-4 px-6 py-6 rounded-4xl mt-4 ">
+                <p className="text-white text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
+                <WorkoutStreak />
             </div>
 
         </div>
