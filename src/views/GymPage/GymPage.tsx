@@ -5,11 +5,41 @@ import { IoTicketSharp } from "react-icons/io5";
 import { PiPaperPlaneTilt } from "react-icons/pi";
 import WorkoutStreak  from "../../components/WorkOutStreak";
 import Announcements from "../../components/Announcement";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+
 export default function GymPage() {
-    const name = sessionStorage.getItem("name")
-    const gymName = sessionStorage.getItem("gymName")
-    const openHours = JSON.parse(sessionStorage.getItem("openHours") as string)
-    const closeHours = JSON.parse(sessionStorage.getItem("closeHours") as string)
+    const name = useSelector((state: any) => state.user.name);
+    const gymName = useSelector((state: any) => state.gym.name);
+    const openHours = useSelector((state: any) => state.gym.openHours);
+    const closeHours = useSelector((state: any) => state.gym.closeHours);
+
+    const [states, setStates] = useState<{ freePass: boolean; passes: number | null | undefined, streak: number }>({
+        freePass: false,
+        passes: null,
+        streak: 0
+    });
+
+    useEffect(() => {
+        const parseItem = (key: string, defaultValue: any) => {
+            const item = sessionStorage.getItem(key);
+            try {
+                return item ? JSON.parse(item) : defaultValue;
+            } catch {
+                return defaultValue;
+            }
+        };
+    
+        const freePass = parseItem("freePass", false);
+        const passes = parseItem("admissions", 0);
+        const streak = parseItem("streak", 0);
+    
+        setStates({ freePass, passes, streak });
+    }, []);
+
+
+    const { freePass, passes } = states
 
     function isOpen(open: string, close: string): boolean {
         const now = new Date();
@@ -24,24 +54,11 @@ export default function GymPage() {
         return minutesNow >= minutesToOpen && minutesNow < minutesToClose;
       }
 
-      const isInfinate = true
-      const remainingAccesses = 12
-
-      const streak = Array.from({ length: 365 }, (_, index) => {
-        const date = new Date(2024, 0, 1); // 1 de enero de 2024
-        date.setDate(date.getDate() + index); // Incrementa el día
-      
-        // Simulación de si el entrenamiento fue completado (aleatorio en este caso)
-        const completed = Math.random() > 0.3; // 70% de probabilidad de haber entrenado
-      
-        return {
-          date: date.toISOString().split('T')[0], // Formato "YYYY-MM-DD"
-          completed: completed,
-        };
-      });
+      const remainingAccesses = passes
+      const isInfinate = freePass
 
     return (
-        <div className="flex flex-col items-center h-full w-screen p-2 overflow-y-auto pb-24">
+        <div className="flex flex-col items-center h-full w-screen p-2 overflow-y-auto pb-28">
             <NavBar/>
             <div className="w-full justify-start bg-white pt-8 px-6 py-4 rounded-4xl">
                 <div>
@@ -57,6 +74,11 @@ export default function GymPage() {
 
             <div className={isOpen(openHours, closeHours) ? "open" : "closed"}>
                 <p className="">{isOpen(openHours, closeHours) ? `${gymName} esta Abierto` : "Cerrado"}</p>
+            </div>
+
+            <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
+                <p className="text-neutral-600 text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
+                <WorkoutStreak />
             </div>
 
             <div className="grid grid-cols-2 gap-4 mt-2 sm:grid-cols-3">
@@ -83,7 +105,7 @@ export default function GymPage() {
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-7xl font-nunito font-bold text-center">1</p>
+                        <p className="text-7xl font-nunito font-bold text-center">{states.streak}</p>
                     </div>
                     <div className="flex justify-between">
                         <div></div>
@@ -96,10 +118,6 @@ export default function GymPage() {
                 <Announcements />
             </div>
 
-            <div className="w-full bg-neutral-700 pt-4 px-6 py-6 rounded-4xl mt-4 ">
-                <p className="text-white text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
-                <WorkoutStreak />
-            </div>
 
         </div>
     )

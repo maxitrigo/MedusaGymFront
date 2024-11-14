@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { usersGet } from "../helpers/DataRequests"
+import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md"
 
 export const ShowUsers = () => {
     const [users, setUsers] = useState([])
-    useEffect(() => {
-        const getUsers = usersGet()
-        getUsers.then(data => setUsers(data))
-    }, [])
+    const [isOpen, setIsOpen] = useState(false)
+    const [arrow, setArrow] = useState(<MdKeyboardArrowRight />)
+
+    const handleClick = async () => {
+        usersGet().then(data => setUsers(data))
+        setArrow(isOpen ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />)
+        setIsOpen(!isOpen)
+    }
+
     return (
         <>
-            <div className="bg-white rounded-4xl p-4 mt-4 font-nunito w-full space-y-2">
+            <div className="bg-white rounded-4xl p-4 mt-4 w-full space-y-2">
+                <div onClick={handleClick} className="flex justify-between cursor-pointer items-center">
                 <h2>Usuarios Registrados</h2>
-                {users.map((user: any) => (
+                <p className="text-2xl">{arrow}</p>
+                </div>
+                {isOpen && users.map((user: any) => (
                     <div key={user.id} className="border-t py-2">
                         <div className="flex justify-between">
                             <p>Nombre:</p>

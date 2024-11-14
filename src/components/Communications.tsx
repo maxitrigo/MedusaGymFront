@@ -63,22 +63,22 @@ export const Communications = () => {
 
   return (
     <div className="flex flex-col space-y-4 w-full">
-      <div className="flex flex-col bg-white space-y-4 rounded-3xl w-full px-4 py-3 mt-4">
+      <div className="container-principal">
         <div className="flex justify-between items-center text-lg" onClick={handleIsOpen}>
           <h1>Crear comunicado</h1>
           <div className="text-2xl">
             {isOpen.arrow}
           </div>
-        </div>            
+        </div>
         {isOpen.form && (
           <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
             <input onChange={handleChange} name="title" className="w-full border px-4 py-2 rounded-4xl outline-none" placeholder="Titulo" type="text" />
             <textarea onChange={handleChange} name="message" id="message" className="w-full border px-6 py-6 rounded-4xl outline-none" placeholder="Mensaje" rows={7}></textarea>
-            <button className="bg-black text-white rounded-4xl px-4 py-2 font-bold"> Crear </button>
+            <button className="button-form-primary"> Crear </button>
           </form>
         )}
       </div>
-      <div className="flex flex-col items-center bg-white rounded-3xl py-3 space-y-4">
+      <div className="container-principal">
         <div className="flex justify-between w-full px-4 py-2 items-center">
           <h1>Comunicados creados</h1>
           <HiOutlineBellAlert className="text-2xl text-yellow-600"/>
@@ -88,8 +88,8 @@ export const Communications = () => {
             <h2 className="font-bold border-t pt-2">{communication.title}</h2>
             <p>{communication.message}</p>
             <p>{(communication.createdAt).split('T')[0]}</p>
-            <div className="flex flex-col justify-center">
-              <button onClick={() => handleDelete(communication.id)} className="bg-red-500 text-white rounded-4xl px-4 py-2 font-bold">Eliminar</button>
+            <div className="flex justify-center">
+              <button onClick={() => handleDelete(communication.id)} className="button-delete">Eliminar</button>
             </div>
           </div>
         ))}

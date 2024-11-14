@@ -12,14 +12,29 @@ const WorkoutStreak = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const user = await getUserById();
-
       const completedDates = user.trainingDates
-        ? user.trainingDates.map((date: string) => ({
-            date,
-            completed: true,
-          }))
-        : []; // Si trainingDates es null, se asigna un array vacío
+        ? user.trainingDates.map((date: string) => ({ date, completed: true }))
+        : [];
 
+      // Evitar el error al acceder directamente a user.trainingDates sin verificar si es null
+      const days = user.trainingDates
+        ? user.trainingDates.map((date: string) => parseInt(date.split("-")[2]))
+        : [];
+
+      // No usamos reverse directamente sobre 'days', sino que lo hacemos en una copia.
+      const daysReversed = [...days].reverse();
+
+      let count = 1; // Inicia la cuenta en 1
+      for (let i = 1; i < daysReversed.length; i++) {
+        if (daysReversed[i] === daysReversed[i - 1] - 1) {
+          // Si es consecutivo (verifica si el día actual es el anterior menos 1)
+          count++;
+        } else if (daysReversed[i] < daysReversed[i - 1]) {
+          // Si el número es menor pero no consecutivo
+          break;
+        }
+      }
+      sessionStorage.setItem("streak", count.toString());
 
       const currentYear = new Date().getFullYear();
       const fullYearStreak: StreakDay[] = [];
@@ -49,7 +64,7 @@ const WorkoutStreak = () => {
   }, []);
 
   const getColor = (completed: boolean): string => {
-    return completed ? "bg-green-300" : "bg-red-300";
+    return completed ? "bg-green-300" : "border border-neutral-600";
   };
 
   // Agrupar los días en semanas de 7 días
@@ -58,10 +73,9 @@ const WorkoutStreak = () => {
     weeks.push(streak.slice(i, i + 7));
   }
 
-
   return (
     <div className="overflow-x-auto">
-      <div className="flex space-x-16 text-white font-bold">
+      <div className="flex space-x-16 text-neutral-600 font-semibold">
         <div>Ene</div>
         <div>Feb</div>
         <div>Mar</div>

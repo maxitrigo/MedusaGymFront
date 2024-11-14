@@ -3,7 +3,8 @@ import { useNavigate, useParams} from "react-router-dom";
 import { login } from "../Redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setGymInfo } from "../Redux/gymSlice";
-import { getGymInfo, userLogin } from "../helpers/DataRequests";
+import { getGymInfo, getUserById, userLogin } from "../helpers/DataRequests";
+import { setGymUser } from "../Redux/gymUserSlice";
 
 export const SignIn: React.FC = () => {
     const navigate = useNavigate()
@@ -38,7 +39,7 @@ export const SignIn: React.FC = () => {
                     name: responseData.name,
                     email: responseData.email,
                 }
-                dispatch(login(user))
+                await dispatch(login(user))
             } else {
                 alert("Por favor selecciona una academia")
             }
@@ -46,9 +47,11 @@ export const SignIn: React.FC = () => {
                 navigate('/');
             } else {
                 const gymInfo = await getGymInfo()
-                
+                await getUserById().then((user) => {
+                    dispatch(setGymUser(user))
+                })
                 if(gymInfo){
-                    dispatch(setGymInfo(gymInfo))
+                    await dispatch(setGymInfo(gymInfo))
                     navigate(`/${gymSlug}/home`);
                 }
             }

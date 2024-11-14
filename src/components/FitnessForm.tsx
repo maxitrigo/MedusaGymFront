@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { asignarNivel } from "../helpers/AsignarNivel";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { userPointsUpdate } from "../helpers/DataRequests";
 
 export default function FitnessForm() {
 
@@ -52,10 +52,20 @@ export default function FitnessForm() {
         console.log(formData);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (formData.carrera === '' || formData.lagartijas === '' || formData.sentadillas === '' || formData.burpees === '') {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
         const points = calculatePoints(formData);
         sessionStorage.setItem('points', points.toString());
+        await userPointsUpdate(points);
+        formData.carrera = '';
+        formData.lagartijas = '';
+        formData.sentadillas = '';
+        formData.burpees = '';
+        window.location.reload();
     };
 
     const calculatePoints = (formData: any) => {
@@ -125,7 +135,7 @@ export default function FitnessForm() {
                     ))}
                     <button 
                         onClick={handleSubmit} 
-                        className="bg-black text-white font-bold px-4 py-2 rounded-4xl">
+                        className="bg-black text-white font-bold px-4 py-2 rounded-4xl transition-transform transform active:scale-95">
                         Guardar
                     </button>
                 </div>

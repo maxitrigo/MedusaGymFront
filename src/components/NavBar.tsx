@@ -6,12 +6,12 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 export const NavBar = () => {
-    const gymSlug = sessionStorage.getItem('slug')
+    const gymSlug = useSelector((state: any) => state.gym.slug);
     const role = useSelector((state: any) => state.user.role);
 
 
     return (
-        <nav className="flex justify-between items-center fixed bottom-0 w-full pl-12 p-6 pr-12 bg-white rounded-t-3xl ">
+        <nav className="flex justify-between items-center fixed bottom-0 w-full pl-12 p-6 pr-12 bg-white rounded-t-3xl z-50 ">
     <div className="text-4xl text-black">
         <Link to={`/${gymSlug}/home`}><BiSolidHome /></Link>
     </div>

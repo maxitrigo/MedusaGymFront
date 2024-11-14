@@ -4,6 +4,7 @@ const communicationsApi = "http://localhost:3005/communications";
 const authApi = "http://localhost:3001/auth";
 const gymsApi = "http://localhost:3005/gyms";
 const usersApi = "http://localhost:3005/users";
+const suscriptionsApi = "http://localhost:3005/suscriptions";
 
 const authInfo = () => {
     const token = sessionStorage.getItem('token');
@@ -114,6 +115,34 @@ export const getGymInfo = async () => {
     return response.data;  // Ya estamos extrayendo la data aqui directamente
 };
 
+export const fetchGyms = async () => {
+    const { token } = authInfo();
+    const response = await axios.get(
+        `${gymsApi}`, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
+            },
+        }
+    );
+    
+    return response.data;
+}
+
+export const createGym = async (data: any) => {
+    const { token } = authInfo();
+    const response = await axios.post(
+        `${gymsApi}`, 
+        { ...data }, // Aquí irían los datos en el cuerpo de la solicitud, si es necesario
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    return response.data;
+}
+
 export const usersGet = async () => {
     const { token, gymId } = authInfo();
     const response = await axios.get(
@@ -141,3 +170,75 @@ export const getUserById = async () => {
     
     return response.data;
 }
+
+export const logTraining = async () => {
+    const { token } = authInfo();
+    const response = await axios.post(
+        `${usersApi}/log-training`, 
+        {}, // Aquí irían los datos en el cuerpo de la solicitud, si es necesario
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    return response.data;
+};
+
+export const userPointsUpdate = async (points: number) => {
+    const { token, } = authInfo();
+    const response = await axios.patch(
+        `${usersApi}/patch`, 
+        { points }, // Aquí irían los datos en el cuerpo de la solicitud, si es necesario
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    console.log(response.data);
+    return response.data;
+}
+
+export const createPlan = async (data: any) => {
+    const { token, gymId } = authInfo();
+    const response = await axios.post(
+        `${suscriptionsApi}`, 
+        { ...data, gymId }, // Aquí irían los datos en el cuerpo de la solicitud, si es necesario
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    return response.data;
+}
+
+export const getPlans = async () => {
+    const { token, gymId } = authInfo();
+    const response = await axios.get(
+        `${suscriptionsApi}/${gymId}`, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
+            },
+        }
+    );
+    
+    return response.data;  // Ya estamos extrayendo la data aqui directamente
+}
+
+export const deletePlan = async (id: string) => {
+    const { token, gymId } = authInfo();
+    const response = await axios.delete(
+        `${suscriptionsApi}/${id}`, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
+            },
+            params: { gymId }
+        }
+    ).then(response => response.data);
+    
+    return response;
+};
