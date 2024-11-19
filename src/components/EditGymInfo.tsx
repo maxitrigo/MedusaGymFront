@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
+import { updateGym } from "../helpers/DataRequests";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const EditGymInfo = () => {
     const [isOpen, setIsOpen] = useState({ form: false, arrow: <MdKeyboardArrowRight /> })
+    const navigate = useNavigate();
+    const gymSlug = useSelector((state: any) => state.gym.slug);
 
     const handleIsOpen = () => {
         setIsOpen({
@@ -34,10 +40,35 @@ export const EditGymInfo = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(formData);
-    }
+    
+        // Filtrar campos con valores nuevos
+        const updatedData = Object.fromEntries(
+            Object.entries(formData).filter(([_, value]) => value.trim() !== "")
+        );
+    
+        if (Object.keys(updatedData).length === 0) {
+            alert('Por favor, completa al menos un campo.');
+        } else {
+            try {
+                await updateGym(updatedData);
+                alert('Inicia sesión nuevamente para ver tus datos actualizados.');
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 401) {
+                        // Maneja el error 401
+                        alert("No autorizado. Por favor, inicie sesión.");
+                        navigate(`/${gymSlug}`);
+                    } else {
+                        alert("Error al cargar los usuarios.");
+                    }
+                } else {
+                    alert("Error desconocido.");
+                }
+            }
+        }
+    };
 
     const EditGymInfo = [
         {

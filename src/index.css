@@ -4,6 +4,8 @@
   font-family: Nunito Sans, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  max-width: 768px;
+  margin: auto;
 
   background-color: #242424;
 
@@ -11,6 +13,25 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Personalizar la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 6px; /* Ancho de la barra de scroll */
+  height: 8px; /* Altura para el scroll horizontal */
+}
+
+/* Personalizar el fondo de la barra de scroll */
+::-webkit-scrollbar-track {
+  background: #242424; /* Color del fondo */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Personalizar el "thumb" (parte que se desliza) */
+::-webkit-scrollbar-thumb {
+  background-color: #5e5e5e; /* Color del thumb */
+  border-radius: 10px; /* Bordes redondeados */
+
+}
 }
 
 
@@ -20,7 +41,8 @@
 @tailwind utilities;
 
 .button-primary {
-  @apply bg-white text-black font-bold py-2 px-2 rounded-4xl w-1/2 transition-transform transform active:scale-95
+  width: 200px;
+  @apply bg-white text-black font-bold py-2 px-2 rounded-4xl transition-transform transform active:scale-95
 }
 
 .button-third {
@@ -144,6 +166,31 @@
   @apply flex flex-col items-center justify-center
 }
 
+.vertical-between {
+  @apply flex flex-col items-center justify-between
+}
+
 .horizontal-between {
   @apply flex items-center justify-between
+}
+
+.horizontal-around {
+  @apply flex items-center justify-around
+}
+
+.vertical-around {
+  @apply flex flex-col items-center justify-around
+}
+
+.suscription-card {
+  max-width: 300px;
+  min-width: 300px;
+  min-height: 300px;
+  max-height: 500px;
+  height: 400px;
+  @apply  border border-green-300 rounded-4xl px-4 py-3 mt-4 space-y-4 shadow-lg text-white bg-neutral-800 
+}
+
+.clickable {
+  @apply transition-transform transform active:scale-95 cursor-pointer
 }

@@ -5,8 +5,10 @@ import { communicationsGet } from "../helpers/DataRequests";
 const Announcements = () => {
     const [announcements, setAnnouncements] = useState([])
     useEffect(() => {
-        const gymId = sessionStorage.getItem('gymId');
-        communicationsGet(gymId as string).then(data => setAnnouncements(data))
+        const gymToken = sessionStorage.getItem('gymToken');
+        if (gymToken) {
+            communicationsGet(gymToken).then(data => setAnnouncements(data));
+        }
     },[])
   // Solo se muestra el componente si hay anuncios
   if (announcements.length === 0) return null;

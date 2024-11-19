@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute'
 import DashBoard from './views/DashBoard/DashBoard'
 import Profile from './views/Profile/Profile'
 import { PersistGate } from 'redux-persist/integration/react'
+import Plans from './views/Plans/Plans'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/:gymSlug/home" element={<PrivateRoute><GymPage /></PrivateRoute>} />
           <Route path="/:gymSlug/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
           <Route path="/:gymSlug/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/:gymSlug/plans" element={<PrivateRoute><Plans /></PrivateRoute>} />
         </Routes>
       </PersistGate>
     </Provider>

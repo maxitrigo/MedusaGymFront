@@ -5,7 +5,7 @@ interface GymState {
   closeHours: string | null;
   description: string | null;
   email: string;
-  id: string;
+  gymToken: string;
   image: string | null;
   name: string;
   openHours: string | null;
@@ -15,17 +15,18 @@ interface GymState {
 }
 
 const initialState: GymState = {
+  name: '',
+  email: '',
   address: '',
+  phone: '',
+  slug: '',
+  image: null,
+  openHours: null,
   closeHours: null,
   description: null,
-  email: '',
-  id: '',
-  image: null,
-  name: '',
-  openHours: null,
   owner: '',
-  phone: '',
-  slug: ''
+  gymToken: '',
+
 };
 
 const gymSlice = createSlice({
@@ -37,7 +38,7 @@ const gymSlice = createSlice({
       state.closeHours = action.payload.closeHours;
       state.description = action.payload.description;
       state.email = action.payload.email;
-      state.id = action.payload.id;
+      state.gymToken = action.payload.gymToken;
       state.image = action.payload.image;
       state.name = action.payload.name;
       state.openHours = action.payload.openHours;
@@ -51,14 +52,14 @@ const gymSlice = createSlice({
       sessionStorage.setItem('phone', action.payload.phone);
       sessionStorage.setItem('openHours', JSON.stringify(action.payload.openHours));
       sessionStorage.setItem('closeHours', JSON.stringify(action.payload.closeHours))
-      sessionStorage.setItem('gymId', action.payload.id);
+      sessionStorage.setItem('gymToken', action.payload.gymToken);
     },
     clearGymInfo: (state) => {
       state.address = '';
       state.closeHours = null;
       state.description = null;
       state.email = '';
-      state.id = '';
+      state.gymToken = '';
       state.image = null;
       state.name = '';
       state.openHours = null;

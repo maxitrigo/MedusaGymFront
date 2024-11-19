@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { communicationsDelete, communicationsGet, communicationsPost } from "../helpers/DataRequests";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface Communication {
   id: string;
@@ -15,6 +18,8 @@ export const Communications = () => {
     title: '',
     message: ''
   });
+  const gymSlug = useSelector((state: any) => state.gym.slug);
+  const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState({
     form: false,
@@ -24,9 +29,23 @@ export const Communications = () => {
   const [communications, setCommunications] = useState<Communication[]>([]);
 
   useEffect(() => {
-    const gymId = sessionStorage.getItem('gymId');
-    if (gymId) {
-      communicationsGet(gymId).then(data => setCommunications(data));
+    const gymToken = sessionStorage.getItem('gymToken');
+    if (gymToken) {
+      try {
+        communicationsGet(gymToken).then(data => setCommunications(data));
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+              // Maneja el error 401
+              alert("No autorizado. Por favor, inicie sesión.");
+              navigate(`/${gymSlug}`);
+          } else {
+              alert("Error al cargar los usuarios.");
+          }
+      } else {
+          alert("Error desconocido.");
+      }
+      }
     } else {
       console.error('Gym ID no encontrado');
     }
@@ -45,7 +64,6 @@ export const Communications = () => {
       ...formData,
       [name]: value
     });
-    console.log(formData);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -55,8 +73,6 @@ export const Communications = () => {
   };
 
   const handleDelete = (communicationId: string) => {
-    console.log(communicationId);
-    // Aquí puedes hacer la llamada a la API para eliminar el comunicado
     communicationsDelete(communicationId);
     window.location.reload();
   };

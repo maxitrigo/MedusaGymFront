@@ -17,10 +17,10 @@ export default function Profile() {
     }
 
     return (
-        <>
+        <div className="flex items-center justify-center h-screen">
             <NavBar />
 
-            <div className="flex flex-col items-center h-screen">
+            <div className="flex flex-col items-center  h-screen">
             <div>
                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" className="w-48 h-48 rounded-full mt-12" />
             </div>
@@ -39,6 +39,6 @@ export default function Profile() {
             </div>
             <button className="button-primary transition-transform transform active:scale-95" onClick={handleClick}>Cerrar Sesion</button>
             </div>
-        </>
+        </div>
     );
 }

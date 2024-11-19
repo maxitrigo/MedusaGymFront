@@ -7,6 +7,8 @@ import WorkoutStreak  from "../../components/WorkOutStreak";
 import Announcements from "../../components/Announcement";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { GymContactInfo } from "../../components/GymContactInfo";
 
 
 export default function GymPage() {
@@ -14,6 +16,9 @@ export default function GymPage() {
     const gymName = useSelector((state: any) => state.gym.name);
     const openHours = useSelector((state: any) => state.gym.openHours);
     const closeHours = useSelector((state: any) => state.gym.closeHours);
+    const gymSlug = useSelector((state: any) => state.gym.slug);
+
+    const navigate = useNavigate();
 
     const [states, setStates] = useState<{ freePass: boolean; passes: number | null | undefined, streak: number }>({
         freePass: false,
@@ -57,8 +62,14 @@ export default function GymPage() {
       const remainingAccesses = passes
       const isInfinate = freePass
 
+      const handleAcsess = () => {
+        setTimeout(() => {
+            navigate(`/${gymSlug}/plans`);
+        }, 300)
+      }
+
     return (
-        <div className="flex flex-col items-center h-full w-screen p-2 overflow-y-auto pb-28">
+        <div className="flex flex-col justify-center items-center h-full p-2 overflow-y-auto pb-28">
             <NavBar/>
             <div className="w-full justify-start bg-white pt-8 px-6 py-4 rounded-4xl">
                 <div>
@@ -77,12 +88,16 @@ export default function GymPage() {
             </div>
 
             <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
+                <GymContactInfo/>
+            </div>
+
+            <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
                 <p className="text-neutral-600 text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
                 <WorkoutStreak />
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-2 sm:grid-cols-3">
-                <div className="w-40 h-40 bg-principal rounded-4xl">
+            <div className="w-full place-items-center grid grid-cols-2 gap-4 mt-2 ">
+                <div onClick={handleAcsess} className="w-40 h-40 bg-principal rounded-4xl clickable">
                     <div className="flex justify-between bg-background rounded-4xl m-2">
                         <div className="flex flex-col items-center justify-center ">
                             <p className="font-nunito font-bold text-white pl-2 ">Accesos</p>

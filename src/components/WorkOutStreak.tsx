@@ -89,7 +89,7 @@ const WorkoutStreak = () => {
         <div>Nov</div>
         <div>Dic</div>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex space-x-1 mb-2">
         {weeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col space-y-1">
             {week.map((streakDay) => (

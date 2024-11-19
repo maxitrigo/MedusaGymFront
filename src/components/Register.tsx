@@ -43,7 +43,7 @@ export const Register: React.FC = () => {
                 navigate('/');
             } else {
                 const gymInfo = await getGymInfo()
-                const addUser = await addUserToGym(gymInfo.id)
+                const addUser = await addUserToGym(gymInfo.gymToken)
 
                 if(addUser){
                     dispatch(setGymInfo(gymInfo))
