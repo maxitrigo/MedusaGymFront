@@ -304,7 +304,7 @@ export const getTransactions = async () => {
 export const createTransaction = async (data: any) => {
     const { token, gymToken } = authInfo();
     const request = {
-        clientId: data.userId,
+        clientId: 'cajero',
         productId: data.productId,
         paymentType: data.paymentType,
         paymentId: uuidv4(),
@@ -351,4 +351,18 @@ export const updateSubscription = async (data: any) => {
     );
     return response.data;
 }
+
+export const getGymMetrics = async () => {
+    const { token, gymToken } = authInfo(); // Suponiendo que authInfo() te da el token de autenticación
+    try {
+        const response = await axios.get(`http://localhost:3005/gyms/${gymToken}/metrics`, {
+            headers: { 'Authorization': `Bearer ${token}` }, // El token de autenticación en el header
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener las métricas del gimnasio:', error);
+        throw new Error('No se pudieron obtener las métricas del gimnasio.');
+    }
+};
 

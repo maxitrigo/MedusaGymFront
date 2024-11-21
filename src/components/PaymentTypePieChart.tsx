@@ -1,7 +1,7 @@
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const filterTransactionsByDate = (transactions: any[], period: "Semanal" | "Mensual" | "Anual") => {
   const now = new Date();
@@ -24,11 +24,11 @@ const paymentTypeColors: Record<string, string> = {
     "tarjeta_debito": "#9a36eb",
     "tarjeta_credito": "#ac65e6",
     "transferencia": "#36A2EB",
-  };
+};
 
-export const PaymentTypePieChart = ({
+export const PaymentTypeBarChart = ({
   transactions,
-  period = "Semanal", // Puede ser "week", "month" o "year"
+  period = "Semanal", // Puede ser "Semanal", "Mensual" o "Anual"
 }: {
   transactions: any[];
   period: "Semanal" | "Mensual" | "Anual";
@@ -46,15 +46,15 @@ export const PaymentTypePieChart = ({
   const backgroundColors = labels.map((label) => paymentTypeColors[label] || "#CCCCCC"); // Color por defecto si no está definido.
 
   return (
-    <div style={{ width: "100%", height: "250px" }}>
-      <Pie
+    <div className="vertical-center" style={{ width: "100%", height: "250px" }}>
+      <Bar
         data={{
-          labels,
+          labels, // Las etiquetas serán los tipos de pago
           datasets: [
             {
               label: `Monto por Tipo de Pago (${period})`,
-              data,
-              backgroundColor: backgroundColors,
+              data, // Los valores correspondientes a cada tipo de pago
+              backgroundColor: backgroundColors, // Colores para cada barra
             },
           ],
         }}
@@ -74,8 +74,23 @@ export const PaymentTypePieChart = ({
               },
             },
           },
+          scales: {
+            x: {
+              // Configuración del eje X para mostrar las etiquetas correctamente
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              beginAtZero: true, // El eje Y comienza desde 0
+              grid: {
+                display: true,
+              },
+            },
+          },
         }}
       />
     </div>
   );
 };
+

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { getTransactions } from "../helpers/DataRequests";
-import { PaymentTypePieChart } from "./PaymentTypePieChart";
+import { PaymentTypeBarChart} from "./PaymentTypePieChart";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { SalesLineChart } from "./SalesLineChart";
+import GymMetrics from "./gymMetrics";
 
 export const GymPerformance = () => {
     const [transactions, setTransactions] = useState([]);
@@ -20,23 +21,26 @@ export const GymPerformance = () => {
     return (
         <div onClick={handleIsOpen} className="container-principal">
             <div className="horizontal-between cursor-pointer">
-                <h2>Graficos de Ventas</h2>
+                <h2>Metricas</h2>
                 <p className="text-2xl">{isOpen.arrow}</p>
             </div>
             {isOpen.form && 
             <div>
                 <div>
+                    <GymMetrics />
+                </div>
+                <div>
                     <h2 className="text-2xl font-bold mb-4 text-neutral-600">Monto por tipo de pago</h2>
                 </div>
-                <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 bg-white rounded-3xl p-4 gap-4">
+                <div className="space-y-4 w-full">
                     <div className="border border-neutral-300 p-8 rounded-3xl">
-                    <PaymentTypePieChart transactions={transactions} period="Semanal"/>
+                    <PaymentTypeBarChart transactions={transactions} period="Semanal"/>
                     </div>
                     <div className="border border-neutral-300 p-8 rounded-3xl">
-                    <PaymentTypePieChart transactions={transactions} period="Mensual" />
+                    <PaymentTypeBarChart transactions={transactions} period="Mensual" />
                     </div>
                     <div className="border border-neutral-300 p-8 rounded-3xl">
-                    <PaymentTypePieChart transactions={transactions} period="Anual" />
+                    <PaymentTypeBarChart transactions={transactions} period="Anual" />
                     </div>
                 </div>
                 <div>

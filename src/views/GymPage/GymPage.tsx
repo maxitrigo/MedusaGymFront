@@ -2,13 +2,14 @@ import { NavBar } from "../../components/NavBar"
 import { IoInfiniteSharp } from "react-icons/io5";
 import { MdAutoGraph } from "react-icons/md";
 import { IoTicketSharp } from "react-icons/io5";
-import { PiPaperPlaneTilt } from "react-icons/pi";
 import WorkoutStreak  from "../../components/WorkOutStreak";
 import Announcements from "../../components/Announcement";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GymContactInfo } from "../../components/GymContactInfo";
+import { GymContactWhatsapp } from "../../components/GymContactWhatsapp";
+import { GymContactEmail } from "../../components/GymContactEmail";
+import { Shop } from "../../components/Shop";
 
 
 export default function GymPage() {
@@ -88,15 +89,11 @@ export default function GymPage() {
             </div>
 
             <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
-                <GymContactInfo/>
-            </div>
-
-            <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
                 <p className="text-neutral-600 text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
                 <WorkoutStreak />
             </div>
 
-            <div className="w-full place-items-center grid grid-cols-2 gap-4 mt-2 ">
+            <div className="w-full place-items-center grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2 p-2">
                 <div onClick={handleAcsess} className="w-40 h-40 bg-principal rounded-4xl clickable">
                     <div className="flex justify-between bg-background rounded-4xl m-2">
                         <div className="flex flex-col items-center justify-center ">
@@ -107,7 +104,13 @@ export default function GymPage() {
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-8xl font-nunito flex items-center justify-center">{isInfinate ? <IoInfiniteSharp /> : remainingAccesses}</p>
+                    <p className="text-8xl font-nunito flex items-center justify-center">
+                        {isInfinate ? (
+                            <IoInfiniteSharp />
+                        ) : (
+                            <span className="text-7xl font-bold pt-2">{remainingAccesses}</span>
+                        )}
+                        </p>
                     </div>
                 </div>
                 <div className="w-40 h-40 bg-principal rounded-4xl">
@@ -120,17 +123,19 @@ export default function GymPage() {
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-7xl font-nunito font-bold text-center">{states.streak}</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <div></div>
-                        <div className="text-2xl bg-white rounded-full px-2 py-2"><PiPaperPlaneTilt /></div>
+                        <p className="text-7xl font-bold text-center pt-2">{states.streak}</p>
                     </div>
                 </div>
+                <GymContactWhatsapp/>
+                <GymContactEmail/>
             </div>
-
             <div className="w-full">
                 <Announcements />
+            </div>
+            <div className="grid grid-cols-2 gap-4 place-items-center p-2 sm:grid-cols-2">
+            <div className="">
+                <Shop/>
+            </div>
             </div>
 
 
