@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BiStopwatch } from "react-icons/bi";
-import Countdown from "react-countdown"; // Importa el componente Countdown
+import Countdown from "react-countdown";
 import { GoVerified } from "react-icons/go";
 
 type Workout = {
@@ -8,8 +8,14 @@ type Workout = {
     variation?: string | null;
     sets: number;
     reps?: number;
-    rest?: number; // El tiempo de descanso, en segundos (en string o número)
+    rest?: number;
     setDuration?: string;
+};
+
+type WorkoutState = Workout & {
+    remainingSets: number;
+    isResting: boolean;
+    restEndTime: number | null;
 };
 
 export const WorkoutContainer = ({
@@ -17,29 +23,27 @@ export const WorkoutContainer = ({
 }: {
     WorkoutsArray: Workout[];
 }) => {
-    const [workouts, setWorkouts] = useState(
+    const [workouts, setWorkouts] = useState<WorkoutState[]>(
         WorkoutsArray.map((workout) => ({
             ...workout,
-            remainingSets: workout.sets, // Agrega un campo para sets restantes
-            isResting: false, // Estado para saber si ya estamos en tiempo de descanso
+            remainingSets: workout.sets,
+            isResting: false,
+            restEndTime: null,
         }))
     );
 
-    // Función para calcular la fecha de fin del countdown
-    const handleDate = (rest: number) => {
-        return Date.now() + rest * 1000; // Multiplica por 1000 para convertir segundos a milisegundos
-    };
-
-    // Función para manejar cuando se hace clic en el set
     const handleSetClick = (index: number) => {
         setWorkouts((prevWorkouts) =>
             prevWorkouts.map((workout, i) =>
                 i === index
                     ? {
                         ...workout,
-                        remainingSets:
-                            workout.remainingSets > 0 ? workout.remainingSets - 1 : 0,
-                        isResting: workout.remainingSets === 1, // Si llegamos a 0 sets, comenzamos el descanso
+                        remainingSets: Math.max(workout.remainingSets - 1, 0),
+                        isResting: workout.remainingSets === 1,
+                        restEndTime:
+                            workout.remainingSets === 1 && workout.rest
+                                ? Date.now() + workout.rest * 1000
+                                : workout.restEndTime,
                     }
                     : workout
             )
@@ -97,10 +101,9 @@ export const WorkoutContainer = ({
                                     : workout.setDuration}
                             </td>
                             <td className="py-4 md:py-4 text-zinc-200 text-center font-black italic">
-                                {workout.rest && workout.remainingSets === 0 ? (
-                                    // Cuando los sets llegan a 0, mostramos el countdown
+                                {workout.rest && workout.restEndTime ? (
                                     <Countdown
-                                        date={handleDate(Number(workout.rest))} // Pasa el tiempo de descanso en milisegundos
+                                        date={workout.restEndTime} // Este valor ya no será null
                                         overtime
                                         renderer={({ minutes, seconds, completed }) => {
                                             if (completed) {
@@ -110,7 +113,6 @@ export const WorkoutContainer = ({
                                                     </p>
                                                 );
                                             }
-                                            // Muestra minutos y segundos
                                             return (
                                                 <div className="horizontal-center">
                                                     <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />
