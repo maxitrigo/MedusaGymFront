@@ -88,24 +88,16 @@ export const WorkoutContainer = ({ WorkoutsArray }: { WorkoutsArray: Workout[] }
                   // Cuando los sets llegan a 0, mostramos el countdown
                   <Countdown
                         date={handleDate(Number(workout.rest))} // Pasa el tiempo de descanso en milisegundos
-                        renderer={({ seconds, completed }) => {
+                        overtime
+                        renderer={({ minutes, seconds, completed }) => {
                             if (completed) {
                             return <p className="text-green-500 horizontal-center text-2xl"><GoVerified /></p>;
                             }
-
-                            if (seconds === 0) {
-                            return (
-                                <div className="horizontal-center">
-                                <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />
-                                {workout.rest} s
-                                </div>
-                            );
-                            }
-
+                            // Muestra minutos y segundos
                             return (
                             <div className="horizontal-center">
                                 <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />
-                                {seconds} s
+                                {minutes}:{seconds < 10 ? `0${seconds}` : seconds} min
                             </div>
                             );
                         }}
@@ -114,7 +106,7 @@ export const WorkoutContainer = ({ WorkoutsArray }: { WorkoutsArray: Workout[] }
                   workout.rest && (
                     <div className="horizontal-center">
                       <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />{" "}
-                      {workout.rest} s
+                        {`${Math.floor(workout.rest / 60)}:${String(workout.rest % 60).padStart(2, '0')} min`}
                     </div>
                   )
                 )}

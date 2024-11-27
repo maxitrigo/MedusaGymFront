@@ -26,12 +26,17 @@ export const Workouts = () => {
 
     const handleFunctional = async () => {
         const level = sessionStorage.getItem('level') as string
-        const response = await getFunctionalWorkout( level )
+        const response = await getFunctionalWorkout(level)
         const workout = response[0].exercises
         const warmUp = response[0].warmUp
-        setFunctional(workout)
-        setFunctionalWarmUps(warmUp)
-        setIsOpen({...isOpen, functional: true, arrowFunctional: isOpen.functional ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})
+        
+        setFunctional(workout)        // Actualizar la rutina de ejercicios
+        setFunctionalWarmUps(warmUp)  // Actualizar los warm-ups
+        setIsOpen({
+            ...isOpen, 
+            functional: true, 
+            arrowFunctional: isOpen.functional ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />
+        })
     }
 
     const handleBodyWeight = async () => {
@@ -78,8 +83,8 @@ export const Workouts = () => {
 
     return (
         <div className="w-full">
-            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer" onClick={() => setIsOpen({...isOpen, functional: !isOpen.functional, arrowFunctional: isOpen.functional ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
-                <div className="horizontal-between cursor-pointer px-6 py-3">
+            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer">
+                <div className="horizontal-between cursor-pointer px-6 py-3" onClick={() => setIsOpen({...isOpen, functional: !isOpen.functional, arrowFunctional: isOpen.functional ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
                     <p className="font-black text-xl italic">Entrenamiento Funcional</p>
                     <div className="text-2xl">
                         {isOpen.arrowFunctional}
@@ -88,8 +93,9 @@ export const Workouts = () => {
                 {isOpen.functional &&
                 <div>
                     <div className="w-full">
-                        <WorkoutContainer WorkoutsArray={functionalWarmUps} />
-                        <WorkoutContainer WorkoutsArray={functional} />
+                        {/* Mostrar las rutinas de warm-ups y ejercicios solo después de hacer clic en "Generar Rutina" */}
+                        {functionalWarmUps.length > 0 && <WorkoutContainer WorkoutsArray={functionalWarmUps} />}
+                        {functional.length > 0 && <WorkoutContainer WorkoutsArray={functional} />}
                     </div>
                     <div className="vertical-center mt-4 pb-4">
                         <button className="button-form-primary" onClick={handleFunctional}>Generar Rutina</button>
@@ -97,8 +103,8 @@ export const Workouts = () => {
                 </div>
                 }
             </div>
-            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer" onClick={() => setIsOpen({...isOpen, bodyWeight: !isOpen.bodyWeight, arrowBodyWeight: isOpen.bodyWeight ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
-                <div className="horizontal-between cursor-pointer px-6 py-3">
+            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer">
+                <div className="horizontal-between cursor-pointer px-6 py-3" onClick={() => setIsOpen({...isOpen, bodyWeight: !isOpen.bodyWeight, arrowBodyWeight: isOpen.bodyWeight ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
                     <p className="font-black text-xl italic">Body Weight WOD</p>
                     <div className="text-2xl">
                         {isOpen.arrowBodyWeight}
@@ -106,17 +112,20 @@ export const Workouts = () => {
                 </div>
                 {isOpen.bodyWeight &&
                 <div>
-                    <WorkoutContainer WorkoutsArray={bodyWeightWarmUps} />
-                    <WorkoutContainer WorkoutsArray={bodyWeight} />
-                    <div className="vertical-center mt-2 pb-4">
-                    <button className="button-form-primary" onClick={handleBodyWeight}>Generar Rutina</button>
+                    <div className="w-full">
+                        {/* Mostrar las rutinas de warm-ups y ejercicios solo después de hacer clic en "Generar Rutina" */}
+                        {bodyWeightWarmUps.length > 0 && <WorkoutContainer WorkoutsArray={bodyWeightWarmUps} />}
+                        {bodyWeight.length > 0 && <WorkoutContainer WorkoutsArray={bodyWeight} />}
                     </div>
-
+                    <div className="vertical-center mt-2 pb-4">
+                        <button className="button-form-primary" onClick={handleBodyWeight}>Generar Rutina</button>
+                    </div>
                 </div>
                 }
             </div>
-            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer" onClick={() => setIsOpen({...isOpen, crossfit: !isOpen.crossfit, arrowCrossfit: isOpen.crossfit ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
-                <div className="horizontal-between cursor-pointer px-6 py-3">
+
+            <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer">
+                <div className="horizontal-between cursor-pointer px-6 py-3" onClick={() => setIsOpen({...isOpen, crossfit: !isOpen.crossfit, arrowCrossfit: isOpen.crossfit ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
                     <p className="font-black text-xl italic">Crossfit WOD</p>
                     <div className="text-2xl">
                         {isOpen.arrowCrossfit}
@@ -125,14 +134,18 @@ export const Workouts = () => {
                 {
                     isOpen.crossfit &&
                     <div>
-                        <WorkoutContainer WorkoutsArray={crossfitWarmUps} />
-                        <WorkoutContainer WorkoutsArray={crossfit} />
+                        <div className="w-full">
+                            {/* Mostrar las rutinas de warm-ups y ejercicios solo después de hacer clic en "Generar Rutina" */}
+                            {crossfitWarmUps.length > 0 && <WorkoutContainer WorkoutsArray={crossfitWarmUps} />}
+                            {crossfit.length > 0 && <WorkoutContainer WorkoutsArray={crossfit} />}
+                        </div>
                         <div className="vertical-center mt-2 pb-4">
-                        <button className="button-form-primary" onClick={handleCrossfit}>Generar Rutina</button>
+                            <button className="button-form-primary" onClick={handleCrossfit}>Generar Rutina</button>
                         </div>
                     </div>
                 }
             </div>
+
             <div className="mb-4 bg-zinc-900 text-zinc-200 rounded-3xl mt-4 cursor-pointer" >
                 <div className="horizontal-between cursor-pointer px-6 py-3" onClick={() => setIsOpen({...isOpen, weightLifting: !isOpen.weightLifting, arrowWeightLifting: isOpen.weightLifting ? <MdKeyboardArrowRight /> : <MdKeyboardArrowDown />})}>
                     <p className="font-black text-xl italic">Weight Lifting</p>
