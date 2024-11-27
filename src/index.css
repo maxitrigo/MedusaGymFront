@@ -7,7 +7,7 @@
   max-width: 768px;
   margin: auto;
 
-  background-color: #242424;
+  background-color: #121212;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,13 +22,13 @@
 
 /* Personalizar el fondo de la barra de scroll */
 ::-webkit-scrollbar-track {
-  background: #242424; /* Color del fondo */
+  background: #121212; /* Color del fondo */
   border-radius: 10px; /* Bordes redondeados */
 }
 
 /* Personalizar el "thumb" (parte que se desliza) */
 ::-webkit-scrollbar-thumb {
-  background-color: #5e5e5e; /* Color del thumb */
+  background-color: #2d2d37; /* Color del thumb */
   border-radius: 10px; /* Bordes redondeados */
 
 }
@@ -105,7 +105,7 @@
 }
 
 .bg-background {
-  background-color: #242424
+  background-color: #121212
 }
 
 .bg-principal {
@@ -143,7 +143,7 @@
   @apply w-full py-2 px-6 rounded-4xl outline-none bg-background border border-neutral-600 text-white font-host
 }
 .secondary-input {
-  @apply w-full py-2 px-6 rounded-4xl outline-none border  text-black
+  @apply w-full py-2 px-6 rounded-4xl outline-none text-zinc-200 bg-background font-normal
 }
 
 .button-form-primary {
@@ -154,8 +154,12 @@
   @apply bg-red-500 text-white font-bold py-2 px-2  rounded-4xl w-1/2 transition-transform transform active:scale-95
 }
 
+.button-send {
+  @apply bg-green-500 text-white font-bold py-2 px-2  rounded-4xl w-1/2 transition-transform transform active:scale-95
+}
+
 .container-principal {
-  @apply flex flex-col bg-white rounded-3xl w-full px-4 py-3 mt-4 space-y-4
+  @apply flex flex-col bg-zinc-900 text-zinc-200 font-black italic rounded-3xl w-full px-4 py-3 mt-4 space-y-4
 }
 
 .horizontal-center {
@@ -164,6 +168,10 @@
 
 .vertical-center {
   @apply flex flex-col items-center justify-center
+}
+
+.horizontal-end {
+  @apply flex items-center justify-end
 }
 
 .vertical-between {
@@ -188,9 +196,13 @@
   min-height: 300px;
   max-height: 500px;
   height: 400px;
-  @apply  border border-green-300 rounded-4xl px-4 py-3 mt-4 space-y-4 shadow-lg text-white bg-neutral-800 
+  @apply  border border-green-300 rounded-4xl px-4 py-3 mt-4 space-y-4 shadow-lg text-white bg-zinc-900 
 }
 
 .clickable {
   @apply transition-transform transform active:scale-95 cursor-pointer
+}
+
+.border-none {
+  border: none;
 }

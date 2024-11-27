@@ -83,7 +83,7 @@ export const CreatePlan = () => {
     return (
         <div className="container-principal">
             <div onClick={handleIsOpen} className="horizontal-between cursor-pointer">
-                <h1>Crear Plan</h1>
+                <h1>Crear Membresia</h1>
                 <p className="text-2xl">{isOpen.arrow}</p>
             </div>
             {isOpen.form && 
@@ -94,7 +94,7 @@ export const CreatePlan = () => {
                         <input onChange={handleChange} className="secondary-input text-center" type={item.type} placeholder={item.placeholder} name={item.name} />
                     </div>
                 ))}
-                <button onClick={handleSubmit} className="button-form-primary">Crear Plan</button>
+                <button onClick={handleSubmit} className="button-send">Crear Plan</button>
             </div>}
         </div>
     )

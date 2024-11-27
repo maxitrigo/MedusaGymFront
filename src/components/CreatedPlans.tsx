@@ -25,20 +25,20 @@ export const CreatedPlans = () => {
     }
     
     return (
-        <div className="container-principal">
+        <div className="container-principal cursor-pointer">
             <div onClick={handleIsOpen} className="horizontal-between">
-                <h1>Planes Activos</h1>
+                <h1>Membresias Activas</h1>
                 <p className="text-2xl">{isOpen.arrow}</p>
             </div>
             {isOpen.form && plans.map((plan: any) => (
-                <div key={plan.id} className="border-t py-2">
+                <div key={plan.id} className="border-t border-zinc-800 font-normal py-2">
                     <div className="flex justify-between">
                         <p>Nombre:</p>
                         <p>{plan.name}</p>
                     </div>
                     <div className="flex justify-between">
                         <p>Descripción:</p>
-                        <p>{plan.description}</p>
+                        <p className="text-right">{plan.description}</p>
                     </div>
                     <div className="flex justify-between">
                         <p>Precio:</p>

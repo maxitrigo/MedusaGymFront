@@ -9,33 +9,44 @@ const Announcements = () => {
   ];
 
   useEffect(() => {
-    const gymToken = sessionStorage.getItem("gymToken");
-    if (gymToken) {
-      communicationsGet(gymToken).then((data) => setAnnouncements(data));
+    const storedAnnouncements = sessionStorage.getItem("announcements");
+
+    if (storedAnnouncements) {
+      // Si ya existen anuncios en sessionStorage, los carga directamente
+      setAnnouncements(JSON.parse(storedAnnouncements));
+    } else {
+      const gymToken = sessionStorage.getItem("gymToken");
+      if (gymToken) {
+        communicationsGet(gymToken).then((data) => {
+          setAnnouncements(data);
+          // Guarda los anuncios en sessionStorage para futuros usos durante la sesión
+          sessionStorage.setItem("announcements", JSON.stringify(data));
+        });
+      }
     }
-  }, []);
+  }, []); // Solo se ejecuta una vez al montar el componente
 
   // Si no hay anuncios, usa los mensajes por defecto
   const displayedAnnouncements = announcements.length > 0 ? announcements : defaultMessages;
 
   return (
-    <div className="bg-zinc-100 rounded-4xl p-4 font-nunito h-full">
+    <div className="bg-zinc-900 rounded-4xl p-4 font-nunito h-full">
       <div className="flex justify-between">
         <div>
-          <h2 className="text-lg font-bold mb-2">Cartelera de Comunicados</h2>
+          <h2 className="text-lg font-bold mb-2 text-white">Cartelera de Comunicados</h2>
         </div>
-        <div className="text-yellow-600 text-3xl">
+        <div className="text-yellow-400 text-3xl">
           <HiOutlineBellAlert />
         </div>
       </div>
 
       <ul>
         {displayedAnnouncements.map((announcement) => (
-          <li key={announcement.id} className="border-t border-neutral-300 py-2">
-            <h3 className="text-md font-bold">{announcement.title}</h3>
-            <p className="text-md">{announcement.message}</p>
+          <li key={announcement.id} className="border-t border-zinc-800 py-2">
+            <h3 className="text-md font-bold text-white">{announcement.title}</h3>
+            <p className="text-md text-white">{announcement.message}</p>
             {announcement.createdAt && (
-              <p className="text-xs">{announcement.createdAt.split("T")[0]}</p>
+              <p className="text-xs text-white">{announcement.createdAt.split("T")[0]}</p>
             )}
           </li>
         ))}
@@ -45,4 +56,3 @@ const Announcements = () => {
 };
 
 export default Announcements;
-

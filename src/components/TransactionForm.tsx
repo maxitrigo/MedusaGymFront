@@ -69,11 +69,11 @@ const FormularioTransaccion = () => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 border border-neutral-300 p-8 m-8 rounded-3xl">
+    <form onSubmit={handleSubmit} className="space-y-4 bg-background w-full p-4 rounded-3xl font-normal text-zinc-200">
       <div className="horizontal-between">
         <label htmlFor="amount" className="w-1/2">Monto:</label>
         <input
-          className="secondary-input"
+          className="principal-input"
           type="number"
           id="amount"
           name="amount"
@@ -87,7 +87,7 @@ const FormularioTransaccion = () => {
       <div className="horizontal-between">
         <label htmlFor="paymentType" className="w-1/2">Tipo de Pago:</label>
         <select
-          className="secondary-input"
+          className="principal-input"
           id="paymentType"
           name="paymentType"
           value={formData.paymentType}
@@ -104,7 +104,7 @@ const FormularioTransaccion = () => {
         </select>
       </div>
       <div className="vertical-center">
-        <button type="submit">Enviar</button>
+        <button type="submit" className="button-send">Enviar</button>
       </div>
     </form>
   );

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import FitnessForm from "./FitnessForm"
 import LevelContainer from "./LevelContainer"
+import { Workouts } from "./Workouts";
+import { Routines } from "./Routines";
 
 export const UserDashboard = () => {
     const [points, setPoints] = useState(0);
@@ -13,6 +15,11 @@ export const UserDashboard = () => {
         <>
             <LevelContainer points={points}/>
             <FitnessForm/>
+            <div className="text-center mt-6 text-2xl font-black italic text-zinc-200">
+                <h3>Crea tu Rutina</h3>
+            </div>
+            <Workouts/>
+            <Routines/>
         </>
     )
 }

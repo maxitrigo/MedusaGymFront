@@ -3,7 +3,7 @@ import { getTransactions } from "../helpers/DataRequests";
 import { PaymentTypeBarChart} from "./PaymentTypePieChart";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { SalesLineChart } from "./SalesLineChart";
-import GymMetrics from "./gymMetrics";
+import GymMetrics from "./GymMetrics";
 
 export const GymPerformance = () => {
     const [transactions, setTransactions] = useState([]);
@@ -30,30 +30,30 @@ export const GymPerformance = () => {
                     <GymMetrics />
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold mb-4 text-neutral-600">Monto por tipo de pago</h2>
+                    <h2 className="text-2xl mt-6 horizontal-center bg-background py-4 rounded-3xl mb-4">Monto por tipo de pago</h2>
                 </div>
                 <div className="space-y-4 w-full">
-                    <div className="border border-neutral-300 p-8 rounded-3xl">
+                    <div className="bg-background p-8 rounded-3xl">
                     <PaymentTypeBarChart transactions={transactions} period="Semanal"/>
                     </div>
-                    <div className="border border-neutral-300 p-8 rounded-3xl">
+                    <div className="bg-background p-8 rounded-3xl">
                     <PaymentTypeBarChart transactions={transactions} period="Mensual" />
                     </div>
-                    <div className="border border-neutral-300 p-8 rounded-3xl">
+                    <div className="bg-background p-8 rounded-3xl">
                     <PaymentTypeBarChart transactions={transactions} period="Anual" />
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold mt-6 text-neutral-600">Ventas por periodo</h2>
+                    <h2 className="text-2xl mt-6 horizontal-center bg-background py-4 rounded-3xl">Ventas por periodo</h2>
                 </div>
                 <div className="space-y-4 p-8">
-                    <div className="border border-neutral-300 p-2 rounded-3xl">
+                    <div className="bg-background p-2 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="week" />
                     </div>
-                    <div className="border border-neutral-300 p-2 rounded-3xl">
+                    <div className="bg-background p-2 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="month" />
                     </div>
-                    <div className="border border-neutral-300 p-2 rounded-3xl">
+                    <div className="bg-background p-2 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="year" />
                     </div>
                 </div>

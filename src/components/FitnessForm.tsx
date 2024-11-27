@@ -84,18 +84,18 @@ export default function FitnessForm() {
     };
 
     return (
-        <div className="flex flex-col bg-white items-center space-y-4 rounded-3xl w-full px-4 py-3">
+        <div className="flex flex-col bg-zinc-900 text-zinc-200 items-center space-y-4 rounded-3xl w-full px-4 py-3">
             <div 
                 onClick={handleIsOpen} 
-                className="flex items-center justify-between w-full cursor-pointer bg-white rounded-4xl ">
-                <h2 className="text-lg">Evaluación de Nivel</h2>
+                className="flex items-center justify-between w-full cursor-pointer  rounded-4xl ">
+                <h2 className="text-lg font-black italic">Evaluación de Nivel</h2>
                 <div className="text-2xl">
                     {isOpen.arrow}
                 </div>
             </div>
             {isOpen.form && (
-                <div className="flex flex-col bg-white items-center space-y-4 rounded-4xl w-full p-2 ">
-                    <div className="border-t pt-2">
+                <div className="flex flex-col items-center space-y-4 rounded-4xl w-full p-2 ">
+                    <div className="pt-2">
                         <p className="text-md font-bold">
                             Objetivo
                         </p>
@@ -108,7 +108,7 @@ export default function FitnessForm() {
                         <p className="text-md">
                             El test consiste en realizar 4 ejercicios durante un total de 40 minutos, dando tu máximo potencial durante 10 minutos por cada ejercicio.
                         </p>
-                        <p className="text-md font-bold mt-2 border-t pt-2">
+                        <p className="text-md font-bold mt-2 pt-2">
                             Ingreso de datos:
                         </p>
                         <p className="font-bold">Carrera:</p>
@@ -117,7 +117,7 @@ export default function FitnessForm() {
                         <p>Introduce la cantidad de repeticiones que lograste en los 10 minutos ej: 50</p>
                         <p className="font-bold">Sentadillas:</p>
                         <p>Con 20kg de peso completa la mayor cantidad de repeticiones en 10 minutos, ej: 50</p>
-                        <p className="text-md font-bold mt-2 border-t pt-2 border-b pb-2">
+                        <p className="text-md font-bold mt-2 pt-2 pb-2">
                             Para completar el test vas a precisar cronometrar tu tiempo y contar repeticiones.
                         </p>
                     </div>
@@ -126,7 +126,7 @@ export default function FitnessForm() {
                             <label className="font-bold ">{formValue.label}</label>
                             <input 
                                 name={formValue.name} 
-                                className="border border-gray-400 px-4 py-2 rounded-2xl outline-none" 
+                                className="bg-zinc-800 px-4 py-2 rounded-2xl outline-none" 
                                 title={formValue.label} 
                                 type="number" 
                                 onChange={handleChange} 

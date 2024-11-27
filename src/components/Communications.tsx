@@ -80,7 +80,7 @@ export const Communications = () => {
   return (
     <div className="flex flex-col space-y-4 w-full">
       <div className="container-principal">
-        <div className="flex justify-between items-center text-lg" onClick={handleIsOpen}>
+        <div className="horizontal-between text-lg cursor-pointer" onClick={handleIsOpen}>
           <h1>Crear comunicado</h1>
           <div className="text-2xl">
             {isOpen.arrow}
@@ -88,24 +88,24 @@ export const Communications = () => {
         </div>
         {isOpen.form && (
           <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
-            <input onChange={handleChange} name="title" className="w-full border px-4 py-2 rounded-4xl outline-none" placeholder="Titulo" type="text" />
-            <textarea onChange={handleChange} name="message" id="message" className="w-full border px-6 py-6 rounded-4xl outline-none" placeholder="Mensaje" rows={7}></textarea>
-            <button className="button-form-primary"> Crear </button>
+            <input onChange={handleChange} name="title" className="secondary-input" placeholder="Titulo" type="text" />
+            <textarea onChange={handleChange} name="message" id="message" className="secondary-input" placeholder="Mensaje" rows={7}></textarea>
+            <button className="button-send"> Crear </button>
           </form>
         )}
       </div>
       <div className="container-principal">
-        <div className="flex justify-between w-full px-4 py-2 items-center">
+        <div className="horizontal-between px-2 py-2">
           <h1>Comunicados creados</h1>
           <HiOutlineBellAlert className="text-2xl text-yellow-600"/>
         </div>{communications.length === 0 && <p className="border-t pt-2 w-full text-center p-2">No hay comunicados</p>}
         {communications.map((communication) => (
-          <div id={communication.id} key={communication.id} className="flex flex-col px-6 space-y-2 w-full">
-            <h2 className="font-bold border-t pt-2">{communication.title}</h2>
+          <div id={communication.id} key={communication.id} className="flex flex-col px-6 space-y-2 w-full pb-2 font-normal">
+            <h2 className="font-bold border-t border-zinc-800 pt-2">{communication.title}</h2>
             <p>{communication.message}</p>
             <p>{(communication.createdAt).split('T')[0]}</p>
             <div className="flex justify-center">
-              <button onClick={() => handleDelete(communication.id)} className="button-delete">Eliminar</button>
+              <button onClick={() => handleDelete(communication.id)} className="button-delete mt-4">Eliminar</button>
             </div>
           </div>
         ))}

@@ -11,7 +11,17 @@ const WorkoutStreak = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const user = await getUserById();
+      // Verificar si ya hay datos del usuario en sessionStorage
+      const storedUser = sessionStorage.getItem("userData");
+
+      let user;
+      if (storedUser) {
+        user = JSON.parse(storedUser);
+      } else {
+        user = await getUserById();
+        sessionStorage.setItem("userData", JSON.stringify(user)); // Guardar datos del usuario en sessionStorage
+      }
+
       const completedDates = user.trainingDates
         ? user.trainingDates.map((date: string) => ({ date, completed: true }))
         : [];
@@ -61,10 +71,10 @@ const WorkoutStreak = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, []); // Solo se ejecuta una vez al montar el componente
 
   const getColor = (completed: boolean): string => {
-    return completed ? "bg-green-300" : "border border-neutral-600";
+    return completed ? "bg-green-300" : "bg-background";
   };
 
   // Agrupar los días en semanas de 7 días
@@ -75,7 +85,7 @@ const WorkoutStreak = () => {
 
   return (
     <div className="overflow-x-auto">
-      <div className="flex space-x-16 text-neutral-600 font-semibold">
+      <div className="flex space-x-16 text-zinc-700 font-semibold italic">
         <div>Ene</div>
         <div>Feb</div>
         <div>Mar</div>

@@ -8,6 +8,7 @@ const usersApi = "http://localhost:3005/users";
 const subscriptionsApi = "http://localhost:3005/subscriptions";
 const paymentsApi = "http://localhost:3000/payments"
 const transactionsApi = "http://localhost:3000/transactions"
+const workoutsApi = "http://localhost:3005/workouts"
 
 const authInfo = () => {
     const token = sessionStorage.getItem('token');
@@ -355,7 +356,7 @@ export const updateSubscription = async (data: any) => {
 export const getGymMetrics = async () => {
     const { token, gymToken } = authInfo(); // Suponiendo que authInfo() te da el token de autenticación
     try {
-        const response = await axios.get(`http://localhost:3005/gyms/${gymToken}/metrics`, {
+        const response = await axios.get(`${gymsApi}/${gymToken}/metrics`, {
             headers: { 'Authorization': `Bearer ${token}` }, // El token de autenticación en el header
         });
 
@@ -366,3 +367,116 @@ export const getGymMetrics = async () => {
     }
 };
 
+export const getFunctionalWorkout = async (level: string) => {
+    const { token } = authInfo()
+    const frequency = 1
+    try {
+        const response = await axios.post(`${workoutsApi}/functionalWorkout`,
+            {
+                level,
+                frequency
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener la rutina');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const getBodyWeightWorkout = async (level: string) => {
+    const { token } = authInfo()
+    const frequency = 1
+    try {
+        const response = await axios.post(`${workoutsApi}/bodyweightWorkout`,
+            {
+                level,
+                frequency
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener la rutina');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const getCrossfitWorkout = async (level: string) => {
+    const { token } = authInfo()
+    const frequency = 1
+    try {
+        const response = await axios.post(`${workoutsApi}/crossfitWorkout`,
+            {
+                level,
+                frequency
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener la rutina');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const getGymWorkout = async (level: string, goal: string, frequency: number) => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.post(`${workoutsApi}/gymWorkout`,
+            {
+                goal,
+                level,
+                frequency
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener la rutina');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const saveGymWorkout = async (data: any) => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.post(`${workoutsApi}/saveGymWorkout`,
+            {
+                ...data
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener la rutina');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const getUserWorkouts = async () => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.get(`${workoutsApi}/userWorkouts`,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener las rutinas');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const deleteWorkout = async (workoutId: string) => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.delete(`${workoutsApi}/${workoutId}`,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log('Error al obtener las rutinas');
+        throw new Error('No se pudieron obtener las rutinas')
+    }
+}

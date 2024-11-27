@@ -72,15 +72,15 @@ export default function GymPage() {
     return (
         <div className="flex flex-col justify-center items-center h-full p-2 overflow-y-auto pb-28">
             <NavBar/>
-            <div className="w-full justify-start bg-white pt-8 px-6 py-4 rounded-4xl">
+            <div className="w-full justify-start bg-zinc-900 pt-8 px-6 py-4 rounded-4xl">
                 <div>
-                <p className="text-black text-2xl font-nunito">Hola 👋</p>
+                <p className="text-white text-2xl font-nunito">Hola 👋</p>
                 </div>
                 <div>
-                <p className="text-black text-2xl font-nunito italic font-bold">{name}</p>
+                <p className="text-white text-2xl font-nunito italic font-black">{name}</p>
                 </div>
                 <div>
-                <p className="text-black text-2xl font-nunito">¡Vamos con todo, hoy es otro día para romperla! 🙌💪</p>
+                <p className="text-white text-2xl font-nunito ">¡Vamos con todo, hoy es otro día para romperla! 🙌💪</p>
                 </div>
             </div>
 
@@ -88,8 +88,8 @@ export default function GymPage() {
                 <p className="">{isOpen(openHours, closeHours) ? `${gymName} esta Abierto` : "Cerrado"}</p>
             </div>
 
-            <div className="w-full bg-neutral-800 border border-neutral-600  pt-4 px-6 py-6 rounded-4xl mt-2 ">
-                <p className="text-neutral-600 text-xl font-nunito text-center font-bold">Entrenamientos Completados</p>
+            <div className="w-full bg-zinc-900  pt-4 px-6 py-6 rounded-4xl mt-2 ">
+                <p className="text-zinc-700 text-xl font-nunito text-center font-black italic">Entrenamientos Completados</p>
                 <WorkoutStreak />
             </div>
 
@@ -97,18 +97,18 @@ export default function GymPage() {
                 <div onClick={handleAcsess} className="w-40 h-40 bg-principal rounded-4xl clickable">
                     <div className="flex justify-between bg-background rounded-4xl m-2">
                         <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito font-bold text-white pl-2 ">Accesos</p>
+                            <p className="font-nunito font-black italic text-zinc-200 pl-4 ">Accesos</p>
                         </div>
                         <div className="p-2">
-                            <p className="text-xl bg-white rounded-full px-1 py-1"><IoTicketSharp /></p>
+                            <p className="text-xl text-zinc-200 rounded-full px-1 py-1"><IoTicketSharp /></p>
                         </div>
                     </div>
                     <div className="">
-                    <p className="text-8xl font-nunito flex items-center justify-center">
+                    <p className="text-zinc-900 text-8xl font-nunito flex items-center justify-center">
                         {isInfinate ? (
                             <IoInfiniteSharp />
                         ) : (
-                            <span className="text-7xl font-bold pt-2">{remainingAccesses}</span>
+                            <span className="text-zinc-900 text-7xl font-bold pt-2">{remainingAccesses}</span>
                         )}
                         </p>
                     </div>
@@ -116,14 +116,14 @@ export default function GymPage() {
                 <div className="w-40 h-40 bg-principal rounded-4xl">
                 <div className="flex justify-between bg-background rounded-4xl m-2">
                         <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito font-bold text-white pl-2 ">Racha</p>
+                            <p className="font-nunito font-black italic text-zinc-200 pl-4 ">Racha</p>
                         </div>
                         <div className="p-2">
-                            <p className="text-xl bg-white rounded-full px-1 py-1"><MdAutoGraph /></p>
+                            <p className="text-xl text-zinc-200 rounded-full px-1 py-1"><MdAutoGraph /></p>
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-7xl font-bold text-center pt-2">{states.streak}</p>
+                        <p className="text-zinc-900 text-7xl font-bold text-center pt-2">{states.streak}</p>
                     </div>
                 </div>
                 <GymContactWhatsapp/>

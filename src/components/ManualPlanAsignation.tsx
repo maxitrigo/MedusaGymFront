@@ -116,11 +116,11 @@ export const ManualPlanAsignation = () => {
             <p className="text-2xl">{isOpen ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />}</p>
             </div>
             {isOpen && 
-            <div className="bg-white rounded-4xl p-4 mt-4 w-full space-y-4">
+            <div className="rounded-4xl p-4 mt-4 w-full space-y-4 font-normal">
                 <form onSubmit={handleSubmit} action="" className="space-y-2">
                     <div className="horizontal-between">
                         <label htmlFor="users">Usuario</label>
-                        <select name="users" id="users" className="w-1/2 border px-2 py-2 rounded-3xl">
+                        <select name="users" id="users" className="w-1/2 px-2 py-2 rounded-3xl bg-zinc-800">
                             {users.map((user: any) => (
                                 <option key={user.id} value={user.id}>{user.name}</option>
                             ))}
@@ -128,14 +128,14 @@ export const ManualPlanAsignation = () => {
                     </div>
                     <div className="horizontal-between">
                         <label htmlFor="plans">Planes</label>
-                        <select name="plans" id="plans" className="w-1/2 border px-2 py-2 rounded-3xl">
+                        <select name="plans" id="plans" className="w-1/2 bg-zinc-800 px-2 py-2 rounded-3xl">
                             {plans.map((plan: any) => (
                                 <option key={plan.id} value={plan.id}>{plan.name}</option>
                             ))}
                         </select>
                     </div>
                     <div className="vertical-center">
-                        <button type="submit" className="border px-4 py-2 rounded-3xl bg-green-600 text-white mt-4 transition-transform transform active:scale-95">Asignar</button>
+                        <button type="submit" className="button-send mt-4">Asignar</button>
                     </div>
                 </form>
             </div>

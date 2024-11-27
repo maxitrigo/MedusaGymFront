@@ -106,7 +106,7 @@ export const EditGymInfo = () => {
 
     return (
         <div className="container-principal">
-            <div className="horizontal-between text-lg" onClick={handleIsOpen}>
+            <div className="horizontal-between text-lg cursor-pointer" onClick={handleIsOpen}>
                 <h2>Editar información del gimnasio</h2>
                 <div className="text-2xl">
                     {isOpen.arrow}
@@ -122,7 +122,7 @@ export const EditGymInfo = () => {
                     </div>
                 ))}
                 <div className="flex justify-center">
-                <button className="button-form-primary" type="submit" onClick={handleSubmit}>Guardar</button>
+                <button className="button-send" type="submit" onClick={handleSubmit}>Guardar</button>
                 </div>
             </div>
             }

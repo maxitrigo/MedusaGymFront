@@ -20,21 +20,27 @@ export default function LevelContainer({ points }: LevelContainerProps) {
     // Determinar el nivel y subnivel
     if (points < 100) {
       levelAssigned = 'Principiante';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor(points / 25) + 1; // 4 subniveles, 25 puntos por subnivel
     } else if (points >= 100 && points < 200) {
       levelAssigned = 'Novato';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor((points - 100) / 20) + 1;
     } else if (points >= 200 && points < 300) {
       levelAssigned = 'Intermedio';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor((points - 200) / 20) + 1;
     } else if (points >= 300 && points < 400) {
       levelAssigned = 'Avanzado';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor((points - 300) / 20) + 1;
     } else if (points >= 500 && points < 600) {
       levelAssigned = 'Maestro';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor((points - 400) / 50) + 1;
     } else if (points >= 600) {
       levelAssigned = 'Experto';
+      sessionStorage.setItem('level', levelAssigned);
       sublevelAssigned = Math.floor((points - 600) / 50) + 1;
     }
 
@@ -92,7 +98,7 @@ export default function LevelContainer({ points }: LevelContainerProps) {
         <div className="text-white rounded-full bg-background p-2 text-xl mr-4">
             <GoNorthStar />
         </div>
-        <p className={`${textColor} text-black text-xl font-semibold`}>{level}</p>
+        <p className={`${textColor} text-black text-2xl font-black italic`}>{level}</p>
       </div>
       <div className={`${stripeBg} w-20 flex px-2`}>
         {/* Mostrar el número de subniveles como divs blancos */}

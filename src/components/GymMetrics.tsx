@@ -26,9 +26,9 @@ const GymMetrics = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className='p-4 space-y-4'>
-      <h3 className='font-bold text-2xl'>Metricas del Gimnasio</h3>
-      <div>
+    <div className='p-4 space-y-4 bg-background rounded-3xl'>
+      <h3 className='font-bold text-2xl bg-zinc-900 py-2 text-center rounded-3xl'>Metricas del Gimnasio</h3>
+      <div className='font-normal'>
         <p><strong>Miembros Activos:</strong> {metrics?.activeMembersCount ?? 'N/A'}</p>
         <p><strong>Retención de Clientes:</strong> {metrics?.retentionRate ? `${metrics.retentionRate}%` : 'N/A'}</p>
         <p><strong>Tasa de Abandono:</strong> {metrics?.churnRate ? `${metrics.churnRate}%` : 'N/A'}</p>
