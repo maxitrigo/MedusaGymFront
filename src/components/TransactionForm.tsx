@@ -18,7 +18,20 @@ const FormularioTransaccion = () => {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
 
-  const tiposPago = ["efectivo", "mercado_pago", "tarjeta_debito", "tarjeta_credito", "transferencia"];
+  const tiposPago = [
+  "Efectivo",
+  "Mercado Pago",
+  "Visa Debito",
+  "Visa Credito",
+  "Master Debito",
+  "Maestro Debito",
+  "OCA Credito",
+  "Otras Credito",
+  "AMEX Credito",
+  "Master Credito",
+  "Transferencia"
+  ];
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

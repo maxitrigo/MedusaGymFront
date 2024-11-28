@@ -132,11 +132,11 @@ export default function GymPage() {
             <div className="w-full">
                 <Announcements />
             </div>
-            <div className="grid grid-cols-2 gap-4 place-items-center p-2 sm:grid-cols-2">
+            {/* <div className="grid grid-cols-2 gap-4 place-items-center p-2 sm:grid-cols-2">
             <div className="">
                 <Shop/>
             </div>
-            </div>
+            </div> */}
 
 
         </div>

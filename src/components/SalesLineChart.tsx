@@ -54,7 +54,7 @@ export const SalesLineChart = ({
   const { labels, data } = filterAndGroupTransactions(transactions, period);
 
   return (
-    <div className="vertical-center" style={{ width: "100%", height: "250px" }}>
+    <div className="vertical-center w-full min-h-[200px]">
       <Line
         data={{
           labels,
@@ -65,9 +65,10 @@ export const SalesLineChart = ({
                   ? "Ventas mensuales"
                   : "Ventas diarias",
               data,
-              borderColor: "#36A2EB",
-              backgroundColor: "rgba(54, 162, 235, 0.2)",
-              tension: 0.3,
+              borderColor: "rgba(75,192,192,1)", // Color de la línea
+              backgroundColor: "rgba(75,192,192,0.2)", // Relleno debajo de la línea
+              tension: 0.4, // Suavizado de la línea
+              pointRadius: 10, // Ocultar los puntos
             },
           ],
         }}
@@ -86,9 +87,10 @@ export const SalesLineChart = ({
               font: { size: 14 },
             },
             legend: {
-              labels: {
-                font: { size: 10 },
-              },
+              display: false, // Ocultar la leyenda
+            },
+            datalabels: {
+              display: false, // Desactivar los valores sobre los puntos
             },
           },
           scales: {
@@ -103,6 +105,7 @@ export const SalesLineChart = ({
                 display: true,
                 text: "Monto $",
               },
+              beginAtZero: true, // Asegurar que el eje comience en 0
             },
           },
         }}

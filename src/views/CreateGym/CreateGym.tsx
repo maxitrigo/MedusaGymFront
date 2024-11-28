@@ -60,8 +60,8 @@ export default function CreateGym() {
     };
     
     return (
-        <div className="flex flex-col items-center h-screen w-screen p-2 overflow-y-auto mb-4">
-            <div onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-center m-4 bg-principal w-full p-2 rounded-3xl font-bold transition-transform transform active:scale-95 cursor-pointer">
+        <div className="w-full text-center mt-4">
+            <div onClick={() => setIsOpen(!isOpen)} className="horizontal-centerm-4 bg-principal p-2 rounded-3xl font-bold transition-transform transform active:scale-95 cursor-pointer">
             <h1>Crea tu Gimnasio</h1>
             </div>
             {isOpen &&

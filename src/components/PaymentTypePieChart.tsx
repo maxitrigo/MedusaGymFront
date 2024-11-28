@@ -1,7 +1,8 @@
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ChartDataLabels);
 
 const filterTransactionsByDate = (transactions: any[], period: "Semanal" | "Mensual" | "Anual") => {
   const now = new Date();
@@ -19,16 +20,22 @@ const filterTransactionsByDate = (transactions: any[], period: "Semanal" | "Mens
 };
 
 const paymentTypeColors: Record<string, string> = {
-    "efectivo": "#4fc969",
-    "mercado_pago": "#FFCE56",
-    "tarjeta_debito": "#9a36eb",
-    "tarjeta_credito": "#ac65e6",
-    "transferencia": "#36A2EB",
+  "Efectivo": "#4CAF50",
+  "Mercado Pago": "#0079C1",
+  "Visa Debito": "#F7B600",
+  "Visa Credito": "#1A1F71",
+  "Master Debito": "#F79E1B",
+  "Maestro Debito": "#7375CF",
+  "OCA Credito": "#00AEEF",
+  "Otras Credito": "#9E9E9E",
+  "AMEX Credito": "#016FD0",
+  "Master Credito": "#EB001B",
+  "Transferencia": "#27ae60"
 };
 
 export const PaymentTypeBarChart = ({
   transactions,
-  period = "Semanal", // Puede ser "Semanal", "Mensual" o "Anual"
+  period = "Semanal",
 }: {
   transactions: any[];
   period: "Semanal" | "Mensual" | "Anual";
@@ -43,18 +50,18 @@ export const PaymentTypeBarChart = ({
   const labels = Object.keys(groupedByPaymentType);
   const data = Object.values(groupedByPaymentType);
 
-  const backgroundColors = labels.map((label) => paymentTypeColors[label] || "#CCCCCC"); // Color por defecto si no está definido.
+  const backgroundColors = labels.map((label) => paymentTypeColors[label] || "#CCCCCC");
 
   return (
-    <div className="vertical-center" style={{ width: "100%", height: "250px" }}>
+    <div className="vertical-center w-full min-h-[200px]">
       <Bar
         data={{
-          labels, // Las etiquetas serán los tipos de pago
+          labels,
           datasets: [
             {
               label: `Monto por Tipo de Pago (${period})`,
-              data, // Los valores correspondientes a cada tipo de pago
-              backgroundColor: backgroundColors, // Colores para cada barra
+              data,
+              backgroundColor: backgroundColors,
             },
           ],
         }}
@@ -72,20 +79,36 @@ export const PaymentTypeBarChart = ({
                 font: { size: 10 },
                 usePointStyle: true,
               },
+              display: false,
+              position: "right",
+            },
+            datalabels: {
+              display: true,
+              color: "#D8D8D8",
+              align: "center",
+              anchor: "center",
+              rotation: -90,
+              font: {
+                family: "Nunito Sans",
+                style: "italic",
+                weight: 900,
+                size: 10,
+              },
+              formatter: (value, context) => {
+                const labelIndex = context.dataIndex;
+                return labels[labelIndex] || ""; // Asegurarse de no acceder a índices fuera del rango
+              },
             },
           },
           scales: {
             x: {
-              // Configuración del eje X para mostrar las etiquetas correctamente
-              grid: {
+              ticks: {
+                font: { size: 10 },
                 display: false,
               },
             },
             y: {
-              beginAtZero: true, // El eje Y comienza desde 0
-              grid: {
-                display: true,
-              },
+              beginAtZero: true,
             },
           },
         }}
@@ -93,4 +116,3 @@ export const PaymentTypeBarChart = ({
     </div>
   );
 };
-

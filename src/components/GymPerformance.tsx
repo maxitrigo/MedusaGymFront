@@ -19,8 +19,8 @@ export const GymPerformance = () => {
         setTransactions(transactions);
     };
     return (
-        <div onClick={handleIsOpen} className="container-principal">
-            <div className="horizontal-between cursor-pointer">
+        <div className="container-principal">
+            <div onClick={handleIsOpen} className="horizontal-between cursor-pointer">
                 <h2>Metricas</h2>
                 <p className="text-2xl">{isOpen.arrow}</p>
             </div>
@@ -44,16 +44,16 @@ export const GymPerformance = () => {
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-2xl mt-6 horizontal-center bg-background py-4 rounded-3xl">Ventas por periodo</h2>
+                    <h2 className="text-2xl mt-6 horizontal-center bg-background py-4 rounded-3xl mb-4">Ventas por periodo</h2>
                 </div>
-                <div className="space-y-4 p-8">
-                    <div className="bg-background p-2 rounded-3xl">
+                <div className="space-y-4">
+                    <div className="bg-background p-4 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="week" />
                     </div>
-                    <div className="bg-background p-2 rounded-3xl">
+                    <div className="bg-background p-4 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="month" />
                     </div>
-                    <div className="bg-background p-2 rounded-3xl">
+                    <div className="bg-background p-4 rounded-3xl">
                     <SalesLineChart transactions={transactions} period="year" />
                     </div>
                 </div>
