@@ -112,7 +112,7 @@ export const ManualPlanAsignation = () => {
     return(
         <div className="container-principal">
             <div onClick={() => setIsOpen(!isOpen)} className="horizontal-between cursor-pointer">
-            <h1>Asignar Suscripciones</h1>
+            <h1>Asignar Membresia</h1>
             <p className="text-2xl">{isOpen ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />}</p>
             </div>
             {isOpen && 

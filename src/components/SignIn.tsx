@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useParams} from "react-router-dom";
-import { login } from "../Redux/userSlice";
+import { login, logout } from "../Redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setGymInfo } from "../Redux/gymSlice";
-import { getGymInfo, getUserById, userLogin } from "../helpers/DataRequests";
+import { checkLogin, checkOwnership, getGymInfo, getUserById, userLogin } from "../helpers/DataRequests";
 import { setGymUser } from "../Redux/gymUserSlice";
+import useSessionTimeout from "../hooks/useSessionTimeout";
 
 export const SignIn: React.FC = () => {
     const navigate = useNavigate()
@@ -40,6 +41,16 @@ export const SignIn: React.FC = () => {
                     email: responseData.email,
                 }
                 await dispatch(login(user))
+                if(user.role === 'admin') {
+                    const gymInfo = await getGymInfo()
+                    await dispatch(setGymInfo(gymInfo))
+                    const response = await checkOwnership()
+                    if(!response) {
+                        dispatch(logout())
+                        throw new Error('No tienes permiso para acceder a esta academia')
+                    }
+                    return navigate(`/${gymSlug}/home`);
+                }
             } else {
                 alert("Por favor selecciona una academia")
             }
@@ -52,6 +63,11 @@ export const SignIn: React.FC = () => {
                 })
                 if(gymInfo){
                     await dispatch(setGymInfo(gymInfo))
+                    const response = await checkLogin()
+                    if(!response) {
+                        dispatch(logout())
+                        throw new Error ('No tienes permiso para acceder a esta academia')
+                    }
                     navigate(`/${gymSlug}/home`);
                 }
             }

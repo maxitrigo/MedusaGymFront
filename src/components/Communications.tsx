@@ -98,7 +98,7 @@ export const Communications = () => {
         <div className="horizontal-between px-2 py-2">
           <h1>Comunicados creados</h1>
           <HiOutlineBellAlert className="text-2xl text-yellow-600"/>
-        </div>{communications.length === 0 && <p className="border-t pt-2 w-full text-center p-2">No hay comunicados</p>}
+        </div>{communications.length === 0 && <p className="border-t border-zinc-800 pt-2 w-full text-center p-2 text-zinc-400">No hay comunicados</p>}
         {communications.map((communication) => (
           <div id={communication.id} key={communication.id} className="flex flex-col px-6 space-y-2 w-full pb-2 font-normal">
             <h2 className="font-bold border-t border-zinc-800 pt-2">{communication.title}</h2>

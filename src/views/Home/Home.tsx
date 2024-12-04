@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import CreateGym from "../CreateGym/CreateGym";
 import { useNavigate } from "react-router-dom";
+import useSessionTimeout from "../../hooks/useSessionTimeout";
 
 export default function Home() {
+    useSessionTimeout()// aca comienza el inicio de sesion
     const isLoggedIn = useSelector((state: any) => state.user.isLoggedIn);
     const navigate = useNavigate();
 

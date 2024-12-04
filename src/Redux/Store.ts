@@ -11,11 +11,19 @@ const persistConfig = {
     storage,
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     user: userReducer,
     gym: gymReducer,
-    gymUser: gymUserReducer
+    gymUser: gymUserReducer,
 });
+
+const rootReducer = (state: any, action: any) => {
+    if (action.type === "user/logout") {
+        storage.removeItem("persist:root"); // Limpia el almacenamiento persistente
+        state = undefined; // Resetea todo el estado global
+    }
+    return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

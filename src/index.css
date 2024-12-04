@@ -206,3 +206,10 @@
 .border-none {
   border: none;
 }
+
+#qr-reader {
+  border-radius: 20px;
+  height: 550px;
+  border: none;
+  overflow: hidden;
+}

@@ -22,7 +22,7 @@ export const GymInfo = () => {
                 </p>
             </div>
             {gymInfo.map((info, index) => (
-                <div key={index} className="flex justify-between bg-background px-6 py-2 rounded-3xl">
+                <div key={index} className="flex justify-between bg-background px-6 py-2 rounded-2xl">
                     <p className="font-bold">{info.label}:</p>
                     <p className="font-normal">{info.value}</p>
                 </div>

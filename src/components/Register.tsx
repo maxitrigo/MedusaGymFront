@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { login } from "../Redux/userSlice";
 import { setGymInfo } from "../Redux/gymSlice";
 import { addUserToGym, getGymInfo, userRegister } from "../helpers/DataRequests";
+import useSessionTimeout from "../hooks/useSessionTimeout";
 
 export const Register: React.FC = () => {
   const{ gymSlug }: any = useParams();

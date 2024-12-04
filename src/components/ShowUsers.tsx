@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { usersGet } from "../helpers/DataRequests";
+import { deleteUserGym, usersGet } from "../helpers/DataRequests";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { CgCloseO } from "react-icons/cg";
 import { GoVerified } from "react-icons/go";
@@ -16,6 +16,17 @@ export const ShowUsers = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleDelete = async (userId: string) => {
+    try {
+      const response = await deleteUserGym(userId)
+      if (response) {
+        throw alert('Usuario eliminado con exito!')
+      }
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <>
       <div className="container-principal">
@@ -30,22 +41,22 @@ export const ShowUsers = () => {
           <table className="w-full border-t border-zinc-800 mt-4">
             <thead>
               <tr>
-                <th className="text-center px-4 py-2">Nombre</th>
-                <th className="text-center px-4 py-2">Pases</th>
-                <th className="text-center px-4 py-2">Estatus</th>
-                <th className="text-center px-4 py-2">Acciones</th>
+                <th className="text-center px-2 py-2">Nombre</th>
+                <th className="text-center px-2 py-2">Pases</th>
+                <th className="text-center px-2 py-2">Estatus</th>
+                <th className="text-center px-2 py-2">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user: any) => (
                 <tr key={user.id} className="border-t border-zinc-800 font-normal text-center">
-                  <td className="px-4 py-2">{ user.name }</td>
-                  <td className="px-4 py-2">{ user.freePass ? <p className="text-green-500 horizontal-center text-2xl"><IoIosInfinite /></p> : user.admissions }</td>
-                  <td className="px-4 py-2">
+                  <td className="px-2 py-2">{ user.name }</td>
+                  <td className="px-2 py-2">{ user.freePass ? <p className="text-green-500 horizontal-center text-2xl"><IoIosInfinite /></p> : user.admissions }</td>
+                  <td className="px-2 py-2">
                     { user.status === "active" ?  <p className="text-green-500 horizontal-center text-2xl"><GoVerified /></p> : <p className="text-red-500 horizontal-center text-2xl"><CgCloseO /></p> }
                   </td>
-                  <td className="px-4 py-2">
-                    <button className="bg-red-500 rounded-3xl clickable px-4 py-2">Eliminar</button>
+                  <td className="px-2 py-2">
+                    <button onClick={()=>handleDelete(user.id)} className="bg-red-500 rounded-3xl clickable px-4 py-2">Eliminar</button>
                   </td>
                 </tr>
               ))}

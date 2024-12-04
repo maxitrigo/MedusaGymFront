@@ -10,7 +10,7 @@ const paymentsApi = "http://localhost:3000/payments"
 const transactionsApi = "http://localhost:3000/transactions"
 const workoutsApi = "http://localhost:3005/workouts"
 
-const authInfo = () => {
+export const authInfo = () => {
     const token = sessionStorage.getItem('token');
     const gymToken = sessionStorage.getItem('gymToken');
     const slug = sessionStorage.getItem('slug');
@@ -76,6 +76,62 @@ export const userRegister = async (data: any) => {
     );
     return response;
 };
+
+export const changePassword = async (data: any) => {
+    const { token } = authInfo()
+    const currentPassword = data.currentPassword
+    const newPassword = data.newPassword
+    try {
+        const response = await axios.post(
+            `${authApi}/change-password`,
+            {
+                currentPassword,
+                newPassword
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
+                },
+            }
+        );
+        if (response.status === 201) {
+            return true;
+        }
+    } catch (error) {
+        console.log(error);
+        throw new Error ('No se pudo cambiar la contraseña')
+    }
+}
+
+export const requestPasswordReset = async (data: any) => {
+    try {
+        const response = await axios.post(`${authApi}/request-password-reset`, 
+            {
+                email: data.email
+            })
+        if( response.status === 201 ) {
+            return true
+        }
+    } catch (error) {
+        console.log(error);
+        throw new Error ('Email Invalido')
+    }
+}
+
+export const resetPassword = async (token: string, password: string) => {
+    try {
+        const response = await axios.post(`${authApi}/reset-password`, 
+            {
+                resetToken: token,
+                newPassword:password
+            })
+        if( response.status === 201 ) {
+            return true
+        }
+    } catch (error) {
+        console.log(error);
+        throw new Error ('Token Invalido')
+    }
+}
 
 export const addUserToGym = async (gymToken: string) => {
     const { token } = authInfo();
@@ -191,8 +247,8 @@ export const getUserById = async () => {
     return response.data;
 }
 
-export const logTraining = async () => {
-    const { token } = authInfo();
+export const logTraining = async ( token: any) => {
+    // const { token } = authInfo();
     const response = await axios.post(
         `${usersApi}/log-training`, 
         {}, // Aquí irían los datos en el cuerpo de la solicitud, si es necesario
@@ -478,5 +534,50 @@ export const deleteWorkout = async (workoutId: string) => {
     } catch (error) {
         console.log('Error al obtener las rutinas');
         throw new Error('No se pudieron obtener las rutinas')
+    }
+}
+
+export const checkOwnership = async () => {
+    const { token, gymToken} = authInfo()
+    try {
+        const response = await axios.post(`${gymsApi}/checkOwnership`,
+            {
+                gymToken
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const checkLogin = async () => {
+    const { token, gymToken} = authInfo()
+    try {
+        const response = await axios.post(`${gymsApi}/checkLogin`,
+            {
+                gymToken
+            } ,{
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteUserGym = async (userId: string) => {
+    const { token, gymToken } = authInfo()
+    try {
+        const response = await axios.patch(`${usersApi}/deleteUserGym`, {
+            userId,
+            gymToken
+        }, {
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log(error);
     }
 }

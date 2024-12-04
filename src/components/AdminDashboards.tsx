@@ -4,7 +4,7 @@ import { CreatePlan } from "./CreatePlan"
 import { DailyRegister } from "./DailyRegister"
 import { EditGymInfo } from "./EditGymInfo"
 import { GymInfo } from "./GymInfo"
-import { GymPerformance } from "./GymPerformance"
+// import { GymPerformance } from "./GymPerformance"
 import { ManualPlanAsignation } from "./ManualPlanAsignation"
 import { ShowUsers } from "./ShowUsers"
 
@@ -19,7 +19,6 @@ export const AdminDashboard = () => {
             <CreatedPlans/>
             <ManualPlanAsignation/>
             <DailyRegister/>
-            <GymPerformance/>
         </>
     )
 }

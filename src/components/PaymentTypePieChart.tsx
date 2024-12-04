@@ -1,8 +1,10 @@
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ChartDataLabels);
+// Registra todos los elementos necesarios
+ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement, ChartDataLabels);
 
 const filterTransactionsByDate = (transactions: any[], period: "Semanal" | "Mensual" | "Anual") => {
   const now = new Date();
@@ -20,20 +22,22 @@ const filterTransactionsByDate = (transactions: any[], period: "Semanal" | "Mens
 };
 
 const paymentTypeColors: Record<string, string> = {
-  "Efectivo": "#4CAF50",
-  "Mercado Pago": "#0079C1",
-  "Visa Debito": "#F7B600",
-  "Visa Credito": "#1A1F71",
-  "Master Debito": "#F79E1B",
-  "Maestro Debito": "#7375CF",
-  "OCA Credito": "#00AEEF",
-  "Otras Credito": "#9E9E9E",
-  "AMEX Credito": "#016FD0",
-  "Master Credito": "#EB001B",
-  "Transferencia": "#27ae60"
+  "Efectivo": "rgba(76, 175, 80, 0.6)", // #4CAF50
+  "Mercado Pago": "rgba(0, 121, 193, 0.6)", // #0079C1
+  "Visa Debito": "rgba(247, 182, 0, 0.6)", // #F7B600
+  "Visa Credito": "rgba(26, 31, 113, 0.6)", // #1A1F71
+  "Master Debito": "rgba(247, 158, 27, 0.6)", // #F79E1B
+  "Maestro Debito": "rgba(115, 117, 207, 0.6)", // #7375CF
+  "OCA Credito": "rgba(0, 174, 239, 0.6)", // #00AEEF
+  "Otras Credito": "rgba(158, 158, 158, 0.6)", // #9E9E9E
+  "AMEX Credito": "rgba(1, 111, 208, 0.6)", // #016FD0
+  "Master Credito": "rgba(235, 0, 27, 0.6)", // #EB001B
+  "Transferencia": "rgba(39, 174, 96, 0.6)" // #27ae60
 };
 
-export const PaymentTypeBarChart = ({
+
+
+export const PaymentTypePieChart = ({
   transactions,
   period = "Semanal",
 }: {
@@ -41,78 +45,83 @@ export const PaymentTypeBarChart = ({
   period: "Semanal" | "Mensual" | "Anual";
 }) => {
   const filteredTransactions = filterTransactionsByDate(transactions, period);
-
+  
   const groupedByPaymentType = filteredTransactions.reduce((acc, t) => {
     acc[t.paymentType] = (acc[t.paymentType] || 0) + t.amount;
     return acc;
   }, {} as Record<string, number>);
-
+  
   const labels = Object.keys(groupedByPaymentType);
   const data = Object.values(groupedByPaymentType);
-
+  
   const backgroundColors = labels.map((label) => paymentTypeColors[label] || "#CCCCCC");
+  
+  const borderColors = labels.map((label) => {
+    // Calcula un color más oscuro o claro del color de fondo para el borde
+    const rgba = paymentTypeColors[label] || "rgba(204, 204, 204, 0.5)";
+    return rgba.replace(/0\.6\)$/, "1)"); // Cambia la opacidad a 1 (sin transparencia)
+  });
 
   return (
-    <div className="vertical-center w-full min-h-[200px]">
-      <Bar
-        data={{
-          labels,
-          datasets: [
-            {
-              label: `Monto por Tipo de Pago (${period})`,
-              data,
-              backgroundColor: backgroundColors,
-            },
-          ],
-        }}
-        options={{
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            title: {
-              display: true,
-              text: `Monto por Tipo de Pago (${period})`,
-              font: { size: 12 },
-            },
-            legend: {
-              labels: {
-                font: { size: 10 },
-                usePointStyle: true,
+    <div className="vertical-center w-full h-full max-h-[600px] min-h-[300px]">
+      <div className="flex items-center w-full p-4">
+        <p className="text-3xl text-green-500 bg-background rounded-full p-4 mr-4"><RiMoneyDollarCircleLine /></p>
+        <p className="font-bold italic text-xl text-zinc-400 p-2">Monto por Tipo de Pago ({period})</p>
+      </div>
+      <div className="max-h-[600px] h-full w-full">
+        <Pie
+          data={{
+            labels,
+            datasets: [
+              {
+                label: `Monto por Tipo de Pago (${period})`,
+                data,
+                backgroundColor: backgroundColors,
+                borderWidth: 0,
+                offset: 20,
+                hoverOffset: 40,
+                hoverBorderWidth: 3,
+                hoverBorderColor:"rgba(75,192,192,1)",
+                hoverBackgroundColor: borderColors,
               },
-              display: false,
-              position: "right",
-            },
-            datalabels: {
-              display: true,
-              color: "#D8D8D8",
-              align: "center",
-              anchor: "center",
-              rotation: -90,
-              font: {
-                family: "Nunito Sans",
-                style: "italic",
-                weight: 900,
-                size: 10,
-              },
-              formatter: (value, context) => {
-                const labelIndex = context.dataIndex;
-                return labels[labelIndex] || ""; // Asegurarse de no acceder a índices fuera del rango
-              },
-            },
-          },
-          scales: {
-            x: {
-              ticks: {
-                font: { size: 10 },
+            ],
+          }}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
                 display: false,
+                text: `Monto por Tipo de Pago (${period})`,
+                font: { size: 12 },
+                color: "#ffffff",
+                
+              },
+              legend: {
+                labels: {
+                  font: { size: 12 },
+                  usePointStyle: true,
+                  color: "#E4E4E7",
+                },
+                display: true,
+                position: "right",
+              },
+              datalabels: {
+                display: false,
+                color: "#E4E4E7",
+                font: {
+                  family: "Nunito Sans",
+                  style: "italic",
+                  weight: 900,
+                  size: 10,
+                },
+                formatter: (value) => `$${value.toFixed(2)}`,
               },
             },
-            y: {
-              beginAtZero: true,
-            },
-          },
-        }}
-      />
+          }}
+        />
+
+      </div>
     </div>
   );
 };

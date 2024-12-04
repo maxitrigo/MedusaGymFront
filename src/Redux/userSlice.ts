@@ -38,6 +38,7 @@ const userSlice = createSlice({
             state.name = '';
             state.email = '';
             sessionStorage.clear();
+            localStorage.removeItem('persist:root')
         }
     }
 });

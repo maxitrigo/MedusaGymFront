@@ -67,7 +67,6 @@ const gymSlice = createSlice({
       state.phone = '';
       state.slug = '';
       sessionStorage.clear();
-    
     }
   }
 });

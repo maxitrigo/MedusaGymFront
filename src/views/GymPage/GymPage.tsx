@@ -9,10 +9,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GymContactWhatsapp } from "../../components/GymContactWhatsapp";
 import { GymContactEmail } from "../../components/GymContactEmail";
-import { Shop } from "../../components/Shop";
+// import { Shop } from "../../components/Shop";
+import useSessionTimeout from "../../hooks/useSessionTimeout";
 
 
 export default function GymPage() {
+    useSessionTimeout() //aca comienzo el inicio de session
     const name = useSelector((state: any) => state.user.name);
     const gymName = useSelector((state: any) => state.gym.name);
     const openHours = useSelector((state: any) => state.gym.openHours);
