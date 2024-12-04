@@ -54,7 +54,7 @@ export const WorkoutContainer = ({
         <div className="overflow-x-auto w-full">
             <table className="table-auto overflow-hidden border-collapse w-full">
                 <thead>
-                    <tr className="bg-zinc-800 text-zinc-200">
+                    <tr className="bg-[#e8ff21] text-zinc-900">
                         <th className="py-2 md:px-4 md:py-4 text-center md:text-xl font-black italic">
                             EJERCICIO
                         </th>
@@ -85,10 +85,10 @@ export const WorkoutContainer = ({
                             </td>
                             <td
                                 onClick={() => handleSetClick(index)}
-                                className="py-2 md:py-4 text-zinc-200 text-center font-black italic cursor-pointer hover:text-yellow-300"
+                                className="py-2 md:py-4 text-zinc-200 text-center font-black italic cursor-pointer hover:text-[#e8ff21]"
                             >
                                 {workout.remainingSets === 0 ? (
-                                    <p className="text-green-500 horizontal-center text-2xl">
+                                    <p className="text-[#e8ff21] horizontal-center text-2xl">
                                         <GoVerified />
                                     </p>
                                 ) : (
@@ -115,7 +115,7 @@ export const WorkoutContainer = ({
                                             }
                                             return (
                                                 <div className="horizontal-center">
-                                                    <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />
+                                                    <BiStopwatch className="mr-1 md:mr-2 text-[#e8ff21] text-lg md:text-2xl" />
                                                     {minutes}:{seconds < 10 ? `0${seconds}` : seconds} min
                                                 </div>
                                             );
@@ -124,7 +124,7 @@ export const WorkoutContainer = ({
                                 ) : (
                                     workout.rest && (
                                         <div className="horizontal-center">
-                                            <BiStopwatch className="mr-1 md:mr-2 text-yellow-300 text-lg md:text-2xl" />{" "}
+                                            <BiStopwatch className="mr-1 md:mr-2 text-[#e8ff21] text-lg md:text-2xl" />{" "}
                                             {`${Math.floor(workout.rest / 60)}:${String(
                                                 workout.rest % 60
                                             ).padStart(2, "0")} min`}

@@ -67,8 +67,8 @@ export default function Plans() {
                                     ${plan.price}
                                 </div>
                             </div>
-                            <div className="vertical-center text-center">
-                                <button onClick={() => handleClick(plan.id, plan.name, plan.price, plan.description)} className="button-primary shadow-xl">Comprar</button>
+                            <div className="vertical-center text-center w-full">
+                                <button onClick={() => handleClick(plan.id, plan.name, plan.price, plan.description)} className="button-form-primary shadow-xl">Comprar</button>
                             </div>
                         </div>
                     ))}

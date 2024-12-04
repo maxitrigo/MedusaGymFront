@@ -1,4 +1,5 @@
 import { FaWhatsapp } from "react-icons/fa";
+import { FiArrowUpRight } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
 export const GymContactWhatsapp = () => {
@@ -11,17 +12,17 @@ export const GymContactWhatsapp = () => {
 
     return (
         <div className="vertical-center">
-            <div onClick={handleWhatsappClick} className="w-40 h-40 bg-principal rounded-4xl clickable">
-                    <div className="flex justify-between bg-background rounded-4xl m-2">
+            <div onClick={handleWhatsappClick} className="w-40 h-40 bg-principal rounded-4xl clickable ">
+                    <div className="flex justify-between m-2">
                         <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito font-black italic text-zinc-200 pl-4 ">Contacto</p>
+                            <p className="font-nunito text-lg font-bold text-zinc-900 pl-2"></p>
                         </div>
-                        <div className="p-2">
-                            <p className="text-xl rounded-full px-1 py-1 text-zinc-200"><FaWhatsapp /></p>
+                        <div className="">
+                            <p className="text-xl bg-background rounded-full p-2 text-zinc-200"><FiArrowUpRight /></p>
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-7xl text-zinc-900 font-nunito flex items-center justify-center pt-2"><FaWhatsapp /></p>
+                        <p className="text-7xl text-zinc-200 font-nunito flex items-center justify-center"><FaWhatsapp /></p>
                     </div>
             </div>
         </div>

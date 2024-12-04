@@ -74,7 +74,7 @@ const WorkoutStreak = () => {
   }, []); // Solo se ejecuta una vez al montar el componente
 
   const getColor = (completed: boolean): string => {
-    return completed ? "bg-green-300" : "bg-background";
+    return completed ? "bg-[#e8ff21]" : "bg-background";
   };
 
   // Agrupar los días en semanas de 7 días
@@ -105,7 +105,7 @@ const WorkoutStreak = () => {
             {week.map((streakDay) => (
               <div
                 key={streakDay.date}
-                className={`w-4 h-4 rounded ${getColor(streakDay.completed)}`}
+                className={`w-4 h-4 rounded-full ${getColor(streakDay.completed)}`}
                 title={streakDay.date}
               />
             ))}

@@ -65,61 +65,68 @@ export const PaymentTypePieChart = ({
   return (
     <div className="vertical-center w-full h-full max-h-[600px] min-h-[300px]">
       <div className="flex items-center w-full p-4">
-        <p className="text-3xl text-green-500 bg-background rounded-full p-4 mr-4"><RiMoneyDollarCircleLine /></p>
+        <p className="text-3xl text-[#e8ff21] bg-background rounded-full p-4 mr-4"><RiMoneyDollarCircleLine /></p>
         <p className="font-bold italic text-xl text-zinc-400 p-2">Monto por Tipo de Pago ({period})</p>
       </div>
       <div className="max-h-[600px] h-full w-full">
-        <Pie
-          data={{
-            labels,
-            datasets: [
-              {
-                label: `Monto por Tipo de Pago (${period})`,
-                data,
-                backgroundColor: backgroundColors,
-                borderWidth: 0,
-                offset: 20,
-                hoverOffset: 40,
-                hoverBorderWidth: 3,
-                hoverBorderColor:"rgba(75,192,192,1)",
-                hoverBackgroundColor: borderColors,
-              },
-            ],
-          }}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: false,
-                text: `Monto por Tipo de Pago (${period})`,
-                font: { size: 12 },
-                color: "#ffffff",
-                
-              },
-              legend: {
-                labels: {
-                  font: { size: 12 },
-                  usePointStyle: true,
-                  color: "#E4E4E7",
-                },
-                display: true,
-                position: "right",
-              },
-              datalabels: {
-                display: false,
-                color: "#E4E4E7",
-                font: {
-                  family: "Nunito Sans",
-                  style: "italic",
-                  weight: 900,
-                  size: 10,
-                },
-                formatter: (value) => `$${value.toFixed(2)}`,
-              },
-            },
-          }}
-        />
+      <Pie
+  data={{
+    labels,
+    datasets: [
+      {
+        label: `Monto por Tipo de Pago (${period})`,
+        data,
+        backgroundColor: backgroundColors,
+        borderWidth: 0,
+        offset: 20,
+        hoverOffset: 40,
+        hoverBorderWidth: 3,
+        hoverBorderColor: "rgba(212, 255, 0)",
+        hoverBackgroundColor: borderColors,
+      },
+    ],
+  }}
+  options={{
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: false,
+        text: `Monto por Tipo de Pago (${period})`,
+        font: { size: 12 },
+        color: "#ffffff",
+      },
+      legend: {
+        labels: {
+          font: { size: 12 },
+          usePointStyle: true,
+          color: "#E4E4E7",
+        },
+        display: true,
+        position: "right",
+      },
+      datalabels: {
+        display: false,
+        color: "#E4E4E7",
+        font: {
+          family: "Nunito Sans",
+          style: "italic",
+          weight: 900,
+          size: 10,
+        },
+        formatter: (value) => `$${value.toFixed(2)}`,
+      },
+    },
+    layout: {
+      padding: {
+        top: 10,    // Padding en la parte superior
+        right: 0,  // Padding en el lado derecho
+        bottom: 10, // Padding en la parte inferior
+        left: 10,   // Padding en el lado izquierdo
+      },
+    },
+  }}
+/>
 
       </div>
     </div>

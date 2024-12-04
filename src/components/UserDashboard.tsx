@@ -15,7 +15,7 @@ export const UserDashboard = () => {
         <>
             <LevelContainer points={points}/>
             <FitnessForm/>
-            <div className="text-center mt-6 text-2xl font-black italic text-zinc-200">
+            <div className="text-center w-full py-2 text-zinc-900 rounded-2xl mt-6 text-2xl font-black italic text-zinc-200 bg-[#e8ff21]">
                 <h3>Crea tu Rutina</h3>
             </div>
             <Workouts/>

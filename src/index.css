@@ -4,7 +4,6 @@
   font-family: Nunito Sans, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  max-width: 768px;
   margin: auto;
 
   background-color: #121212;
@@ -68,6 +67,9 @@
 
 .verde-pastel {
   background: linear-gradient(to right, #9dc09d, #8fd3c4);
+  background: linear-gradient(to right, #e8ff21, #a3ff3a);
+  /* background: #e8ff21; */
+  
 
 }
 
@@ -110,6 +112,10 @@
 
 .bg-principal {
   background: linear-gradient(to right, #9597d3, #68d8c0);
+  background: linear-gradient(to bottom, rgb(232, 255, 33, 1), rgb(232, 255, 33, 0.5) ,rgba(212, 255, 0, 0));
+  background: #18181b;
+  background: linear-gradient(45deg, #18181b, #1f1f22);
+
 
 
   color:#242424
@@ -147,7 +153,7 @@
 }
 
 .button-form-primary {
-  @apply bg-black text-white font-bold py-2 px-2 rounded-4xl w-1/2 transition-transform transform active:scale-95
+  @apply bg-[#e8ff21] text-zinc-900 font-bold py-2 px-2 rounded-4xl w-1/2 transition-transform transform active:scale-95
 }
 
 .button-delete {
@@ -196,7 +202,7 @@
   min-height: 300px;
   max-height: 500px;
   height: 400px;
-  @apply  border border-green-300 rounded-4xl px-4 py-3 mt-4 space-y-4 shadow-lg text-white bg-zinc-900 
+  @apply  rounded-4xl px-4 py-3 mt-4 space-y-4 shadow-lg text-white bg-zinc-900 
 }
 
 .clickable {

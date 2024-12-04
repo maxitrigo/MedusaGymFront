@@ -48,7 +48,7 @@ export default function MetricsPage() {
     const membersIcon = <BsPersonArmsUp />
     
     return (
-        <div className="vertical-center mb-24">
+        <div className="vertical-center mb-24 overflow-x-hidden">
             <NavBar/>
             <div className="w-screen flex flex-col">
                 <div className="pl-4 pr-4 pt-4 lg:h-[500px] place-items-center grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -59,14 +59,14 @@ export default function MetricsPage() {
                     <SalesLineChart transactions={transactions} period="month"/>
                     </div>
                 </div>
-                <div className="pl-4 pr-4 pt-2 place-items-center grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[500px]">
+                <div className="p-4 place-items-center grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[500px]">
                     <div className="w-full h-full vertical-center bg-zinc-900 rounded-4xl p-4">
                     <SalesLineChart transactions={transactions} period="year"/>
                     </div>
-                    <div className="p-4 grid grid-cols-1 md:grid-cols-2 place-items-center lg:gap-12 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-4 h-full w-full">
                         <MetricsCard text={`$${totalIncome}`} title="Ingresos Totales Anuales" icon={incomeIcon} />
                         <MetricsCard text={activeMembers} title="Miembros Activos" icon={membersIcon} />
-                        <MetricsCard text={`$${mrr}`} title="Ingresos Mensuales Recurrentes" icon={incomeIcon} />
+                        <MetricsCard text={`$${mrr}`} title="Promedio Mensual Anualizado" icon={incomeIcon} />
                         <MetricsCard text={`$${incomePerUser}`} title="Ingresos por Miembro" icon={incomeIcon} />
                     </div>
                 </div>

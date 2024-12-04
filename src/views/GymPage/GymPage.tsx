@@ -9,8 +9,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GymContactWhatsapp } from "../../components/GymContactWhatsapp";
 import { GymContactEmail } from "../../components/GymContactEmail";
-// import { Shop } from "../../components/Shop";
 import useSessionTimeout from "../../hooks/useSessionTimeout";
+import { GoArrowUpRight } from "react-icons/go";
+import { CgMathPlus } from "react-icons/cg";
 
 
 export default function GymPage() {
@@ -72,17 +73,17 @@ export default function GymPage() {
       }
 
     return (
-        <div className="flex flex-col justify-center items-center h-full p-2 overflow-y-auto pb-28">
+        <div className="flex flex-col justify-center items-center h-full p-2 overflow-y-auto pb-28 max-w-[768px] m-auto">
             <NavBar/>
             <div className="w-full justify-start bg-zinc-900 pt-8 px-6 py-4 rounded-4xl">
                 <div>
-                <p className="text-white text-2xl font-nunito">Hola 👋</p>
+                <p className="text-white text-lg font-nunito">Hola 👋</p>
                 </div>
                 <div>
-                <p className="text-white text-2xl font-nunito italic font-black">{name}</p>
+                <p className="text-white text-4xl font-nunito italic">{name}</p>
                 </div>
                 <div>
-                <p className="text-white text-2xl font-nunito ">¡Vamos con todo, hoy es otro día para romperla! 🙌💪</p>
+                <p className="text-white text-lg font-nunito ">¡Vamos con todo, hoy es otro día para romperla! 🙌💪</p>
                 </div>
             </div>
 
@@ -96,36 +97,40 @@ export default function GymPage() {
             </div>
 
             <div className="w-full place-items-center grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2 p-2">
-                <div onClick={handleAcsess} className="w-40 h-40 bg-principal rounded-4xl clickable">
-                    <div className="flex justify-between bg-background rounded-4xl m-2">
-                        <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito font-black italic text-zinc-200 pl-4 ">Accesos</p>
+                <div className="w-40 h-40 bg-principal rounded-4xl clickable relative ">
+                <div onClick={handleAcsess}>
+                    <div className="flex justify-between m-2">
+                        <div className="horizontal-center px-2">
+                            <p className="font-nunito font-bold text-zinc-200">Accesos</p>
                         </div>
-                        <div className="p-2">
-                            <p className="text-xl text-zinc-200 rounded-full px-1 py-1"><IoTicketSharp /></p>
+                        <div className="flex flex-col items-center justify-center ">
+                            <p className="text-xl p-2 bg-background rounded-full text-zinc-200 "><CgMathPlus /></p>
                         </div>
                     </div>
                     <div className="">
-                    <p className="text-zinc-900 text-8xl font-nunito flex items-center justify-center">
-                        {isInfinate ? (
-                            <IoInfiniteSharp />
-                        ) : (
-                            <span className="text-zinc-900 text-7xl font-bold pt-2">{remainingAccesses}</span>
-                        )}
-                        </p>
+                        <div className="text-zinc-200 text-7xl font-nunito horizontal-center">
+                            {isInfinate ? (
+                                <div className="">
+                                    <IoInfiniteSharp />
+                                </div>
+                            ) : (
+                                <span className="text-zinc-200 text-6xl font-bold">{remainingAccesses}</span>
+                            )}
+                            </div>
                     </div>
                 </div>
-                <div className="w-40 h-40 bg-principal rounded-4xl">
-                <div className="flex justify-between bg-background rounded-4xl m-2">
+                </div>
+                <div className="w-40 h-40 bg-principal rounded-4xl ">
+                <div className="flex justify-between m-2">
                         <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito font-black italic text-zinc-200 pl-4 ">Racha</p>
+                            <p className="font-nunito font-bold text-zinc-200 pl-4 ">Racha</p>
                         </div>
-                        <div className="p-2">
-                            <p className="text-xl text-zinc-200 rounded-full px-1 py-1"><MdAutoGraph /></p>
+                        <div className="">
+                            <p className="text-xl text-zinc-200 bg-background rounded-full p-2"><MdAutoGraph /></p>
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-zinc-900 text-7xl font-bold text-center pt-2">{states.streak}</p>
+                        <p className="text-zinc-200 text-6xl font-bold text-center pt-2">{states.streak}</p>
                     </div>
                 </div>
                 <GymContactWhatsapp/>

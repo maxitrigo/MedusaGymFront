@@ -7,7 +7,7 @@ export default function DashBoard() {
     const role = useSelector((state: any) => state.user.role);
 
     return (
-        <div className="flex flex-col items-center h-full p-2 overflow-y-auto pb-24">
+        <div className="flex flex-col items-center h-full p-2 overflow-y-auto pb-24 max-w-[768px] m-auto">
             <NavBar/>
             {role === 'admin' ? <AdminDashboard /> : <UserDashboard />}
         </div>

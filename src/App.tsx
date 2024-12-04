@@ -18,7 +18,7 @@ function App() {
 
 
   return (
-    <>
+    <div className='m-auto'>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Routes>
@@ -33,7 +33,7 @@ function App() {
         </Routes>
       </PersistGate>
     </Provider>
-    </>
+    </div>
   )
 }
 
