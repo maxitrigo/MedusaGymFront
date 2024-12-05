@@ -3,8 +3,7 @@ import { useNavigate, useParams} from "react-router-dom";
 import { login, logout } from "../Redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setGymInfo } from "../Redux/gymSlice";
-import { checkLogin, checkOwnership, getGymInfo, getUserById, userLogin } from "../helpers/DataRequests";
-import { setGymUser } from "../Redux/gymUserSlice";
+import { checkLogin, checkOwnership, getGymInfo, userLogin } from "../helpers/DataRequests";
 
 export const SignIn: React.FC = () => {
     const navigate = useNavigate()
