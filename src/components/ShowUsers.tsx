@@ -20,7 +20,8 @@ export const ShowUsers = () => {
     try {
       const response = await deleteUserGym(userId)
       if (response) {
-        throw alert('Usuario eliminado con exito!')
+        alert('Usuario eliminado con exito!')
+        window.location.reload()
       }
     } catch (error) {
       

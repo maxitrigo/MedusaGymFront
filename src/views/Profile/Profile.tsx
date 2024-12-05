@@ -4,7 +4,7 @@ import { logout } from "../../Redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ChangePassword } from "../../components/ChangePassword";
-import { deleteGym, deleteUser } from "../../helpers/DataRequests";
+import { deleteGym, deleteUser, deleteUserGym } from "../../helpers/DataRequests";
 
 export default function Profile() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -23,7 +23,7 @@ export default function Profile() {
     const handlePasswordChange = async () => {
         setIsOpen(!isOpen)
     }
-    
+
     const handleDeleteGym = async () => {
         const userInput = window.prompt(
             "Para eliminar la academia y el usuario, escriba 'eliminar' y confirme la acción:"
@@ -56,6 +56,24 @@ export default function Profile() {
         }
     };
 
+    const handleDeleteUserGym = async () => {
+        const userInput = window.prompt(
+            "Para eliminar desasociarse, escriba 'eliminar' y confirme la acción:"
+        );
+    
+        if (userInput && userInput.toLowerCase() === "eliminar") {
+            const isConfirmed = window.confirm("¿Está seguro de que desea desasociarse?");
+            if (isConfirmed) {
+                const userId = ''
+                const response = await deleteUserGym(userId);
+                if (response) {
+                    alert("Para asociarte a otra academia ingresa en su link y logueate nuevamente!");
+                    dispatch(logout());
+                }
+            }
+        }
+    }
+
     return (
         <div className="horizontal-center h-screen">
             <NavBar />
@@ -80,6 +98,9 @@ export default function Profile() {
                 </div>
                 <div className="vertical-center">
                 {role === 'admin'?<button className="button-primary clickable" onClick={handleDeleteGym}>Eliminar Gym</button> : <button className="button-primary clickable" onClick={handleDeleteUser}>Eliminar Usuario</button>}
+                </div>
+                <div>
+                    {role === 'user' && <button className="button-primary clickable" onClick={handleDeleteUserGym}>Desasociarse</button> }
                 </div>
             </div>
         </div>

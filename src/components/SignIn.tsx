@@ -28,65 +28,69 @@ export const SignIn: React.FC = () => {
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const storedSlug =sessionStorage.setItem('slug', gymSlug)
-        try{
-            if(storedSlug !== null) {
-                const loginInfo = await userLogin(userData)
-                const responseData = loginInfo
-                const user = {
-                    token: responseData.token,
-                    role: responseData.role,
-                    name: responseData.name,
-                    email: responseData.email,
-                }
-                await dispatch(login(user))
-                if(user.role === 'admin' && (sessionStorage.getItem('slug') !== 'auth' && sessionStorage.getItem('slug') !== 'undefined')) {
-                    const gymInfo = await getGymInfo()
-                    await dispatch(setGymInfo(gymInfo))
-                    const response = await checkOwnership()
-                    if(!response) {
-                        dispatch(logout())
-                        alert('No tienes permiso para ingresar en esta academia')
-                    }
-                    return navigate(`/${gymSlug}/home`);
-                }
-            } else {
-                alert("Por favor selecciona una academia")
+        sessionStorage.setItem('slug', gymSlug);
+    
+        try {
+            const storedSlug = sessionStorage.getItem('slug');
+    
+            if (!storedSlug || storedSlug === 'auth' || storedSlug === 'undefined') {
+                alert("Por favor selecciona una academia");
+                navigate('/default');
+                return;
             }
-            if(sessionStorage.getItem('slug') === 'auth' || sessionStorage.getItem('slug') === 'undefined'){
-                navigate('/');
-            } else {
-                const gymInfo = await getGymInfo()
-                await getUserById().then((user) => {
-                    dispatch(setGymUser(user))
-                })
-                if(gymInfo){
-                    await dispatch(setGymInfo(gymInfo))
-                    const response = await checkLogin()
-                    if(!response) {
-                        dispatch(logout())
-                        alert('No tienes permiso para ingresar a esta academia, para registrarte en ella primero des asocia tu academia actual desde tu perfil, y luego ingresa a tu nueva academia!')
-                    }
-                    navigate(`/${gymSlug}/home`);
-                } else {
-                    sessionStorage.setItem('slug', 'default')
-                    const gymInfo = await getGymInfo()
-                    await dispatch(setGymInfo(gymInfo))
-                    const response = await checkLogin();
-                    if (response) {
-                        navigate(`/default/home`);
-                    } else {
-                        dispatch(logout());
-                        alert('No se pudo iniciar sesión en el gimnasio predeterminado.');
-                    }
+    
+            const loginInfo = await userLogin(userData);
+            const user = {
+                token: loginInfo.token,
+                role: loginInfo.role,
+                name: loginInfo.name,
+                email: loginInfo.email,
+            };
+    
+            await dispatch(login(user));
+    
+            if (user.role === 'admin') {
+                const gymInfo = await getGymInfo();
+                await dispatch(setGymInfo(gymInfo));
+    
+                const response = await checkOwnership();
+                if (!response) {
+                    dispatch(logout());
+                    alert('No tienes permiso para ingresar en esta academia');
+                    return;
                 }
+                return navigate(`/${gymSlug}/home`);
             }
-            
+    
+            const gymInfo = await getGymInfo();
+            if (gymInfo) {
+                await dispatch(setGymInfo(gymInfo));
+                const response = await checkLogin();
+                if (!response) {
+                    dispatch(logout());
+                    alert('No tienes permiso para ingresar a esta academia. Para registrarte en ella primero des asocia tu academia actual desde tu perfil, y luego ingresa a tu nueva academia!');
+                    return;
+                }
+                return navigate(`/${gymSlug}/home`);
+            }
+    
+            sessionStorage.setItem('slug', 'default');
+            const defaultGymInfo = await getGymInfo();
+            await dispatch(setGymInfo(defaultGymInfo));
+            const response = await checkLogin();
+            if (response) {
+                return navigate(`/default/home`);
+            }
+    
+            dispatch(logout());
+            alert('No se pudo iniciar sesión en el gimnasio predeterminado.');
+    
         } catch (error) {
-            alert("Email o contraseña incorrectos");
+            alert("Email o contraseña incorrectos");
             console.log(error);
         }
-    }
+    };
+    
 
     return (
         <div>
