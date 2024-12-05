@@ -51,6 +51,10 @@ export default function GymPage() {
     const { freePass, passes } = states
 
     function isOpen(open: string, close: string): boolean {
+        if (!open || !close) {
+            return false; // O lo que desees retornar si los valores son inválidos
+        }
+    
         const now = new Date();
         const minutesNow = now.getHours() * 60 + now.getMinutes();
       
@@ -61,7 +65,8 @@ export default function GymPage() {
         const minutesToClose = closeTime * 60 + closemin;
       
         return minutesNow >= minutesToOpen && minutesNow < minutesToClose;
-      }
+    }
+    
 
       const remainingAccesses = passes
       const isInfinate = freePass

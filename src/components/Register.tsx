@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { login } from "../Redux/userSlice";
 import { setGymInfo } from "../Redux/gymSlice";
 import { addUserToGym, getGymInfo, userRegister } from "../helpers/DataRequests";
-import useSessionTimeout from "../hooks/useSessionTimeout";
 
 export const Register: React.FC = () => {
   const{ gymSlug }: any = useParams();
@@ -28,33 +27,44 @@ export const Register: React.FC = () => {
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        sessionStorage.setItem('slug', gymSlug)
-        try {
-            const response = await userRegister(userData)
-            const responseData = response.data
-            const user = {
-                token: responseData.token,
-                role: 'user',
-                name: userData.name,
-                email: userData.email
-            }
-            dispatch(login(user))
-            if(sessionStorage.getItem('slug') === 'auth'){
-                navigate('/');
-            } else {
-                const gymInfo = await getGymInfo()
-                const addUser = await addUserToGym(gymInfo.gymToken)
-
-                if(addUser){
-                    dispatch(setGymInfo(gymInfo))
-                    navigate(`/${gymSlug}/home`);
-                }
+      e.preventDefault();
+  
+      // Verificar que todos los campos estén llenos
+      const allFieldsFilled = Object.values(userData).every((value) => value.trim() !== "");
+      if (!allFieldsFilled) {
+          alert("Por favor, completa todos los campos."); // O manejar con un estado para mostrar un mensaje en el formulario
+          return;
+      }
+  
+      sessionStorage.setItem('slug', gymSlug);
+      try {
+          const response = await userRegister(userData);
+          const responseData = response.data;
+          const user = {
+              token: responseData.token,
+              role: 'user',
+              name: userData.name,
+              email: userData.email,
+          };
+          dispatch(login(user));
+          if (
+              sessionStorage.getItem('slug') === 'auth' ||
+              sessionStorage.getItem('slug') === 'undefined'
+          ) {
+              navigate('/');
+          } else {
+              const gymInfo = await getGymInfo();
+              const addUser = await addUserToGym(gymInfo.gymToken);
+  
+              if (addUser) {
+                  dispatch(setGymInfo(gymInfo));
+                  navigate(`/${gymSlug}/home`);
               }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+          }
+      } catch (error) {
+          console.log(error);
+      }
+  };
 
   return (
     <div className="">

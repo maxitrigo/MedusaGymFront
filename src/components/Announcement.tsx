@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { communicationsGet } from "../helpers/DataRequests";
+import { useSelector } from "react-redux";
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState<any[]>([]); // Especifica el tipo como un array
   const defaultMessages = [
     { id: 'default', title: 'Sin anuncios', message: 'No hay anuncios disponibles.', createdAt: '' },
+    { id: 'default2', title: 'Academia por Default', message: 'Esta es la academia por default. Para registrarse en otra academia, debe desasociar su cuenta y entrar en la URL de la academia a la que desea registrarse. Luego, inicie sesión con el mismo usuario y contraseña.', createdAt: '' },
   ];
+  const gymSlug = useSelector((state: any) => state.gym.slug); // Obtener el gymSlug desde el estado global
 
   useEffect(() => {
     const storedAnnouncements = sessionStorage.getItem("announcements");
@@ -27,7 +30,8 @@ const Announcements = () => {
   }, []); // Solo se ejecuta una vez al montar el componente
 
   // Si no hay anuncios, usa los mensajes por defecto
-  const displayedAnnouncements = announcements.length > 0 ? announcements : defaultMessages;
+  const displayedAnnouncements = gymSlug === 'default' ? [defaultMessages[1]] : (announcements.length > 0 ? announcements : [defaultMessages[0]]);
+
 
   return (
     <div className="bg-zinc-900 rounded-4xl p-4 font-nunito h-full">

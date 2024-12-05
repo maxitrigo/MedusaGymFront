@@ -1,9 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavBar } from "../../components/NavBar";
 import { logout } from "../../Redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ChangePassword } from "../../components/ChangePassword";
+import { deleteGym, deleteUser } from "../../helpers/DataRequests";
 
 export default function Profile() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -11,6 +12,7 @@ export default function Profile() {
     const email = sessionStorage.getItem("email") as string
     const name = sessionStorage.getItem("name") as string
     const navigate = useNavigate()
+    const role = useSelector((state: any) => state.user.role);
     
 
     const handleClick = () => {
@@ -21,6 +23,38 @@ export default function Profile() {
     const handlePasswordChange = async () => {
         setIsOpen(!isOpen)
     }
+    
+    const handleDeleteGym = async () => {
+        const userInput = window.prompt(
+            "Para eliminar la academia y el usuario, escriba 'eliminar' y confirme la acción:"
+        );
+    
+        if (userInput && userInput.toLowerCase() === "eliminar") {
+            const isConfirmed = window.confirm("¿Está seguro de que desea eliminar la Academia?");
+            if (isConfirmed) {
+                const response = await deleteGym();
+                if (response) {
+                    dispatch(logout());
+                }
+            }
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        const userInput = window.prompt(
+            "Para eliminar su usuario, escriba 'eliminar' y confirme la acción:"
+        );
+    
+        if (userInput && userInput.toLowerCase() === "eliminar") {
+            const isConfirmed = window.confirm("¿Está seguro de que desea eliminar su usuario?");
+            if (isConfirmed) {
+                const response = await deleteUser();
+                if (response) {
+                    dispatch(logout());
+                }
+            }
+        }
+    };
 
     return (
         <div className="horizontal-center h-screen">
@@ -43,6 +77,9 @@ export default function Profile() {
                 </div>
                 <div className="vertical-center">
                 <button className="button-primary clickable" onClick={handleClick}>Cerrar Sesion</button>
+                </div>
+                <div className="vertical-center">
+                {role === 'admin'?<button className="button-primary clickable" onClick={handleDeleteGym}>Eliminar Gym</button> : <button className="button-primary clickable" onClick={handleDeleteUser}>Eliminar Usuario</button>}
                 </div>
             </div>
         </div>

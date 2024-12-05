@@ -15,7 +15,7 @@ export const GymContactEmail = () => {
             <div onClick={handleEmailClick} className="w-40 h-40 bg-principal rounded-4xl clickable ">
                     <div className="flex justify-between rounded-4xl m-2">
                         <div className="flex flex-col items-center justify-center ">
-                            <p className="font-nunito text-lg font-bold text-zinc-900 pl-2 "></p>
+                            <p className="font-nunito text-lg font-bold text-zinc-200 pl-2 ">Contacto</p>
                         </div>
                         <div className="">
                             <p className="text-xl text-zinc-200 rounded-full bg-background p-2"><FiArrowUpRight /></p>

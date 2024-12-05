@@ -219,6 +219,19 @@ export const updateGym = async (data: any) => {
     return response.data;
 }
 
+export const deleteGym = async () => {
+    const { token, gymToken } = authInfo();
+    const response = await axios.delete(
+        `${gymsApi}/${gymToken}`, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    return response.data;
+}
+
 export const usersGet = async () => {
     const { token, gymToken } = authInfo();
     const response = await axios.get(
@@ -245,6 +258,23 @@ export const getUserById = async () => {
     );
     
     return response.data;
+}
+
+export const deleteUser = async () => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.delete(`${usersApi}/deleteUser`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
 
 export const logTraining = async ( token: any) => {
@@ -555,7 +585,7 @@ export const checkOwnership = async () => {
 export const checkLogin = async () => {
     const { token, gymToken} = authInfo()
     try {
-        const response = await axios.post(`${gymsApi}/checkLogin`,
+        const response = await axios.post(`${usersApi}/checkLogin`,
             {
                 gymToken
             } ,{

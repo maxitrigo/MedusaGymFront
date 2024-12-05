@@ -13,6 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Plans from './views/Plans/Plans'
 import MetricsPage from './views/GymMetrics/MetricsPage'
 import ResetPassword from './views/ResetPassword/ResetPassword'
+import CreateGym from './views/CreateGym/CreateGym'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/create-gym" element={<PrivateRoute><CreateGym /></PrivateRoute>} />
           <Route path="/:gymSlug" element={<Auth />} />
           <Route path="/:gymSlug/home" element={<PrivateRoute><GymPage /></PrivateRoute>} />
           <Route path="/:gymSlug/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />

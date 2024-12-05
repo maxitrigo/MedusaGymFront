@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { setGymInfo } from "../Redux/gymSlice";
 import { checkLogin, checkOwnership, getGymInfo, getUserById, userLogin } from "../helpers/DataRequests";
 import { setGymUser } from "../Redux/gymUserSlice";
-import useSessionTimeout from "../hooks/useSessionTimeout";
 
 export const SignIn: React.FC = () => {
     const navigate = useNavigate()
@@ -41,20 +40,20 @@ export const SignIn: React.FC = () => {
                     email: responseData.email,
                 }
                 await dispatch(login(user))
-                if(user.role === 'admin') {
+                if(user.role === 'admin' && (sessionStorage.getItem('slug') !== 'auth' && sessionStorage.getItem('slug') !== 'undefined')) {
                     const gymInfo = await getGymInfo()
                     await dispatch(setGymInfo(gymInfo))
                     const response = await checkOwnership()
                     if(!response) {
                         dispatch(logout())
-                        throw new Error('No tienes permiso para acceder a esta academia')
+                        alert('No tienes permiso para ingresar en esta academia')
                     }
                     return navigate(`/${gymSlug}/home`);
                 }
             } else {
                 alert("Por favor selecciona una academia")
             }
-            if(sessionStorage.getItem('slug') === 'auth'){
+            if(sessionStorage.getItem('slug') === 'auth' || sessionStorage.getItem('slug') === 'undefined'){
                 navigate('/');
             } else {
                 const gymInfo = await getGymInfo()
@@ -66,9 +65,20 @@ export const SignIn: React.FC = () => {
                     const response = await checkLogin()
                     if(!response) {
                         dispatch(logout())
-                        throw new Error ('No tienes permiso para acceder a esta academia')
+                        alert('No tienes permiso para ingresar a esta academia, para registrarte en ella primero des asocia tu academia actual desde tu perfil, y luego ingresa a tu nueva academia!')
                     }
                     navigate(`/${gymSlug}/home`);
+                } else {
+                    sessionStorage.setItem('slug', 'default')
+                    const gymInfo = await getGymInfo()
+                    await dispatch(setGymInfo(gymInfo))
+                    const response = await checkLogin();
+                    if (response) {
+                        navigate(`/default/home`);
+                    } else {
+                        dispatch(logout());
+                        alert('No se pudo iniciar sesión en el gimnasio predeterminado.');
+                    }
                 }
             }
             
