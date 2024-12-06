@@ -1,7 +1,6 @@
 import { NavBar } from "../../components/NavBar"
 import { IoInfiniteSharp } from "react-icons/io5";
 import { MdAutoGraph } from "react-icons/md";
-import { IoTicketSharp } from "react-icons/io5";
 import WorkoutStreak  from "../../components/WorkOutStreak";
 import Announcements from "../../components/Announcement";
 import { useEffect, useState } from "react";
@@ -10,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { GymContactWhatsapp } from "../../components/GymContactWhatsapp";
 import { GymContactEmail } from "../../components/GymContactEmail";
 import useSessionTimeout from "../../hooks/useSessionTimeout";
-import { GoArrowUpRight } from "react-icons/go";
 import { CgMathPlus } from "react-icons/cg";
 
 
