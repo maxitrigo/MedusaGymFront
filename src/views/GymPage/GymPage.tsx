@@ -119,7 +119,7 @@ export default function GymPage() {
                                     <IoInfiniteSharp />
                                 </div>
                             ) : (
-                                <span className="text-zinc-200 text-6xl font-bold">{remainingAccesses}</span>
+                                <span className="text-zinc-200 pt-2 text-6xl font-bold">{remainingAccesses}</span>
                             )}
                             </div>
                     </div>

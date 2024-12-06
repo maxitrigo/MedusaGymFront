@@ -30,7 +30,7 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
               <div className="flex-1 text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start mb-6">
-                  <span className="text-3xl lg:text-6xl font-bold italic text-[#e4ff00]">GYM</span>
+                  <span className="text-3xl lg:text-6xl font-black italic text-[#e4ff00]">GYM</span>
                   <span className="text-3xl lg:text-6xl font-bold italic">metrics</span>
                 </div>
                 <h1 className="text-4xl lg:text-6xl font-bold mb-6">
@@ -39,7 +39,7 @@ export default function Home() {
                 </h1>
                 {isLoggedIn ? (
                   <p className="text-lg lg:text-xl text-zinc-300 mb-8">
-                    Para crear tu gimnasio, haz clic en el botón "Comenzar ahora" y completa el formulario.
+                    Para crear tu gimnasio, hace clic en el botón "Comenzar ahora" y completa el formulario.
                   </p>
                 ) : (
                   <>
@@ -96,9 +96,15 @@ export default function Home() {
             {/* Sección CTA */}
             <div className="mt-16 lg:mt-24">
               <GlassCard className="text-center p-8 lg:p-12">
+                { isLoggedIn ? 
+                <h2 className="text-2xl lg:text-4xl font-bold mb-4">
+                  Para crear tu gimnasio, hace clic en el botón de abajo y completa el formulario.
+                </h2> 
+                :
                 <h2 className="text-2xl lg:text-4xl font-bold mb-4">
                   ¿Listo para revolucionar la gestión de tu gimnasio?
                 </h2>
+                }
                 <p className="text-zinc-300 mb-8 max-w-3xl mx-auto">
                   Unite a los cientos de gimnasios que ya optimizaron su administración con nuestra plataforma.
                 </p>
