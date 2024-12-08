@@ -14,6 +14,8 @@ import Plans from './views/Plans/Plans'
 import MetricsPage from './views/GymMetrics/MetricsPage'
 import ResetPassword from './views/ResetPassword/ResetPassword'
 import CreateGym from './views/CreateGym/CreateGym'
+import GymPlans from './views/Plans/GymPlans'
+import Subscriptions from './views/Subscriptions/Subscriptions'
 
 function App() {
 
@@ -31,7 +33,9 @@ function App() {
           <Route path="/:gymSlug/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
           <Route path="/:gymSlug/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
           <Route path="/:gymSlug/plans" element={<PrivateRoute><Plans /></PrivateRoute>} />
+          <Route path="/:gymSlug/gymPlans" element={<PrivateRoute><GymPlans /></PrivateRoute>} />
           <Route path="/:gymSlug/metrics" element={<PrivateRoute><MetricsPage /></PrivateRoute>} />
+          <Route path="/:gymSlug/subscriptions" element={<PrivateRoute><Subscriptions /></PrivateRoute>} />
         </Routes>
       </PersistGate>
     </Provider>

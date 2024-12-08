@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserById } from "../helpers/DataRequests";
+import { useDispatch } from "react-redux";
+import { setGymUser } from "../Redux/gymUserSlice";
 
 interface StreakDay {
   date: string;
@@ -8,6 +10,7 @@ interface StreakDay {
 
 const WorkoutStreak = () => {
   const [streak, setStreak] = useState<StreakDay[]>([]);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -19,6 +22,7 @@ const WorkoutStreak = () => {
         user = JSON.parse(storedUser);
       } else {
         user = await getUserById();
+        dispatch(setGymUser(user))
         sessionStorage.setItem("userData", JSON.stringify(user)); // Guardar datos del usuario en sessionStorage
       }
 

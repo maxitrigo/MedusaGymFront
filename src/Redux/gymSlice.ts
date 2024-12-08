@@ -12,6 +12,7 @@ interface GymState {
   owner: string;
   phone: string;
   slug: string;
+  subscriptionEnd: Date | null;
 }
 
 const initialState: GymState = {
@@ -25,6 +26,7 @@ const initialState: GymState = {
   closeHours: null,
   description: null,
   owner: '',
+  subscriptionEnd: null,
   gymToken: '',
 
 };
@@ -45,6 +47,7 @@ const gymSlice = createSlice({
       state.owner = action.payload.owner;
       state.phone = action.payload.phone;
       state.slug = action.payload.slug;
+      state.subscriptionEnd = action.payload.subscriptionEnd;
       sessionStorage.setItem('slug', action.payload.slug);
       sessionStorage.setItem('gymName', action.payload.name);
       sessionStorage.setItem('gymEmail', action.payload.email);
@@ -66,6 +69,7 @@ const gymSlice = createSlice({
       state.owner = '';
       state.phone = '';
       state.slug = '';
+      state.subscriptionEnd = null;
       sessionStorage.clear();
     }
   }

@@ -6,6 +6,7 @@ const authApi = "http://localhost:3001/auth";
 const gymsApi = "http://localhost:3005/gyms";
 const usersApi = "http://localhost:3005/users";
 const subscriptionsApi = "http://localhost:3005/subscriptions";
+const gymMembershipApi = "http://localhost:3005/gym-membership";
 const paymentsApi = "http://localhost:3000/payments"
 const transactionsApi = "http://localhost:3000/transactions"
 const workoutsApi = "http://localhost:3005/workouts"
@@ -324,6 +325,19 @@ export const getPlans = async () => {
     const { token, gymToken } = authInfo();
     const response = await axios.get(
         `${subscriptionsApi}/${gymToken}`, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
+            },
+        }
+    );
+    
+    return response.data;  // Ya estamos extrayendo la data aqui directamente
+}
+export const getGlobalPlans = async () => {
+    const { token } = authInfo();
+    const response = await axios.get(
+        `${gymMembershipApi}`, 
         {
             headers: {
                 'Authorization': `Bearer ${token}`,  // Añadir el token si es necesario
