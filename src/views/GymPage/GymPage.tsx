@@ -12,6 +12,7 @@ import useSessionTimeout from "../../hooks/useSessionTimeout";
 import { CgMathPlus } from "react-icons/cg";
 import { getUserById } from "../../helpers/DataRequests";
 import { setGymUser } from "../../Redux/gymUserSlice";
+import { GymInfo } from "../../components/GymInfo";
 
 export default function GymPage() {
     useSessionTimeout(); // Inicia el control de sesión
@@ -25,6 +26,7 @@ export default function GymPage() {
     const freePass = useSelector((state: any) => state.gymUser.freePass);
     const passes = useSelector((state: any) => state.gymUser.passes);
     const streak = useSelector((state: any) => state.gymUser.streak);
+    const role = useSelector((state: any) => state.user.role);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -79,16 +81,25 @@ export default function GymPage() {
                 <p className="text-white text-lg font-nunito">¡Vamos con todo, hoy es otro día para romperla! 🙌💪</p>
             </div>
 
+            {role === 'admin' && 
+            <div className="w-full mb-2">
+                <GymInfo/>
+            </div>
+            }
+
             <div className={isOpen(openHours, closeHours) ? "open" : "closed"}>
                 <p>{isOpen(openHours, closeHours) ? `${gymName} está Abierto` : "Cerrado"}</p>
             </div>
 
-            <div className="w-full bg-zinc-900 pt-4 px-6 py-6 rounded-4xl mt-2">
+            { role === 'user' && 
+            <div className="w-full bg-zinc-900 pt-4 px-6 py-6 rounded-4xl ">
                 <p className="text-zinc-700 text-xl font-nunito text-center font-black italic">Entrenamientos Completados</p>
                 <WorkoutStreak />
             </div>
+            }
 
-            <div className="w-full place-items-center grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2 p-2">
+            {role === 'user' && 
+            <div className="w-full place-items-center grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-2">
                 <div className="w-40 h-40 bg-principal rounded-4xl clickable relative ">
                     <div onClick={handleAccess}>
                         <div className="flex justify-between m-2">
@@ -127,9 +138,12 @@ export default function GymPage() {
                 <GymContactEmail />
             </div>
 
+}
+
             <div className="w-full">
                 <Announcements />
             </div>
+
         </div>
     );
 }

@@ -11,7 +11,7 @@ import { ShowUsers } from "./ShowUsers"
 export const AdminDashboard = () => {
     return (
         <>
-            <GymInfo/>
+            {/* <GymInfo/> */}
             <EditGymInfo/>
             <Communications/>
             <ShowUsers/>
