@@ -4,7 +4,6 @@ import { updateGym } from "../helpers/DataRequests";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearGymInfo, setGymInfo } from "../Redux/gymSlice";
 import { logout } from "../Redux/userSlice";
 
 export const EditGymInfo = () => {

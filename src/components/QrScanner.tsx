@@ -56,9 +56,6 @@ const QRScanner: React.FC = () => {
         // }, 3000);
     }
   };
-
-  const handleScannerClear = () => {
-  }
   
 
   useEffect(() => {
