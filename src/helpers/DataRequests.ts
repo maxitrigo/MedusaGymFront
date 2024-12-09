@@ -1,15 +1,19 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-const communicationsApi = "http://localhost:3005/communications";
-const authApi = "http://localhost:3001/auth";
-const gymsApi = "http://localhost:3005/gyms";
-const usersApi = "http://localhost:3005/users";
-const subscriptionsApi = "http://localhost:3005/subscriptions";
-const gymMembershipApi = "http://localhost:3005/gym-membership";
-const paymentsApi = "http://localhost:3000/payments"
-const transactionsApi = "http://localhost:3000/transactions"
-const workoutsApi = "http://localhost:3005/workouts"
+const microAuth = 'http://localhost:3001'
+const microTrans = 'http://localhost:3000'
+const microGym = 'http://localhost:3005'
+
+const authApi = `${microAuth}/auth`;
+const paymentsApi = `${microTrans}/payments`
+const transactionsApi = `${microTrans}/transactions`
+const gymsApi = `${microGym}/gyms`;
+const usersApi = `${microGym}/users`;
+const subscriptionsApi = `${microGym}/subscriptions`;
+const gymMembershipApi = `${microGym}/gym-membership`;
+const workoutsApi = `${microGym}/workouts`
+const communicationsApi = `${microGym}/communications`;
 
 export const authInfo = () => {
     const token = sessionStorage.getItem('token');
