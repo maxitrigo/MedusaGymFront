@@ -69,6 +69,15 @@ export const SignIn: React.FC = () => {
                     dispatch(logout());
                     alert('No tienes permiso para ingresar a esta academia. Para registrarte en ella primero des asocia tu academia actual desde tu perfil, y luego ingresa a tu nueva academia!');
                     return;
+                } else if ( response.slug === 'default' ) {
+                    alert('Fuiste desvinculado de tu academia, si crees que este mensaje es un error comunicate con la misma!, mientras tanto podes iniciar sesion en la academia generica!')
+                    sessionStorage.setItem('slug', 'default');
+                    const defaultGymInfo = await getGymInfo();
+                    await dispatch(setGymInfo(defaultGymInfo));
+                    const response = await checkLogin();
+                    if (response) {
+                        return navigate(`/default/home`);
+                    }
                 }
                 return navigate(`/${gymSlug}/home`);
             }

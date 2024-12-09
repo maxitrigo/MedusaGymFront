@@ -21,8 +21,8 @@ export default function Auth() {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             <div className="mb-4 horizontal-center">
-                <p className="text-[#e4ff00] text-6xl font-black italic">GYM</p>
-                <p className="text-zinc-200 text-6xl font-bold italic">metrics</p>
+                <p className="text-[#e4ff00] text-4xl font-black italic">GYM</p>
+                <p className="text-zinc-200 text-4xl font-bold italic">metrics</p>
             </div>
             {currentView === "signIn" && <SignIn />}
             {currentView === "register" && <Register />}

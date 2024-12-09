@@ -372,7 +372,7 @@ export const createPayment = async (data: any) => {
         unit_price: data.price,
         productId: data.id
     }
-    const slug = `${authInfo().slug}/subscriptions`
+    const slug = `${authInfo().slug}`
     const response = await axios.post(`${paymentsApi}/subscriptions`,
         {
             payment,

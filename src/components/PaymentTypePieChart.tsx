@@ -47,7 +47,7 @@ export const PaymentTypePieChart = ({
   const filteredTransactions = filterTransactionsByDate(transactions, period);
   
   const groupedByPaymentType = filteredTransactions.reduce((acc, t) => {
-    acc[t.paymentType] = (acc[t.paymentType] || 0) + t.amount;
+    acc[t.paymentType] = (acc[t.paymentType] || 0) + t.netAmount; // filtro por total neto
     return acc;
   }, {} as Record<string, number>);
   

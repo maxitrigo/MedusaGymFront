@@ -3,12 +3,15 @@ import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { updateGym } from "../helpers/DataRequests";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearGymInfo, setGymInfo } from "../Redux/gymSlice";
+import { logout } from "../Redux/userSlice";
 
 export const EditGymInfo = () => {
     const [isOpen, setIsOpen] = useState({ form: false, arrow: <MdKeyboardArrowRight /> })
     const navigate = useNavigate();
     const gymSlug = useSelector((state: any) => state.gym.slug);
+    const dispatch = useDispatch()
 
     const handleIsOpen = () => {
         setIsOpen({
@@ -54,6 +57,7 @@ export const EditGymInfo = () => {
             try {
                 await updateGym(updatedData);
                 alert('Inicia sesión nuevamente para ver tus datos actualizados.');
+                dispatch(logout())
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 401) {

@@ -17,14 +17,19 @@ export const ShowUsers = () => {
   };
 
   const handleDelete = async (userId: string) => {
-    try {
-      const response = await deleteUserGym(userId)
-      if (response) {
-        alert('Usuario eliminado con exito!')
-        window.location.reload()
-      }
-    } catch (error) {
-      
+    const userInput = window.prompt(
+      "Para eliminar este usuario, escriba 'eliminar' y confirme la acción:"
+    );
+
+    if (userInput && userInput.toLowerCase() === "eliminar") {
+        const isConfirmed = window.confirm("¿Está seguro de que desea eliminar este usuario?");
+        if (isConfirmed) {
+            const response = await deleteUserGym(userId);
+            if (response) {
+              alert('Usuario eliminado con exito!')
+              window.location.reload()
+            }
+        }
     }
   }
 

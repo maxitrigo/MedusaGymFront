@@ -11,7 +11,6 @@ import {
   LinearScale,
   Filler,
 } from "chart.js";
-import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { IoIosTrendingDown, IoIosTrendingUp } from "react-icons/io";
 
@@ -50,7 +49,7 @@ const filterAndGroupTransactions = (
       period === "year"
         ? new Date(t.date).toISOString().slice(0, 7) // YYYY-MM
         : new Date(t.date).toISOString().slice(0, 10); // YYYY-MM-DD
-    acc[dateKey] = (acc[dateKey] || 0) + t.amount;
+    acc[dateKey] = (acc[dateKey] || 0) + t.netAmount; // filtra los montos netos
     return acc;
   }, {} as Record<string, number>);
 
@@ -110,7 +109,7 @@ export const SalesLineChart = ({
               : period === "month"
               ? "Ingresos diarios (último mes)"
               : "Ingresos diarios (última semana)"}
-            {period === "year" && (<div className="text-3xl lg:text-4xl font-normal">${data[data.length - 1] || 0}</div>)}
+            {period === "year" && (<div className="text-3xl lg:text-4xl font-normal">${Number(data[data.length - 1]) || 0}</div>)}
           </div>
         </div>
         {period === "year" && (

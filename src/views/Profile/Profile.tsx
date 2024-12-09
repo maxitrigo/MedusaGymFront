@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChangePassword } from "../../components/ChangePassword";
 import { deleteGym, deleteUser, deleteUserGym } from "../../helpers/DataRequests";
+import { MPaccessToken } from "../../components/MPAccesToken";
 
 export default function Profile() {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenPass, setIsOpenPass] = useState<boolean>(false);
+    const [isOpenMP, setIsOpenMP] = useState<boolean>(false);
     const [formattedDate, setFormattedDate] = useState<string>('');
     const [isSubscriptionValid, setIsSubscriptionValid] = useState<boolean>(true);
     const dispatch = useDispatch();
@@ -40,7 +42,11 @@ export default function Profile() {
     };
 
     const handlePasswordChange = async () => {
-        setIsOpen(!isOpen);
+        setIsOpenPass(!isOpenPass);
+    };
+
+    const handleMP = async () => {
+        setIsOpenMP(!isOpenMP);
     };
 
     const handleDeleteGym = async () => {
@@ -77,7 +83,7 @@ export default function Profile() {
 
     const handleDeleteUserGym = async () => {
         const userInput = window.prompt(
-            "Para eliminar desasociarse, escriba 'eliminar' y confirme la acción:"
+            "Para desasociarse, escriba 'eliminar' y confirme la acción:"
         );
 
         if (userInput && userInput.toLowerCase() === "eliminar") {
@@ -95,7 +101,7 @@ export default function Profile() {
 
     const handleMembership = () => {
         if (role === 'admin') {
-            navigate(`/${slug}/gymPlans`);
+            return navigate(`/${slug}/gymPlans`);
         }
         navigate(`/${slug}/Plans`);
     };
@@ -126,8 +132,14 @@ export default function Profile() {
                 </div>
                 <div className="vertical-center">
                     <button onClick={handlePasswordChange} className="button-primary clickable">Cambiar Contraseña</button>
-                    {isOpen && <ChangePassword />}
+                    {isOpenPass && <ChangePassword />}
                 </div>
+                {role === 'admin' && 
+                <div className="vertical-center">
+                    <button onClick={handleMP} className="w-[200px] px-2 py-2 rounded-4xl clickable bg-[#4287F5] text-zinc-200 font-bold">Asociar Mercado Pago</button>
+                    {isOpenMP && <MPaccessToken />}
+                </div>
+                }
                 <div className="vertical-center">
                     <button className="button-primary clickable" onClick={handleClick}>Cerrar Sesión</button>
                 </div>

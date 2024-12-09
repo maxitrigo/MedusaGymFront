@@ -23,8 +23,6 @@ export default function GymPlans() {
                     const plansData = await getGlobalPlans();
                     setPlans(Array.isArray(plansData) ? plansData : []);  // Asegúrate de que sea un array
                     sessionStorage.setItem("plansData", JSON.stringify(plansData));
-                    console.log(plansData);
-                    
                 }
             } catch (err) {
                 setError("No se pudieron cargar los planes. Intenta de nuevo más tarde.");
