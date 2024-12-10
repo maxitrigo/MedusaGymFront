@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-const microAuth = 'http://18.231.148.87'
+const microAuth = 'http://backend:3001'
 const microTrans = 'http://localhost:3000'
 const microGym = 'http://localhost:3005'
 
