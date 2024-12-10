@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createTransaction, getPlans, usersGet } from "../helpers/DataRequests";
+import React, { useState } from "react";
+import { createTransaction } from "../helpers/DataRequests";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,9 +14,6 @@ const FormularioTransaccion = () => {
     quantity: 1,
     userId: "",
   });
-
-  const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState([]);
 
   const tiposPago = [
   "Efectivo",
@@ -58,28 +55,6 @@ const FormularioTransaccion = () => {
     }
     
   };
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const users = await usersGet();
-        setUsers(users); // Guardamos los objetos completos
-      } catch (error) {
-        console.error("Error cargando usuarios:", error);
-      }
-    };
-    const fetchProducts = async () => {
-      try {
-        const products = await getPlans();
-        setProducts(products); // Guardamos los objetos completos
-      } catch (error) {
-        console.error("Error cargando productos:", error);
-      }
-    };
-
-    loadUsers();
-    fetchProducts();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-background w-full p-4 rounded-3xl font-normal text-zinc-200">

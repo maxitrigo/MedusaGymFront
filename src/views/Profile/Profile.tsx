@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChangePassword } from "../../components/ChangePassword";
 import { deleteGym, deleteUser, deleteUserGym } from "../../helpers/DataRequests";
-import { MPaccessToken } from "../../components/MPAccesToken";
+import { MPaccessToken } from "../../components/MPaccesToken";
 
 export default function Profile() {
     const [isOpenPass, setIsOpenPass] = useState<boolean>(false);

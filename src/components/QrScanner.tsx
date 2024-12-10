@@ -6,7 +6,6 @@ import { setGymUser } from '../Redux/gymUserSlice';
 import ConfirmationCircle from './ConfirmationCircle';
 
 const QRScanner: React.FC = () => {
-  const [scanResult, setScanResult] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [scannerUsed, setScannerUsed] = useState<boolean>(false); // Nuevo estado
   const qrCodeRef = useRef<HTMLDivElement>(null);
@@ -14,9 +13,6 @@ const QRScanner: React.FC = () => {
 
   const handleScan = async (decodedText: string) => {
     try {
-      setScanResult(decodedText);
-      console.log('QR detectado:', decodedText);
-  
       let result;
       
       // Si el QR escaneado contiene una acción esperada, llamamos a la función correspondiente
@@ -76,7 +72,8 @@ const QRScanner: React.FC = () => {
             html5QrCodeScanner.clear(); // Limpiar el escáner después de procesar
           });
         },
-        (error) => {
+        () => {
+        
         }
       );
     }
