@@ -37,7 +37,7 @@ const Announcements = () => {
     <div className="bg-zinc-900 rounded-4xl p-4 font-nunito h-full">
       <div className="flex justify-between">
         <div>
-          <h2 className="text-lg font-bold mb-2 text-white">Cartelera de Comunicados</h2>
+          <h2 className="text-lg font-bold mb-2 text-white">Cartelera de Comunicados.</h2>
         </div>
         <div className="text-yellow-400 text-3xl">
           <HiOutlineBellAlert />
