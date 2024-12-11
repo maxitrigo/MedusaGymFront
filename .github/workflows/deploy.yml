@@ -37,13 +37,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/microauth:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
       - name: Set up SSH key
         run: |
@@ -55,22 +55,22 @@ jobs:
           ssh -i /tmp/ec2_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-18-231-148-87.sa-east-1.compute.amazonaws.com << 'EOF'
             echo "Iniciando sesión en EC2..."
 
-            echo "ir a la carpeta raiz"
+            echo "Ir a la carpeta raíz"
             cd gymmetrics
 
-            # Guardar el archivo .env en la carpeta gymmetrics
-            echo "${{ secrets.ENV_FILE }}" > ~/gymmetrics/.env
+            echo "Parando todos los contenedores..."
+            docker stop $(docker ps -aq) || true
 
-            echo "Deteniendo dockers activos..."
-            docker-compose down
+            echo "Borrando todos los contenedores..."
+            docker rm $(docker ps -aq) || true
+            
+            echo "Pull de la imagen más reciente..."
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
-            echo "Bajando la imagen de docker.."
-            docker-compose pull
+            echo "Levantando el contenedor del frontend..."
+            docker run -d -p 8080:80 --name yochambeo ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
-            echo "Reiniciando dockers.."
-            docker-compose up -d
-
-            echo "Limpiando imágenes no utilizadas..."
-            docker image prune -f  # Elimina imágenes no utilizadas
+            echo "Borrando imágenes no utilizadas..."
+            docker image prune -a -f
 
           EOF

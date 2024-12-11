@@ -28,7 +28,7 @@ export const communicationsPost = async (data: any) => {
     const { token, gymToken } = authInfo();
     const response = await axios.post(
         communicationsApi, 
-        { ...data, gymToken }, // Este es el payload del body
+        { ...data, gymToken }, // Este es el payload del body.
         { headers: { 'Authorization': `Bearer ${token} ${gymToken}` } } // Los headers van en un objeto separado
     );
     console.log(response);
