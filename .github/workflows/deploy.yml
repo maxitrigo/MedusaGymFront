@@ -68,7 +68,7 @@ jobs:
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
             echo "Levantando el contenedor del frontend..."
-            docker run -d -p 8080:80 --name gymmetrics-front ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
+            docker run -d --network gymmetrics-network -p 8080:80 --name gymmetrics-front ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
             echo "Borrando imágenes no utilizadas..."
             docker image prune -a -f
