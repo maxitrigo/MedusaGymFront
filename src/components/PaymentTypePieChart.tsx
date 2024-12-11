@@ -66,7 +66,7 @@ export const PaymentTypePieChart = ({
     <div className="vertical-center w-full h-full max-h-[600px] min-h-[300px]">
       <div className="flex items-center w-full p-4">
         <p className="text-3xl text-[#e8ff21] bg-background rounded-full p-4 mr-4"><RiMoneyDollarCircleLine /></p>
-        <p className="font-bold italic text-xl text-zinc-400 p-2">Monto por Tipo de Pago ({period})</p>
+        <p className="font-bold italic text-xs lg:text-sm text-zinc-400 p-2">Monto por Tipo de Pago ({period})</p>
       </div>
       <div className="max-h-[600px] h-full w-full">
       <Pie
