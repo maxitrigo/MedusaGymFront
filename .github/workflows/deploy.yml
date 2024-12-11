@@ -58,17 +58,17 @@ jobs:
             echo "Ir a la carpeta raíz"
             cd gymmetrics
 
-            echo "Parando todos los contenedores..."
-            docker stop $(docker ps -aq) || true
+            echo "Parando el contenedor del frontend..."
+            docker stop gymmetrics-front || true
 
-            echo "Borrando todos los contenedores..."
-            docker rm $(docker ps -aq) || true
+            echo "Borrando el contenedor del frontend..."
+            docker rm gymmetrics-front || true
             
             echo "Pull de la imagen más reciente..."
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
             echo "Levantando el contenedor del frontend..."
-            docker run -d -p 8080:80 --name yochambeo ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
+            docker run -d -p 8080:80 --name gymmetrics-front ${{ secrets.DOCKER_HUB_USERNAME }}/gymmetrics-front:latest
 
             echo "Borrando imágenes no utilizadas..."
             docker image prune -a -f
