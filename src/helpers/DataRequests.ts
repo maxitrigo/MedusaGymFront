@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const microAuth = 'http://18.231.148.87:3001'
 const microTrans = 'http://localhost:3000'
-const microGym = 'http://localhost:3005'
+const microGym = 'http://54.232.249.232'
 
 const authApi = `${microAuth}/auth`;
 const paymentsApi = `${microTrans}/payments`
