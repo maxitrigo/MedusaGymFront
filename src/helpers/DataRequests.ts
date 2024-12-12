@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-const microAuth = 'https://gym-metrics.com:3001'
+const microAuth = 'https://auth.gym-metrics.com'
 const microTrans = 'https://tr.gym-metrics.com'
 const microGym = 'https://gym.gym-metrics.com'
 
