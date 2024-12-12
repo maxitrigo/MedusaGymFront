@@ -1,0 +1,9 @@
+{
+    "name": "Gym Metrics",
+    "short_name": "Gym Metrics",
+    "description": "Una app para gestionar tu gimnasio",
+    "start_url": "/gym/<user_id>",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50"
+  }
