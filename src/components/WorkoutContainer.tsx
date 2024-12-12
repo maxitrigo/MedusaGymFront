@@ -79,7 +79,7 @@ export const WorkoutContainer = ({
                             key={index}
                             className={index % 2 === 0 ? "bg-zinc-900" : "bg-zinc-800"}
                         >
-                            <td className="px-6 py-4 md:px-6 md:py-4 text-zinc-200 font-black italic">
+                            <td className="px-2 py-2 md:px-6 md:py-4 text-zinc-200 font-black italic">
                                 {workout.name}
                                 {workout.variation && ` (${workout.variation})`}
                             </td>

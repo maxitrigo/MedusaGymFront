@@ -93,7 +93,7 @@ export default function CreateGym() {
     };
 
     return (
-        <div className="max-w-3xl m-auto text-center mt-4">
+        <div className="max-w-3xl m-auto text-center p-4">
             <div onClick={() => setIsOpen(!isOpen)} className="horizontal-center m-4 p-2 rounded-3xl font-bold">
                 <h1 className="text-4xl font-black text-zinc-200 italic">Crea tu GYM</h1>
             </div>
