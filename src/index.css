@@ -215,7 +215,7 @@
 
 #qr-reader {
   border-radius: 20px;
-  height: 550px;
+  height: 100%;
   border: none;
   overflow: hidden;
 }
