@@ -42,7 +42,19 @@ const QRScanner: React.FC = () => {
   };
 
   useEffect(() => {
+    const checkCameraPermissions = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        console.log("Cámara habilitada");
+        // Aquí puedes iniciar tu lector QR u otras acciones
+      } catch (error) {
+        console.error("No se puede acceder a la cámara:", error);
+        alert("Necesitas permitir el acceso a la cámara.");
+      }
+    };
+
     if (qrCodeRef.current && !scannerUsed) {
+      checkCameraPermissions()
       const html5QrCode = new Html5Qrcode("qr-reader"); // Pasamos el ID del div
 
       html5QrCode
