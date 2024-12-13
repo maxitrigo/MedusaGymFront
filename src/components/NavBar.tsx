@@ -5,18 +5,12 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { VscGraphLine } from "react-icons/vsc";
 import { useState, useEffect } from "react";
-import QRScanner from "./QrScanner";
-import { IoMdQrScanner } from "react-icons/io";
 import { IoQrCode } from "react-icons/io5";
-import QRGenerator from "./QrGenerator";
 
 export const NavBar = () => {
   const gymSlug = useSelector((state: any) => state.gym.slug);
   const role = useSelector((state: any) => state.user.role);
   const subscriptionEnd = useSelector((state: any) => state.gym.subscriptionEnd);
-
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
-  const [isQrOpen, setIsQrOpen] = useState(false);
   const [activeItem, setActiveItem] = useState<string>("");
 
   const location = useLocation();
@@ -25,7 +19,7 @@ export const NavBar = () => {
   useEffect(() => {
     const path = location.pathname.split("/").pop();
     setActiveItem(path || "home");
-  }, [location]);
+  }, [location.pathname]);
 
   // Obtener fecha actual
   const currentDate = new Date();
@@ -34,32 +28,16 @@ export const NavBar = () => {
   return (
     <div className="horizontal-center fixed bottom-4 w-full z-50">
       <nav className="horizontal-between lg:pl-12 max-w-3xl lg:pr-12 bg-zinc-900 rounded-2xl m-2 w-full gap-2 shadow-2xl">
-        <span
-          className={`text-4xl p-2 cursor-pointer ${
-            activeItem === "scanner"
-              ? "bg-[#e8ff21] text-zinc-900 p-2 rounded-2xl"
-              : "text-white"
+        <div
+          className={`text-4xl p-2 rounded-2xl ${
+            activeItem === "qrscann" ? "bg-[#e8ff21] text-zinc-900" : "text-white"
           }`}
-          onClick={() => {
-            setActiveItem("scanner");
-            setIsScannerOpen(!isScannerOpen);
-          }}
         >
-          <IoMdQrScanner />
-        </span>
-        <span
-          className={`text-4xl p-2 cursor-pointer ${
-            activeItem === "qr"
-              ? "bg-[#e8ff21] text-zinc-900 p-2 rounded-2xl"
-              : "text-white"
-          }`}
-          onClick={() => {
-            setActiveItem("qr");
-            setIsQrOpen(!isQrOpen);
-          }}
-        >
-          <IoQrCode />
-        </span>
+          <Link to={`/${gymSlug}/qrscann`} onClick={() => setActiveItem("qrscann")}>
+            <IoQrCode />
+          </Link>
+        </div>
+        
         <div
           className={`text-4xl p-2 rounded-2xl ${
             activeItem === "home" ? "bg-[#e8ff21] text-zinc-900" : "text-white"
@@ -133,32 +111,6 @@ export const NavBar = () => {
           </Link>
         </div>
       </nav>
-      {isScannerOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 pt-5">
-          <div className="bg-background p-4 rounded-3xl shadow-lg w-[350px] vertical-center">
-            <QRScanner />
-            <button
-              onClick={() => setIsScannerOpen(false)}
-              className="button-delete mt-2"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
-      {isQrOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 pt-5">
-          <div className="bg-background p-4 rounded-3xl shadow-lg w-[350px] vertical-center">
-            <QRGenerator />
-            <button
-              onClick={() => setIsQrOpen(false)}
-              className="button-delete mt-2"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
