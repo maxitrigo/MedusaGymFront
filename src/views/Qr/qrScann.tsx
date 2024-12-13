@@ -13,7 +13,7 @@ export const QrScann = () => {
                 </div>
 
                 {/* QRGenerator desplazándose hacia arriba con el scroll */}
-                <div className="mt-[550px] relative bg-white rounded-tl-3xl rounded-tr-3xl ">
+                <div className="mt-[500px] relative bg-white rounded-tl-3xl rounded-tr-3xl ">
                     <QRGenerator />
                 </div>
             </div>
