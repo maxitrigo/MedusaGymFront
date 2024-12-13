@@ -4,7 +4,7 @@ import QRScanner from "../../components/QrScanner";
 
 export const QrScann = () => {
     return (
-        <div className="w-full overflow-hidden">
+        <div className="w-full overflow-hidden overscroll-none">
             <NavBar />
             <div className="relative w-full h-full">
                 {/* QRScanner fijo en la pantalla */}
