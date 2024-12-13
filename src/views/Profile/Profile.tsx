@@ -120,14 +120,14 @@ export default function Profile() {
                         <p className="text-white">{email}</p>
                     </div>
                     <div
-                        className={`text-center m-auto px-4 py-3 font-black italic text-xl rounded-3xl clickable mt-2 ${
+                        className={`text-center m-auto px-4 py-3 font-bold italic text-sm rounded-3xl clickable mt-2 ${
                             isSubscriptionValid ? "bg-[#e8ff21] text-zinc-900" : "bg-red-500 text-white"
                         }`}
                         onClick={handleMembership}
                     >
                         {isSubscriptionValid
                             ? `Tu membresía vence el ${formattedDate}`
-                            : "Tu membresía ha caducado."}
+                            : "No tienes membresia activa"}
                     </div>
                 </div>
                 <div className="vertical-center">
