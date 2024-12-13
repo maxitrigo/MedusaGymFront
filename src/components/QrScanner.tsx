@@ -68,7 +68,7 @@ const QRScanner: React.FC = () => {
             { facingMode: "environment" },
             { fps: 40, qrbox: { width: 250, height: 250 } },
             handleScan,
-            (error) => alert("Error en lectura QR: " + error)
+            () => {}
           );
           alert("QR Scanner iniciado correctamente.");
         } catch (err) {
