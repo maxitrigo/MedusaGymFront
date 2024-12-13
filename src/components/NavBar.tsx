@@ -32,7 +32,7 @@ export const NavBar = () => {
   const subscriptionDate = new Date(subscriptionEnd);
 
   return (
-    <div className="horizontal-center fixed bottom-0 w-full z-50">
+    <div className="horizontal-center fixed bottom-4 w-full z-50">
       <nav className="horizontal-between lg:pl-12 max-w-3xl lg:pr-12 bg-zinc-900 rounded-2xl m-2 w-full gap-2 shadow-2xl">
         <span
           className={`text-4xl p-2 cursor-pointer ${
