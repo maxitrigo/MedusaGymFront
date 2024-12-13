@@ -49,7 +49,7 @@ const QRScanner: React.FC = () => {
           { facingMode: 'environment' }, // Cámara trasera
           {
             fps: 40,
-            qrbox: { width: 150, height: 150 },
+            qrbox: { width: 250, height: 250 },
           },
           handleScan, // Callback para procesar el texto del QR
           () => {
