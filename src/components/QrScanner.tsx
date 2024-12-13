@@ -46,6 +46,12 @@ const QRScanner: React.FC = () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         alert("Permiso para usar la cámara concedido.");
+        // Verificar si las pistas están activas
+        const videoTrack = stream.getVideoTracks()[0];
+        if (!videoTrack || !videoTrack.enabled) {
+          alert("La cámara no está activa.");
+          return;
+        }
         // Detenemos el stream inmediatamente después de verificar
         stream.getTracks().forEach((track) => track.stop());
       } catch (error) {
