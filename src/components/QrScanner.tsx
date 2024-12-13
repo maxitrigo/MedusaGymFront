@@ -18,13 +18,9 @@ const QRScanner: React.FC = () => {
       if (decodedText === "log-training") {
         const { token } = authInfo();
         result = await logTraining(token);
-        alert("Entrenamiento registrado con éxito.");
       } else if (decodedText) {
         const token = decodedText;
         result = await logTraining(token);
-        alert("Respuesta del QR procesada.");
-      } else {
-        alert("Acción desconocida en el QR.");
       }
 
       if (result && !result.error) {
@@ -34,7 +30,6 @@ const QRScanner: React.FC = () => {
         setConfirmed(false);
       }
     } catch (error) {
-      alert("Error al procesar el QR: " + error);
       setConfirmed(false);
     } finally {
       setScannerUsed(true);
@@ -42,24 +37,6 @@ const QRScanner: React.FC = () => {
   };
 
   useEffect(() => {
-    const checkCameraPermissions = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        alert("Permiso para usar la cámara concedido.");
-        // Verificar si las pistas están activas
-        const videoTrack = stream.getVideoTracks()[0];
-        if (!videoTrack || !videoTrack.enabled) {
-          alert("La cámara no está activa.");
-          return;
-        }
-        // Detenemos el stream inmediatamente después de verificar
-        stream.getTracks().forEach((track) => track.stop());
-      } catch (error) {
-        alert("No se puede acceder a la cámara: " + error);
-        return;
-      }
-    };
-
     const startQRScanner = async () => {
       if (qrCodeRef.current && !scannerUsed) {
         const html5QrCode = new Html5Qrcode("qr-reader");
@@ -70,21 +47,12 @@ const QRScanner: React.FC = () => {
             handleScan,
             () => {}
           );
-          alert("QR Scanner iniciado correctamente.");
         } catch (err) {
-          alert("Error al iniciar QR Scanner: " + err);
         }
       }
     };
-
-    checkCameraPermissions().then(() => startQRScanner());
-
+    startQRScanner()
     return () => {
-      Html5Qrcode.getCameras().then((cameras) => {
-        if (cameras.length > 0) {
-          alert("Cámaras detectadas: " + cameras.length);
-        }
-      });
     };
   }, [scannerUsed]);
 
