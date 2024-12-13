@@ -43,19 +43,21 @@ const QRScanner: React.FC = () => {
 
   useEffect(() => {
     if (qrCodeRef.current && !scannerUsed) {
-      const html5QrCode = new Html5Qrcode('qr-reader'); // Usamos Html5Qrcode directamente
+      const html5QrCode = new Html5Qrcode("qr-reader"); // Pasamos el ID del div
+
       html5QrCode
         .start(
-          { facingMode: 'environment' }, // Cámara trasera
+          { facingMode: 'environment' },  // Cámara trasera
           {
-            fps: 40,
-            qrbox: { width: 250, height: 250 },
+            fps: 40,  // fotogramas por segundo
+            qrbox: { width: 250, height: 250 },  // Tamaño de la caja de QR
           },
-          handleScan, // Callback para procesar el texto del QR
-          () => {
-          }
+          handleScan,  // Callback para procesar el QR
+          () => {}  // Callback para errores
         )
-        .catch((err) => console.error('Error al iniciar cámara:', err));
+        .catch((err) => {
+          console.error('Error al iniciar cámara:', err);
+        });
     }
 
     return () => {
@@ -63,19 +65,26 @@ const QRScanner: React.FC = () => {
         if (cameras.length > 0) {
           console.log("Cámaras detectadas:", cameras);
         }
-      })
+      });
     };
   }, [scannerUsed]);
 
   return (
-    <div className='bg-background h-[500px] w-full text-white'>
-      {
-        !scannerUsed ? 
-        <div id="qr-reader" ref={qrCodeRef}></div> : 
+    <div className="bg-background h-full w-full text-white">
+      {/* Contenedor de la cámara */}
+      {!scannerUsed ? (
+        <div
+          id="qr-reader" // Usamos el ID aquí
+          ref={qrCodeRef}
+          className="w-full h-full"  // Asegurarse de que el contenedor ocupe toda la pantalla
+        ></div>
+      ) : (
         <ConfirmationCircle confirmed={confirmed} />
-      }
+      )}
     </div>
   );
 };
 
 export default QRScanner;
+
+
