@@ -57,12 +57,11 @@ const QRScanner: React.FC = () => {
   }, [scannerUsed]);
 
   return (
-    <div className="bg-background h-full w-full text-white">
+    <div className="bg-background w-full text-white">
       {!scannerUsed ? (
         <div
           id="qr-reader"
           ref={qrCodeRef}
-          className="w-full h-full"
         ></div>
       ) : (
         <ConfirmationCircle confirmed={confirmed} />
