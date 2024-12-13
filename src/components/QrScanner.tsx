@@ -42,29 +42,23 @@ const QRScanner: React.FC = () => {
   };
 
   useEffect(() => {
-    // Solo iniciar la cámara después de la interacción del usuario
-    const startScanner = () => {
-      if (qrCodeRef.current && !scannerUsed) {
-        const html5QrCode = new Html5Qrcode("qr-reader");
+    if (qrCodeRef.current && !scannerUsed) {
+      const html5QrCode = new Html5Qrcode("qr-reader"); // Pasamos el ID del div
 
-        html5QrCode
-          .start(
-            { facingMode: 'environment' },  // Cámara trasera
-            {
-              fps: 40,  // fotogramas por segundo
-              qrbox: { width: 250, height: 250 },  // Tamaño de la caja de QR
-            },
-            handleScan,  // Callback para procesar el QR
-            () => {}  // Callback para errores
-          )
-          .catch((err) => {
-            console.error('Error al iniciar cámara:', err);
-          });
-      }
-    };
-
-    // Espera la interacción del usuario antes de abrir la cámara
-    document.getElementById('qr-reader')?.addEventListener('click', startScanner);
+      html5QrCode
+        .start(
+          { facingMode: 'environment' },  // Cámara trasera
+          {
+            fps: 40,  // fotogramas por segundo
+            qrbox: { width: 250, height: 250 },  // Tamaño de la caja de QR
+          },
+          handleScan,  // Callback para procesar el QR
+          () => {}  // Callback para errores
+        )
+        .catch((err) => {
+          console.error('Error al iniciar cámara:', err);
+        });
+    }
 
     return () => {
       Html5Qrcode.getCameras().then((cameras) => {
@@ -83,9 +77,7 @@ const QRScanner: React.FC = () => {
           id="qr-reader" // Usamos el ID aquí
           ref={qrCodeRef}
           className="w-full h-full"  // Asegurarse de que el contenedor ocupe toda la pantalla
-        >
-          <p>Haz clic para iniciar el escáner QR</p>
-        </div>
+        ></div>
       ) : (
         <ConfirmationCircle confirmed={confirmed} />
       )}
