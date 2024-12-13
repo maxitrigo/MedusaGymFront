@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
-import { authInfo, logTraining } from '../helpers/DataRequests';
-import { useDispatch } from 'react-redux';
-import { setGymUser } from '../Redux/gymUserSlice';
-import ConfirmationCircle from './ConfirmationCircle';
+import { useEffect, useRef, useState } from "react";
+import { Html5Qrcode } from "html5-qrcode";
+import { authInfo, logTraining } from "../helpers/DataRequests";
+import { useDispatch } from "react-redux";
+import { setGymUser } from "../Redux/gymUserSlice";
+import ConfirmationCircle from "./ConfirmationCircle";
 
 const QRScanner: React.FC = () => {
   const [confirmed, setConfirmed] = useState<boolean>(false);
@@ -15,16 +15,16 @@ const QRScanner: React.FC = () => {
     try {
       let result;
 
-      if (decodedText === 'log-training') {
+      if (decodedText === "log-training") {
         const { token } = authInfo();
         result = await logTraining(token);
-        console.log('Respuesta del entrenamiento registrado:', result);
+        alert("Entrenamiento registrado con éxito.");
       } else if (decodedText) {
         const token = decodedText;
         result = await logTraining(token);
-        console.log('Respuesta del entrenamiento registrado:', result);
+        alert("Respuesta del QR procesada.");
       } else {
-        console.warn('Acción desconocida en el QR');
+        alert("Acción desconocida en el QR.");
       }
 
       if (result && !result.error) {
@@ -34,7 +34,7 @@ const QRScanner: React.FC = () => {
         setConfirmed(false);
       }
     } catch (error) {
-      console.error('Error al procesar el QR:', error);
+      alert("Error al procesar el QR: " + error);
       setConfirmed(false);
     } finally {
       setScannerUsed(true);
@@ -44,38 +44,39 @@ const QRScanner: React.FC = () => {
   useEffect(() => {
     const checkCameraPermissions = async () => {
       try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        console.log("Cámara habilitada");
-        // Aquí puedes iniciar tu lector QR u otras acciones
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        alert("Permiso para usar la cámara concedido.");
+        // Detenemos el stream inmediatamente después de verificar
+        stream.getTracks().forEach((track) => track.stop());
       } catch (error) {
-        console.error("No se puede acceder a la cámara:", error);
-        alert("Necesitas permitir el acceso a la cámara.");
+        alert("No se puede acceder a la cámara: " + error);
+        return;
       }
     };
 
-    if (qrCodeRef.current && !scannerUsed) {
-      checkCameraPermissions()
-      const html5QrCode = new Html5Qrcode("qr-reader"); // Pasamos el ID del div
+    const startQRScanner = async () => {
+      if (qrCodeRef.current && !scannerUsed) {
+        const html5QrCode = new Html5Qrcode("qr-reader");
+        try {
+          await html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 40, qrbox: { width: 250, height: 250 } },
+            handleScan,
+            (error) => alert("Error en lectura QR: " + error)
+          );
+          alert("QR Scanner iniciado correctamente.");
+        } catch (err) {
+          alert("Error al iniciar QR Scanner: " + err);
+        }
+      }
+    };
 
-      html5QrCode
-        .start(
-          { facingMode: 'environment' },  // Cámara trasera
-          {
-            fps: 40,  // fotogramas por segundo
-            qrbox: { width: 250, height: 250 },  // Tamaño de la caja de QR
-          },
-          handleScan,  // Callback para procesar el QR
-          () => {}  // Callback para errores
-        )
-        .catch((err) => {
-          console.error('Error al iniciar cámara:', err);
-        });
-    }
+    checkCameraPermissions().then(() => startQRScanner());
 
     return () => {
       Html5Qrcode.getCameras().then((cameras) => {
         if (cameras.length > 0) {
-          console.log("Cámaras detectadas:", cameras);
+          alert("Cámaras detectadas: " + cameras.length);
         }
       });
     };
@@ -83,12 +84,11 @@ const QRScanner: React.FC = () => {
 
   return (
     <div className="bg-background h-full w-full text-white">
-      {/* Contenedor de la cámara */}
       {!scannerUsed ? (
         <div
-          id="qr-reader" // Usamos el ID aquí
+          id="qr-reader"
           ref={qrCodeRef}
-          className="w-full h-full"  // Asegurarse de que el contenedor ocupe toda la pantalla
+          className="w-full h-full"
         ></div>
       ) : (
         <ConfirmationCircle confirmed={confirmed} />
