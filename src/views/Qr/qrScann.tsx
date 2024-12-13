@@ -4,7 +4,7 @@ import QRScanner from "../../components/QrScanner";
 
 export const QrScann = () => {
     return (
-        <div className="w-full">
+        <div className="w-full min-h-screen">
             <NavBar />
             <div className="relative w-full h-full">
                 {/* QRScanner fijo en la pantalla */}
@@ -13,7 +13,7 @@ export const QrScann = () => {
                 </div>
 
                 {/* QRGenerator desplazándose hacia arriba con el scroll */}
-                <div className="mt-[550px] pb-20 relative bg-white rounded-tl-3xl rounded-tr-3xl">
+                <div className="mt-[490px] pb-20 relative bg-white rounded-tl-3xl rounded-tr-3xl">
                     <QRGenerator />
                 </div>
             </div>

@@ -68,7 +68,7 @@ const QRScanner: React.FC = () => {
   }, [scannerUsed]);
 
   return (
-    <div className='bg-background w-full text-white'>
+    <div className='bg-background h-[500px] w-full text-white'>
       {
         !scannerUsed ? 
         <div id="qr-reader" ref={qrCodeRef}></div> : 
