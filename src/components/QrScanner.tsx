@@ -8,6 +8,7 @@ import ConfirmationCircle from "./ConfirmationCircle";
 const QRScanner: React.FC = () => {
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [scannerUsed, setScannerUsed] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const qrCodeRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
@@ -37,33 +38,51 @@ const QRScanner: React.FC = () => {
   };
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({video:{facingMode: "enviroment"}})
-    const startQRScanner = async () => {
-      if (qrCodeRef.current && !scannerUsed) {
-        const html5QrCode = new Html5Qrcode("qr-reader");
-        try {
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
+
+        if (qrCodeRef.current && !scannerUsed) {
+          const html5QrCode = new Html5Qrcode("qr-reader");
           await html5QrCode.start(
             { facingMode: "environment" },
             { fps: 40, qrbox: { width: 250, height: 250 } },
             handleScan,
             () => {}
           );
-        } catch (err) {
         }
+      } catch (err) {
+        console.error("Error accessing the camera: ", err);
       }
     };
-    startQRScanner()
+
+    startCamera();
+
     return () => {
+      if (videoRef.current) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream?.getTracks().forEach((track) => track.stop());
+      }
     };
   }, [scannerUsed]);
 
   return (
     <div className="bg-background w-full h-full text-white">
       {!scannerUsed ? (
-        <div
-          id="qr-reader"
-          ref={qrCodeRef}
-        ></div>
+        <>
+          <video
+            ref={videoRef}
+            style={{ width: "100%", height: "auto" }}
+            muted
+          ></video>
+          <div id="qr-reader" ref={qrCodeRef}></div>
+        </>
       ) : (
         <ConfirmationCircle confirmed={confirmed} />
       )}
@@ -72,3 +91,4 @@ const QRScanner: React.FC = () => {
 };
 
 export default QRScanner;
+
