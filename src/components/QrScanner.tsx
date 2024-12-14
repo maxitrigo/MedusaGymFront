@@ -37,6 +37,7 @@ const QRScanner: React.FC = () => {
   };
 
   useEffect(() => {
+    navigator.mediaDevices.getUserMedia({video:true})
     const startQRScanner = async () => {
       if (qrCodeRef.current && !scannerUsed) {
         const html5QrCode = new Html5Qrcode("qr-reader");
