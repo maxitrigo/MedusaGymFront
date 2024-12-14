@@ -1,147 +1,127 @@
-import { useEffect, useRef, useState } from "react";
-import jsQR from "jsqr";
-import { authInfo, logTraining } from "../helpers/DataRequests";
-import { useDispatch } from "react-redux";
-import { setGymUser } from "../Redux/gymUserSlice";
-import ConfirmationCircle from "./ConfirmationCircle";
+import { ReactElement, useRef, useEffect } from 'react'
+import jsQR from 'jsqr'
+import { useDispatch } from 'react-redux'
+import { setGymUser } from '../Redux/gymUserSlice'
+import { authInfo, logTraining } from '../helpers/DataRequests'
 
-const QRScanner: React.FC = () => {
-  const [confirmed, setConfirmed] = useState<boolean>(false);
-  const [scannerUsed, setScannerUsed] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    let stream: MediaStream | null = null;
-    let animationFrameId: number;
+export const QRScanner = ({
+  active,
+  onSuccessfulScan
+}: {
+  active: boolean
+  onSuccessfulScan: (data: string) => void
+}): ReactElement => {
+  const video = useRef<HTMLVideoElement>(null)
+  const canvas = useRef<HTMLCanvasElement>(null)
+  const dispatch = useDispatch()
 
-    const startScanner = async () => {
-      try {
-        // Obtener la cámara
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
-        });
+  const startCapturing = (): void => {
+    if (!canvas.current || !video.current) return
 
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.play();
+    const context = canvas.current.getContext('2d')
+    if (!context) return
 
-          // Procesar los frames del video
-          const processFrame = () => {
-            if (!canvasRef.current || !videoRef.current) return;
+    const { width, height } = canvas.current
+    context.drawImage(video.current, 0, 0, width, height)
 
-            const canvas = canvasRef.current;
-            const context = canvas.getContext("2d");
+    const imageData = context.getImageData(0, 0, width, height)
+    const qrCode = jsQR(imageData.data, width, height)
 
-            if (context) {
-              // Dibujar el frame del video en el canvas
-              context.drawImage(
-                videoRef.current,
-                0,
-                0,
-                canvas.width,
-                canvas.height
-              );
+    if (!qrCode) {
+      setTimeout(startCapturing, 500)
+    } else {
+      handleScan(qrCode.data)
+    }
+  }
 
-              // Obtener los datos de imagen del canvas
-              const imageData = context.getImageData(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-              );
-
-              // Intentar detectar el código QR
-              const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-
-              if (qrCode && qrCode.data) {
-                handleScan(qrCode.data);
-                stopScanner(); // Detener al encontrar un QR válido
-              } else {
-                // Seguir procesando frames
-                animationFrameId = requestAnimationFrame(processFrame);
-              }
-            }
-          };
-
-          // Comenzar el ciclo de procesamiento
-          processFrame();
-        }
-      } catch (err) {
-        console.error("Error al iniciar la cámara: ", err);
-      }
-    };
-
-    const stopScanner = () => {
-      if (stream) {
-        stream.getTracks().forEach((track) => track.stop()); // Detener la cámara
-      }
-      cancelAnimationFrame(animationFrameId); // Detener el loop de frames
-    };
-
-    startScanner();
-
-    return () => {
-      stopScanner(); // Liberar recursos al desmontar
-    };
-  }, []);
-
-  const handleScan = async (decodedText: string) => {
+  const handleScan = async (data: string): Promise<void> => {
     try {
-      let result;
+      let result
 
-      if (decodedText === "log-training") {
-        const { token } = authInfo();
-        result = await logTraining(token);
-      } else if (decodedText) {
-        const token = decodedText;
-        result = await logTraining(token);
+      if (data === 'log-training') {
+        const { token } = authInfo()
+        result = await logTraining(token)
+      } else {
+        result = await logTraining(data)
       }
 
       if (result && !result.error) {
-        dispatch(setGymUser(result));
-        setConfirmed(true);
+        dispatch(setGymUser(result))
+        onSuccessfulScan(result)
       } else {
-        setConfirmed(false);
+        console.error('Error al procesar el QR')
       }
     } catch (error) {
-      setConfirmed(false);
+      console.error('Error durante el escaneo: ', error)
     } finally {
-      setScannerUsed(true);
+      stopMediaStream()
     }
-  };
+  }
+
+  const stopMediaStream = (): void => {
+    if (video.current && video.current.srcObject) {
+      const stream = video.current.srcObject as MediaStream
+      stream.getTracks().forEach((track) => track.stop())
+      video.current.srcObject = null
+    }
+  }
+
+  const handleCanPlay = (): void => {
+    if (!canvas.current || !video.current) return
+
+    canvas.current.width = video.current.videoWidth
+    canvas.current.height = video.current.videoHeight
+    startCapturing()
+  }
+
+  useEffect(() => {
+    if (!active) return;
+  
+    const startMediaStream = async (): Promise<void> => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' },
+        });
+  
+        if (video.current) {
+          video.current.srcObject = stream;
+          video.current
+            .play()
+            .catch((err) => console.error('Error al reproducir el video: ', err));
+        }
+      } catch (error) {
+        console.error('No se pudo acceder a la cámara: ', error);
+      }
+    };
+  
+    startMediaStream();
+  
+    return () => {
+      if (video.current && video.current.srcObject) {
+        const stream = video.current.srcObject as MediaStream;
+        stream.getTracks().forEach((track) => track.stop());
+        video.current.srcObject = null;
+      }
+    };
+  }, [active]);
+  
 
   return (
-    <div className="bg-background w-full h-full text-white">
-      {!scannerUsed ? (
-        <div className="relative">
-          <video
-            ref={videoRef}
-            style={{
-              width: "100%",
-              height: "auto",
-              objectFit: "cover",
-            }}
-            muted
-          ></video>
-          <canvas
-            ref={canvasRef}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              opacity: 0,
-            }}
-          ></canvas>
-        </div>
-      ) : (
-        <ConfirmationCircle confirmed={confirmed} />
-      )}
+    <div className={`scanner ${active ? '' : 'scanner--hidden'}`}>
+      <div className="scanner__aspect-ratio-container">
+        <canvas ref={canvas} className="scanner__canvas" />
+        <video
+          muted
+          playsInline
+          ref={video}
+          onCanPlay={handleCanPlay}
+          className="scanner__video"
+        />
+      </div>
+      <div className="scanner-tip">
+        <div>Scan a QR code with your camera to see what it says.</div>
+      </div>
     </div>
-  );
-};
-
-export default QRScanner;
+  )
+}
