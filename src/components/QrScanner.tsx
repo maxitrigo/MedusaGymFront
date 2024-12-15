@@ -1,127 +1,140 @@
-import { ReactElement, useRef, useEffect } from 'react'
-import jsQR from 'jsqr'
-import { useDispatch } from 'react-redux'
-import { setGymUser } from '../Redux/gymUserSlice'
-import { authInfo, logTraining } from '../helpers/DataRequests'
+// import { useEffect, useRef, useState } from "react";
+// import { Html5Qrcode } from "html5-qrcode";
+import { authInfo, logTraining } from "../helpers/DataRequests";
+import { useDispatch } from "react-redux";
+import { setGymUser } from "../Redux/gymUserSlice";
+import ConfirmationCircle from "./ConfirmationCircle";
+
+import { Html5QrcodeScanner } from "html5-qrcode"
+import { useEffect, useState } from "react"
+
+// const QRScanner: React.FC = () => {
+//   const [confirmed, setConfirmed] = useState<boolean>(false);
+//   const [scannerUsed, setScannerUsed] = useState<boolean>(false);
+//   const qrCodeRef = useRef<HTMLDivElement>(null);
+//   const dispatch = useDispatch();
+
+//   const handleScan = async (decodedText: string) => {
+//     try {
+//       let result;
+
+//       if (decodedText === "log-training") {
+//         const { token } = authInfo();
+//         result = await logTraining(token);
+//       } else if (decodedText) {
+//         const token = decodedText;
+//         result = await logTraining(token);
+//       }
+
+//       if (result && !result.error) {
+//         dispatch(setGymUser(result));
+//         setConfirmed(true);
+//       } else {
+//         setConfirmed(false);
+//       }
+//     } catch (error) {
+//       setConfirmed(false);
+//     } finally {
+//       setScannerUsed(true);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const startQRScanner = async () => {
+//       if (qrCodeRef.current && !scannerUsed) {
+//         const html5QrCode = new Html5Qrcode("qr-reader");
+//         try {
+//           await html5QrCode.start(
+//             { facingMode: "environment" },
+//             { fps: 40, qrbox: { width: 250, height: 250 } },
+//             handleScan,
+//             () => {}
+//           );
+//         } catch (err) {
+//         }
+//       }
+//     };
+//     startQRScanner()
+//     return () => {
+//     };
+//   }, [scannerUsed]);
+
+//   return (
+//     <div className="bg-background w-full h-full text-white">
+//       {!scannerUsed ? (
+//         <div
+//           id="qr-reader"
+//           ref={qrCodeRef}
+//         ></div>
+//       ) : (
+//         <ConfirmationCircle confirmed={confirmed} />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default QRScanner;
 
 
-export const QRScanner = ({
-  active,
-  onSuccessfulScan
-}: {
-  active: boolean
-  onSuccessfulScan: (data: string) => void
-}): ReactElement => {
-  const video = useRef<HTMLVideoElement>(null)
-  const canvas = useRef<HTMLCanvasElement>(null)
-  const dispatch = useDispatch()
 
-  const startCapturing = (): void => {
-    if (!canvas.current || !video.current) return
-
-    const context = canvas.current.getContext('2d')
-    if (!context) return
-
-    const { width, height } = canvas.current
-    context.drawImage(video.current, 0, 0, width, height)
-
-    const imageData = context.getImageData(0, 0, width, height)
-    const qrCode = jsQR(imageData.data, width, height)
-
-    if (!qrCode) {
-      setTimeout(startCapturing, 500)
-    } else {
-      handleScan(qrCode.data)
-    }
-  }
-
-  const handleScan = async (data: string): Promise<void> => {
-    try {
-      let result
-
-      if (data === 'log-training') {
-        const { token } = authInfo()
-        result = await logTraining(token)
-      } else {
-        result = await logTraining(data)
-      }
-
-      if (result && !result.error) {
-        dispatch(setGymUser(result))
-        onSuccessfulScan(result)
-      } else {
-        console.error('Error al procesar el QR')
-      }
-    } catch (error) {
-      console.error('Error durante el escaneo: ', error)
-    } finally {
-      stopMediaStream()
-    }
-  }
-
-  const stopMediaStream = (): void => {
-    if (video.current && video.current.srcObject) {
-      const stream = video.current.srcObject as MediaStream
-      stream.getTracks().forEach((track) => track.stop())
-      video.current.srcObject = null
-    }
-  }
-
-  const handleCanPlay = (): void => {
-    if (!canvas.current || !video.current) return
-
-    canvas.current.width = video.current.videoWidth
-    canvas.current.height = video.current.videoHeight
-    startCapturing()
-  }
+const QRScanner = () => {
+  const [scanResult, setScanResult] = useState()
+  const [confirmed, setConfirmed] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!active) return;
-  
-    const startMediaStream = async (): Promise<void> => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' },
-        });
-  
-        if (video.current) {
-          video.current.srcObject = stream;
-          video.current
-            .play()
-            .catch((err) => console.error('Error al reproducir el video: ', err));
-        }
-      } catch (error) {
-        console.error('No se pudo acceder a la cámara: ', error);
-      }
-    };
-  
-    startMediaStream();
-  
-    return () => {
-      if (video.current && video.current.srcObject) {
-        const stream = video.current.srcObject as MediaStream;
-        stream.getTracks().forEach((track) => track.stop());
-        video.current.srcObject = null;
-      }
-    };
-  }, [active]);
-  
+    const scanner = new Html5QrcodeScanner('reader', {
+      qrbox: {
+        width: 250,
+        height: 250,
+      },
+      fps: 40,
+    }, true )
+    
+    const error = (err: any) => {
+      console.warn(err)
+    }
+    const success = (result: any) => {
+      scanner.clear()
+      setScanResult(result)
+      handleScann(scanResult)
+    }
+
+    scanner.render(success,error)
+
+  },[])
+
+  const handleScann = async (scanResult: any) => {
+    try {
+            let result;
+      
+            if (scanResult === "log-training") {
+              const { token } = authInfo();
+              result = await logTraining(token);
+            } else if (scanResult) {
+              const token = scanResult;
+              result = await logTraining(token);
+            }
+      
+            if (result && !result.error) {
+              dispatch(setGymUser(result));
+              setConfirmed(true);
+            } else {
+              setConfirmed(false);
+            }
+          } catch (error) {
+            setConfirmed(false);
+          }
+  }
 
   return (
-    <div className={`scanner ${active ? '' : 'scanner--hidden'}`}>
-      <div className="scanner__aspect-ratio-container">
-        <canvas ref={canvas} className="scanner__canvas" />
-        <video
-          muted
-          playsInline
-          ref={video}
-          onCanPlay={handleCanPlay}
-          className="scanner__video"
-        />
-      </div>
-      <div className="scanner-tip">
-        <div>Scan a QR code with your camera to see what it says.</div>
-      </div>
+    <div>
+      { scanResult ?
+      <ConfirmationCircle confirmed={confirmed} /> :
+      <div id='reader'></div>
+    }
     </div>
   )
 }
+
+export default QRScanner
