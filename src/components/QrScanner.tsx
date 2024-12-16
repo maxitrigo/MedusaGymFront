@@ -32,13 +32,6 @@ const QRScanner = () => {
     // }
 
     // scanner.render(success,error)
-    
-    const successCallback = (result: any) => {
-      console.log('verificado')
-      scanner.clear()
-      setScanResult(result)
-      handleScann(scanResult)
-    }
 
     const scanner = new Html5Qrcode('reader')
     // const cameras = Html5Qrcode.getCameras()
@@ -51,7 +44,7 @@ const QRScanner = () => {
       },
       fps: 40,
       },
-      successCallback,
+      handleScann,
       () => {}
     )
 
@@ -61,7 +54,6 @@ const QRScanner = () => {
   const handleScann = async (scanResult: any) => {
     try {
             let result;
-      
             if (scanResult === "log-training") {
               const { token } = authInfo();
               result = await logTraining(token);
