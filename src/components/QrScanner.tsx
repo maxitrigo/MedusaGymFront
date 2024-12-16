@@ -76,11 +76,20 @@ const QRScanner = ({ isActive }: { isActive: boolean }) => {
       if (result && !result.error) {
         dispatch(setGymUser(result));
         setConfirmed(true);
+        setTimeout(()=>{
+          window.location.reload()
+        }, 4000)
       } else {
         setConfirmed(false);
+        setTimeout(()=>{
+          window.location.reload()
+        }, 4000)
       }
     } catch (error) {
       setConfirmed(false);
+      setTimeout(()=>{
+        window.location.reload()
+      }, 4000)
     }
   };
 
