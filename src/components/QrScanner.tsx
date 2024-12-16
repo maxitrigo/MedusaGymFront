@@ -8,7 +8,7 @@ import ConfirmationCircle from "./ConfirmationCircle";
 import { useEffect, useState } from "react"
 
 const QRScanner = () => {
-  const [scanResult, setScanResult] = useState()
+  const [isScanned, setIsScanned] = useState<boolean>(false)
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const dispatch = useDispatch();
 
@@ -27,8 +27,8 @@ const QRScanner = () => {
     // const success = (result: any) => {
     //   scanner.pause(true)
     //   scanner.clear()
-    //   setScanResult(result)
-    //   handleScann(scanResult)
+    //   setScannResult(result)
+    //   handleScann(scannResult)
     // }
 
     // scanner.render(success,error)
@@ -44,21 +44,27 @@ const QRScanner = () => {
       },
       fps: 40,
       },
-      handleScann,
+      (result)=>{
+        scanner.pause(true)
+        handleScann(result)
+        setIsScanned(true)
+      },
       () => {}
     )
 
 
   },[])
 
-  const handleScann = async (scanResult: any) => {
+  const handleScann = async (data: any) => {
     try {
             let result;
-            if (scanResult === "log-training") {
+            console.log();
+            
+            if (data === "log-training") {
               const { token } = authInfo();
               result = await logTraining(token);
-            } else if (scanResult) {
-              const token = scanResult;
+            } else if (data) {
+              const token = data;
               result = await logTraining(token);
             }
       
@@ -75,7 +81,7 @@ const QRScanner = () => {
 
   return (
     <div>
-      { scanResult ?
+      { isScanned ?
       <ConfirmationCircle confirmed={confirmed} /> :
       <div id='reader'></div>
     }
