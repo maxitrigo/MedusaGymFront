@@ -28,10 +28,10 @@ const QRGenerator: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
             {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
             {qrCodeUrl && (
-                <div className="mt-10 h-[450px]">
+                <div className="p-6">
                     <img src={qrCodeUrl} alt="Código QR" />
                 </div>
             )}

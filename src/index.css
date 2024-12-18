@@ -213,10 +213,7 @@
   border: none;
 }
 
-#qr-reader {
-  width: 100%;
-  border: none;
-  overflow: hidden;
+#reader {
 }
 
 @keyframes heartbeat {

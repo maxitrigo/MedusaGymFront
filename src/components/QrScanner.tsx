@@ -34,10 +34,7 @@ const QRScanner = ({ isActive }: { isActive: boolean }) => {
     scanner.start(
       { facingMode: "environment" },
       {
-        qrbox: {
-          width: 250,
-          height: 250,
-        },
+        
         fps: 40,
       },
       (result) => {
@@ -94,7 +91,7 @@ const QRScanner = ({ isActive }: { isActive: boolean }) => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       {isScanned ? (
         <ConfirmationCircle confirmed={confirmed} />
       ) : (
