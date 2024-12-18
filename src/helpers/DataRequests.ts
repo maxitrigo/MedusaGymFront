@@ -369,12 +369,13 @@ export const deletePlan = async (id: string) => {
 
 export const createPayment = async (data: any) => {
     const { token, gymToken } = authInfo();
+    
     const payment = {
         title: data.title,
         description: data.description,
         quantity: 1,
         unit_price: data.price,
-        productId: data.id
+        productId: data.id,
     }
     const slug = `${authInfo().slug}`
     const response = await axios.post(`${paymentsApi}/subscriptions`,

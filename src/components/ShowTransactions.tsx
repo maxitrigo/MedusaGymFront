@@ -20,7 +20,10 @@ export const ShowTransactions = () => {
   const today = new Date().toISOString().split("T")[0];
 
   const filteredTransactions = transactions.filter(
-    (transaction: any) => transaction.date.startsWith(today) && transaction.clientId === 'cajero'
+    (transaction: any) => 
+      // transaction.date
+      transaction.date.startsWith(today) 
+    // && transaction.clientId === 'cajero'
   );
 
   const transactionsGroupedByPaymentType = filteredTransactions.reduce(

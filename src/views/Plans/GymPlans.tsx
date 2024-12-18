@@ -73,8 +73,7 @@ export default function GymPlans() {
                                 </div>
                                 <div className="vertical-between h-full">
                                     <div className="text-3xl font-bold vertical-center text-center">
-                                        <p className="font-black italic">GYMmetrics+</p>
-                                        <p>{plan.name}</p>
+                                        <p className="font-black italic">{plan.name}</p>
                                     </div>
                                     <div className="font-bold text-lg vertical-center text-center">
                                         <p>{plan.description}</p>
