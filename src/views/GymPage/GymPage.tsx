@@ -49,6 +49,7 @@ export default function GymPage() {
 
     const isInfinate = freePass;
     const remainingAccesses = passes;
+    const currentStreak = streak
 
     const handleAccess = () => {
         setTimeout(() => {
@@ -130,7 +131,7 @@ export default function GymPage() {
                         </div>
                     </div>
                     <div>
-                        <p className="text-zinc-200 text-6xl font-bold text-center pt-2">{streak}</p>
+                        <p className="text-zinc-200 text-6xl font-bold text-center pt-2">{currentStreak}</p>
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getUserById } from "../helpers/DataRequests";
 import { useDispatch } from "react-redux";
 import { setGymUser } from "../Redux/gymUserSlice";
@@ -10,7 +10,8 @@ interface StreakDay {
 
 const WorkoutStreak = () => {
   const [streak, setStreak] = useState<StreakDay[]>([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const currentDayRef = useRef<HTMLDivElement | null>(null); // Referencia al día actual
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,7 +23,7 @@ const WorkoutStreak = () => {
         user = JSON.parse(storedUser);
       } else {
         user = await getUserById();
-        dispatch(setGymUser(user))
+        dispatch(setGymUser(user));
         sessionStorage.setItem("userData", JSON.stringify(user)); // Guardar datos del usuario en sessionStorage
       }
 
@@ -49,6 +50,8 @@ const WorkoutStreak = () => {
         }
       }
       sessionStorage.setItem("streak", count.toString());
+      user.streak = count; // Agregar la racha calculada al usuario
+      dispatch(setGymUser(user)); // Actualizar el estado global
 
       const currentYear = new Date().getFullYear();
       const fullYearStreak: StreakDay[] = [];
@@ -72,10 +75,19 @@ const WorkoutStreak = () => {
       }
 
       setStreak(fullYearStreak);
+      
     };
 
     fetchUserData();
-  }, []); // Solo se ejecuta una vez al montar el componente
+  }, [dispatch]); // Solo se ejecuta una vez al montar el componente
+
+  useEffect(() => {
+    if (currentDayRef.current) {
+      currentDayRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [streak]); // Scroll después de que se cargue el streak
+
+  const today = new Date().toISOString().split("T")[0]; // Fecha actual
 
   const getColor = (completed: boolean): string => {
     return completed ? "bg-[#e8ff21]" : "bg-background";
@@ -109,6 +121,7 @@ const WorkoutStreak = () => {
             {week.map((streakDay) => (
               <div
                 key={streakDay.date}
+                ref={streakDay.date === today ? currentDayRef : null} // Referencia al día actual
                 className={`w-4 h-4 rounded-full ${getColor(streakDay.completed)}`}
                 title={streakDay.date}
               />
