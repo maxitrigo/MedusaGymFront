@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 const microAuth = 'https://auth.gym-metrics.com'
 const microTrans = 'https://tr.gym-metrics.com'
 const microGym = 'https://gym.gym-metrics.com'
+const microRes = 'https://res.gym-metrics.com'
 
 const authApi = `${microAuth}/auth`;
 const paymentsApi = `${microTrans}/payments`
@@ -14,8 +15,8 @@ const subscriptionsApi = `${microGym}/subscriptions`;
 const gymMembershipApi = `${microGym}/gym-membership`;
 const workoutsApi = `${microGym}/workouts`
 const communicationsApi = `${microGym}/communications`;
-const reservationResourcesApi = 'http://localhost:3001/resources'
-const reservationsApi = 'http://localhost:3001/reservations'
+const reservationResourcesApi = `${microRes}/resources`
+const reservationsApi = `${microRes}/reservations`
 
 export const authInfo = () => {
     const token = sessionStorage.getItem('token');
@@ -682,7 +683,7 @@ export const fetchAvailableTimes = async (resourceId: string, weekDays: string[]
 export const createReservation = async (reservationData: any) => {
     const { token } = authInfo(); // Asume que authInfo devuelve el token
     try {
-        const response = await axios.post(`http://localhost:3001/users/reservations`, reservationData, {
+        const response = await axios.post(`${usersApi}/reservations`, reservationData, {
             headers: { 
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json' 
