@@ -14,6 +14,8 @@ const subscriptionsApi = `${microGym}/subscriptions`;
 const gymMembershipApi = `${microGym}/gym-membership`;
 const workoutsApi = `${microGym}/workouts`
 const communicationsApi = `${microGym}/communications`;
+const reservationResourcesApi = 'http://localhost:3001/resources'
+const reservationsApi = 'http://localhost:3001/reservations'
 
 export const authInfo = () => {
     const token = sessionStorage.getItem('token');
@@ -630,3 +632,98 @@ export const deleteUserGym = async (userId: string) => {
         console.log(error);
     }
 }
+
+export const createReservationResource = async ( data: any ) => {
+    const { token, gymToken } = authInfo()
+    try {
+        const response = await axios.post(`${reservationResourcesApi}`, 
+            {
+                data,
+                gymToken
+        }, {
+            headers: { 'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const fetchReservationResources = async () => {
+    const { token, gymToken } = authInfo()
+    try {
+        const response = await axios.get(`${reservationResourcesApi}/byGymId/${gymToken}`, {
+            headers: {'Authorization': `Bearer ${token}`}
+        })
+        return response.data
+    } catch (error) {
+        
+    }
+}
+
+export const fetchAvailableTimes = async (resourceId: string, weekDays: string[], capacity: number) => {
+    const { token } = authInfo(); // Asume que authInfo devuelve el token
+    try {
+        const response = await axios.get(`${reservationsApi}/available-times`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+            params: {
+                resourceId,
+                weekDays: weekDays, // Convierte el array a string separado por comas
+                capacity,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener horarios disponibles:', error);
+        throw error;
+    }
+};
+
+export const createReservation = async (reservationData: any) => {
+    const { token } = authInfo(); // Asume que authInfo devuelve el token
+    try {
+        const response = await axios.post(`http://localhost:3001/users/reservations`, reservationData, {
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' 
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error al crear la reserva:', error);
+        throw error;
+    }
+};
+
+export const fetchUserReservations = async () => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.get(`${reservationsApi}/user`,
+            {
+                headers : {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch (error) {
+        console.error('Error al recuperar reservas', error);
+        throw error;
+    }
+}
+
+export const cancelReservation = async (reservationId: string) => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.delete(`${reservationsApi}/${reservationId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error) {
+        console.error('Error al cancelar la reserva', error)
+        throw error
+    }
+}
+

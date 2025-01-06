@@ -13,6 +13,7 @@ import { CgMathPlus } from "react-icons/cg";
 import { getUserById } from "../../helpers/DataRequests";
 import { setGymUser } from "../../Redux/gymUserSlice";
 import { GymInfo } from "../../components/GymInfo";
+import ReservationComponent from "../../components/ReservationComponent";
 
 export default function GymPage() {
     useSessionTimeout(); // Inicia el control de sesión
@@ -143,6 +144,10 @@ export default function GymPage() {
 
             <div className="w-full">
                 <Announcements />
+            </div>
+
+            <div className="w-full">
+                <ReservationComponent/>
             </div>
 
         </div>
