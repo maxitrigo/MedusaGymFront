@@ -22,7 +22,7 @@ const MyReservations: React.FC = () => {
     loadReservations();
   }, []);
 
-  if (loading) return <p>Cargando tus reservas...</p>;
+  if (loading) return <p className="text-center text-white">Cargando tus reservas...</p>;
   if (error) return <p>{error}</p>;
 
   const handleCancel = async (reservationId: string) => {
