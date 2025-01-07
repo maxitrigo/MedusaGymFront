@@ -8,7 +8,7 @@ import { EditGymInfo } from "./EditGymInfo"
 import { ManualPlanAsignation } from "./ManualPlanAsignation"
 
 import { ShowUsers } from "./ShowUsers"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export const AdminDashboard = () => {
     const navigate = useNavigate();
