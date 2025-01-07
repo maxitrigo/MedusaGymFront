@@ -146,9 +146,11 @@ export default function GymPage() {
                 <Announcements />
             </div>
 
+            {role === 'user' &&
             <div className="w-full">
                 <ReservationComponent/>
             </div>
+            }
 
         </div>
     );

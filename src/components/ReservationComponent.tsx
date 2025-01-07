@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { fetchUserReservations } from "../helpers/DataRequests";
 import { FiArrowUpRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const ReservationComponent: React.FC = () => {
   const [reservations, setReservations] = useState<any[]>([]);
@@ -10,7 +9,6 @@ const ReservationComponent: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const storedSlug = sessionStorage.getItem("slug");
-  const role = useSelector((state: any) => state.user.role);
 
   useEffect(() => {
     const loadReservations = async () => {
@@ -45,12 +43,7 @@ const ReservationComponent: React.FC = () => {
       className="w-full p-4 mt-2 text-zinc-300 bg-zinc-900 rounded-4xl"
     >
       <div className="flex justify-between items-center pb-4">
-        {role === "admin" ? (
-          <p className="font-bold text-lg px-2">Creador de Clases</p>
-        ) : (
           <p className="font-bold text-lg px-2">Reservas</p>
-        )}
-
         <div>
           <p className="text-xl text-zinc-200 rounded-full bg-background p-2">
             <FiArrowUpRight />
@@ -58,9 +51,7 @@ const ReservationComponent: React.FC = () => {
         </div>
       </div>
 
-      {role === "admin" ? (
-        <p className="text-center">Crea las clases de tu módulo Reservas</p>
-      ) : filteredReservations.length === 0 ? (
+        { filteredReservations.length === 0 ? (
         <p className="text-center">No tienes reservas actualmente.</p>
       ) : (
         <div className="w-full space-y-4">
