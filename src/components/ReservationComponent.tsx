@@ -59,7 +59,7 @@ const ReservationComponent: React.FC = () => {
       </div>
 
       {role === "admin" ? (
-        <p>Crea las clases de tu módulo Reservas</p>
+        <p className="text-center">Crea las clases de tu módulo Reservas</p>
       ) : filteredReservations.length === 0 ? (
         <p className="text-center">No tienes reservas actualmente.</p>
       ) : (
