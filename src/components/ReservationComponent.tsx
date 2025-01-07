@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { fetchUserReservations } from "../helpers/DataRequests";
 import { FiArrowUpRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ReservationComponent: React.FC = () => {
   const [reservations, setReservations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate()
-  const storedSlug = sessionStorage.getItem('slug');
+  const navigate = useNavigate();
+  const storedSlug = sessionStorage.getItem("slug");
+  const role = useSelector((state: any) => state.user.role);
 
   useEffect(() => {
     const loadReservations = async () => {
@@ -30,47 +32,56 @@ const ReservationComponent: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   const handleClick = () => {
-    navigate(`/${storedSlug}/reservations`)
-  }
+    navigate(`/${storedSlug}/reservations`);
+  };
+
+  const filteredReservations = reservations.filter(
+    (reservation) => reservation.status !== "Cancelled"
+  );
 
   return (
-    <div onClick={handleClick} className="w-full p-4 mt-2 text-zinc-300 bg-zinc-900 rounded-4xl">
-            <div className="flex justify-between items-center pb-4">
-                <p className="font-bold text-lg px-2">Reservas</p>
-                <div>
-                    <p className="text-xl text-zinc-200 rounded-full bg-background p-2"><FiArrowUpRight /></p>
-                </div>
-            </div>
-      {reservations.length === 0 ? (
+    <div
+      onClick={handleClick}
+      className="w-full p-4 mt-2 text-zinc-300 bg-zinc-900 rounded-4xl"
+    >
+      <div className="flex justify-between items-center pb-4">
+        {role === "admin" ? (
+          <p className="font-bold text-lg px-2">Creador de Clases</p>
+        ) : (
+          <p className="font-bold text-lg px-2">Reservas</p>
+        )}
+
+        <div>
+          <p className="text-xl text-zinc-200 rounded-full bg-background p-2">
+            <FiArrowUpRight />
+          </p>
+        </div>
+      </div>
+
+      {role === "admin" ? (
+        <p>Crea las clases de tu módulo Reservas</p>
+      ) : filteredReservations.length === 0 ? (
         <p className="text-center">No tienes reservas actualmente.</p>
       ) : (
         <div className="w-full space-y-4">
-            {reservations.filter((reservation) => reservation.status !== 'Cancelled').length > 0 ? (
-            reservations
-                .filter((reservation) => reservation.status !== 'Cancelled')
-                .map((reservation) => (
-                <div
-                    key={reservation.id}
-                    className="w-full flex justify-between items-center bg-zinc-800 p-4 rounded-3xl shadow-md hover:bg-zinc-700 transition-colors"
-                >
-                    <div>
-                    <h3 className="text-lg font-bold text-[#e8ff21]">
-                        {reservation.resource.name}
-                    </h3>
-                    </div>
-                    <div className="flex items-end space-x-2">
-                    <p className="text-sm">
-                        {reservation.day},
-                    </p>
-                    <p className="text-sm">
-                        {reservation.time} <span className="font-semibold">Hs</span>
-                    </p>
-                    </div>
-                </div>
-                ))
-            ) : (
-            <p className="text-center">No tienes reservas actualmente.</p>
-            )}
+          {filteredReservations.map((reservation) => (
+            <div
+              key={reservation.id}
+              className="w-full flex justify-between items-center bg-zinc-800 p-4 rounded-3xl shadow-md hover:bg-zinc-700 transition-colors"
+            >
+              <div>
+                <h3 className="text-lg font-bold text-[#e8ff21]">
+                  {reservation.resource.name}
+                </h3>
+              </div>
+              <div className="flex items-end space-x-2">
+                <p className="text-sm">{reservation.day},</p>
+                <p className="text-sm">
+                  {reservation.time} <span className="font-semibold">Hs</span>
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

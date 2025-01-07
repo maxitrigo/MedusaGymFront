@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createReservationResource, fetchReservationResources } from '../helpers/DataRequests';
+import { createReservationResource, deleteReservationResource, fetchReservationResources } from '../helpers/DataRequests';
 
 interface Resource {
   id: string;
@@ -28,8 +28,15 @@ const ResourcesComponent: React.FC = () => {
     duration:0
   });
 
-  const handleDelete = async () => {
-
+  const handleDelete = async (resourceId: string) => {
+    try {
+      const response = await deleteReservationResource(resourceId);
+      if (response) {
+        await fetchResources();
+      }
+    } catch (error) {
+      alert('Error al eliminar el recurso.');
+    }
   }
 
   const fetchResources = async () => {
@@ -176,7 +183,7 @@ const ResourcesComponent: React.FC = () => {
           <input
             type="text"
             name="startTime"
-            placeholder='08:00'
+            placeholder='En el siguiente formato 08:00'
             value={newResource.startTime}
             onChange={handleInputChange}
             required
@@ -188,7 +195,7 @@ const ResourcesComponent: React.FC = () => {
           <input
             type="text"
             name="endTime"
-            placeholder='23:00'
+            placeholder='En el siguiente formato 23:00'
             value={newResource.endTime}
             onChange={handleInputChange}
             required
@@ -199,7 +206,7 @@ const ResourcesComponent: React.FC = () => {
           type="submit"
           className="w-full py-2 bg-[#e8ff21] text-black font-medium rounded-3xl hover:bg-[#d6e31e] transition"
         >
-          Crear Recurso
+          Crear Clase
         </button>
       </form>
 
@@ -228,7 +235,7 @@ const ResourcesComponent: React.FC = () => {
               <td className="px-3 py-2 border-b border-zinc-700">{resource.startTime}</td>
               <td className="px-3 py-2 border-b border-zinc-700">{resource.endTime}</td>
               <td className="px-3 py-2 border-b border-zinc-700">{resource.duration}</td>
-              <td className="px-3 py-2 border-b border-zinc-700"><button onClick={handleDelete} className='font-bold bg-red-500 px-4 py-2 rounded-3xl clickable'>Eliminar</button></td>
+              <td className="px-3 py-2 border-b border-zinc-700"><button onClick={() => handleDelete(resource.id)} className='font-bold bg-red-500 px-4 py-2 rounded-3xl clickable'>Eliminar</button></td>
             </tr>
           ))}
         </tbody>

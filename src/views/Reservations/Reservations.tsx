@@ -8,7 +8,7 @@ export default function Reservations () {
     const role = useSelector((state: any) => state.user.role);
     
     return (
-        <div>
+        <div className="pb-24">
             <NavBar/>
             {role === 'admin' && 
             <ResourcesComponent/>

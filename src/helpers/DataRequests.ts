@@ -728,3 +728,18 @@ export const cancelReservation = async (reservationId: string) => {
     }
 }
 
+export const deleteReservationResource = async (resourceId: string) => {
+    const { token } = authInfo()
+    try {
+        const response = await axios.delete(`${reservationResourcesApi}/${resourceId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch(error) {
+        console.error('Error al cancelar la reserva', error)
+        throw error
+    }
+}
+

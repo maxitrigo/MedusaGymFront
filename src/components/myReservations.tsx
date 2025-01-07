@@ -36,7 +36,7 @@ const MyReservations: React.FC = () => {
   }
 
   return (
-    <div className="max-w-full px-4 py-6 text-zinc-300 bg-zinc-900 m-4 rounded-3xl mb-24">
+    <div className="max-w-full px-4 py-6 text-zinc-300 bg-zinc-900 m-4 rounded-3xl">
       {reservations.length === 0 ? (
         <p className="text-center">No tienes reservas actualmente.</p>
       ) : (
