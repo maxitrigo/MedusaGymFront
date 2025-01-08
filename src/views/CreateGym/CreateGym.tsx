@@ -99,7 +99,7 @@ export default function CreateGym() {
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col w-full space-y-2">
-                <label className="flex text-white font-semibold px-2">gym.com/{slug}</label>
+                <label className="flex text-white font-semibold px-2">gym-metrics.com/{slug}</label>
                 <input 
                     onChange={handleSlugChange} 
                     value={slug} 
