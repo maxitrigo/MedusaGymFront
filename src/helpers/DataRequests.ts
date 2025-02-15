@@ -1,11 +1,11 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-// const microAuth = 'https://auth.gym-metrics.com'
-const microAuth = 'http://localhost:3001'
+const microAuth = 'https://auth.gym-metrics.com'
+// const microAuth = 'http://localhost:3001'
 const microTrans = 'https://tr.gym-metrics.com'
-// const microGym = 'https://gym.gym-metrics.com'
-const microGym = 'http://localhost:3000'
+const microGym = 'https://gym.gym-metrics.com'
+// const microGym = 'http://localhost:3000'
 const microRes = 'https://res.gym-metrics.com'
 
 const authApi = `${microAuth}/auth`;
