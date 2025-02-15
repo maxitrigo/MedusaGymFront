@@ -18,7 +18,7 @@ type DailyPlan = {
   }[];
 };
 
-const CreateWorkout = (userId: string) => {
+const CreateWorkout = () => {
   const location = useLocation();
   const { user } = location.state || {};
   const gymSlug = sessionStorage.getItem("slug");
