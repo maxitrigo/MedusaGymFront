@@ -18,6 +18,8 @@ import GymPlans from './views/Plans/GymPlans'
 import Subscriptions from './views/Subscriptions/Subscriptions'
 import { QrScann } from './views/Qr/qrScann'
 import Reservations from './views/Reservations/Reservations'
+import CreateWorkout from './views/CreateWorkout/CreateWorkout'
+import { UserProfile } from './views/UserProfile/UserProfile'
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
           <Route path="/:gymSlug/qrscann" element={<PrivateRoute><QrScann /></PrivateRoute>} />
           <Route path="/:gymSlug/subscriptions" element={<PrivateRoute><Subscriptions /></PrivateRoute>} />
           <Route path="/:gymSlug/reservations" element={<PrivateRoute><Reservations /></PrivateRoute>} />
+          <Route path="/:gymSlug/create-workout" element={<PrivateRoute><CreateWorkout /></PrivateRoute>} />
+          <Route path="/:gymSlug/user-profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
         </Routes>
       </PersistGate>
     </Provider>
